@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#130f12" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kas Bersama" />
+  <title>Kas Harian Bersama — Ilham & Puspa</title>
+
+  <!-- Google Fonts: Inter & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            base: '#130f12',
+            surface: '#1c171b',
+            surfaceLight: '#261f25',
+            magenta: '#D84374',
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Chart.js untuk Visualisasi Analisa Keuangan -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* Gaya Dasar & Tema Dark Botanical Pastel */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #090709;
+      color: #F5F2F6;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Pola Siluet Bunga Tipis di Latar Belakang Aplikasi */
+    .botanical-bg {
+      background-color: #130f12;
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.032'%3E%3Cpath d='M45 28c4-9 14-9 18 0 9-4 16 4 11 13 9 5 6 16-4 16 2 10-9 15-16 8-7 7-18 2-16-8-10 0-13-11-4-16-5-9 2-17 11-13zm9 14a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'/%3E%3Cpath d='M135 112c3-7 11-7 14 0 7-3 13 3 9 10 7 4 5 13-3 13 2 8-7 12-13 6-6 6-15 2-13-6-8 0-10-9-3-13-4-7 2-13 9-10zm7 11a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'/%3E%3Ccircle cx='24' cy='135' r='3'/%3E%3Ccircle cx='148' cy='34' r='2.5'/%3E%3Cpath d='M92 78c10-6 20 0 16 11-9 5-19 0-16-11z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Kartu Hero Saldo dengan Gradasi Diagonal Pink ke Violet & Tekstur Garis Halus */
+    .hero-gradient-card {
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0px,
+          rgba(255, 255, 255, 0.03) 2px,
+          transparent 2px,
+          transparent 10px
+        ),
+        linear-gradient(135deg, #D96B98 0%, #B36EC7 48%, #7B74E4 100%);
+      box-shadow: 0 18px 40px -12px rgba(179, 110, 199, 0.38);
+    }
+
+    /* Glassmorphism Sub-kartu Pemasukan & Pengeluaran */
+    .hero-glass-subcard {
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    /* Tombol Floating Tengah di Bottom Bar */
+    .fab-gradient {
+      background: linear-gradient(135deg, #E277A3 0%, #7B74E4 100%);
+      box-shadow: 0 8px 24px rgba(217, 107, 152, 0.45);
+    }
+
+    /* Hilangkan scrollbar standar namun tetap bisa di-scroll */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Animasi Halus Modal Bottom Sheet */
+    @keyframes slideUpSheet {
+      from {
+        transform: translateY(100%);
+        opacity: 0.5;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .sheet-animate {
+      animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <!-- Kontainer Utama Mobile-First (Maksimal 480px di tengah layar desktop, Full-Screen di HP) -->
+  <div id="app-shell" class="botanical-bg max-w-[480px] mx-auto min-h-screen relative flex flex-col border-x border-white/[0.06] shadow-2xl">
+
+    <!-- ==================== TOP BAR ==================== -->
+    <header class="sticky top-0 z-30 bg-[#130f12]/90 backdrop-blur-md px-4 pt-3.5 pb-2.5 flex items-center justify-between border-b border-white/[0.04]">
+      <!-- Kiri: Ikon Home + Dropdown Pemilih Tampilan Akun/Pengguna -->
+      <div class="relative flex items-center gap-2 min-w-0">
+        <button onclick="switchTab('beranda')" title="Kembali ke Beranda" class="w-9 h-9 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center text-white/90 shrink-0 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+          </svg>
+        </button>
+
+        <div class="relative">
+          <button id="scope-dropdown-btn" onclick="toggleScopeDropdown()" class="flex items-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-white/[0.06] transition text-left">
+            <span id="current-scope-label" class="text-[15px] font-semibold text-white truncate max-w-[155px]">Kas Harian Bersama</span>
+            <svg class="w-3.5 h-3.5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu Filter Pengguna -->
+          <div id="scope-dropdown-menu" class="hidden absolute left-0 mt-1.5 w-56 rounded-2xl bg-[#211C23] border border-white/10 shadow-2xl py-1.5 z-50">
+            <div class="px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/45">Tampilan Buku Kas</div>
+            <button onclick="setViewScope('all')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white" data-scope="all">
+              <span>Kas Harian Bersama</span>
+              <span class="scope-check text-xs text-[#E277A3]">✓</span>
+            </button>
+            <button onclick="setViewScope('Ilham')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white/80" data-scope="Ilham">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-400"></span>Catatan Ilham</span>
+              <span class="scope-check hidden text-xs text-[#E277A3]">✓</span>
+            </button>
+            <button onclick="setViewScope('Puspa')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white/80" data-scope="Puspa">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#D84374]"></span>Catatan Puspa</span>
+              <span class="scope-check hidden text-xs text-[#E277A3]">✓</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kanan: Toggle Identitas Aktif (IL/PS), Notifikasi WA, Sync & Pengaturan, Ekspor -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <!-- Toggle Identitas Aktif (IL / PS) -->
+        <button id="active-user-toggle" onclick="toggleActiveUser()" title="Ganti Pengguna Aktif (Ilham / Puspa)" class="h-8 px-2.5 rounded-full bg-[#D84374] hover:brightness-110 active:scale-95 transition flex items-center gap-1 shadow-md shadow-[#D84374]/30">
+          <span id="active-user-initials" class="text-xs font-extrabold tracking-tight text-white">IL</span>
+          <span id="active-user-name-short" class="text-[11px] font-medium text-white/95 hidden sm:inline">Ilham</span>
+        </button>
+
+        <!-- Tombol Notifikasi WhatsApp Grup Keluarga -->
+        <button onclick="openWaSettingsModal()" title="Notifikasi WhatsApp Grup Keluarga" class="relative w-8 h-8 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 flex items-center justify-center text-emerald-400 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2zm5.803 14.234c-.244.688-1.422 1.314-1.969 1.396-.504.076-1.141.108-1.842-.115-.426-.135-.972-.316-1.673-.619-2.944-1.271-4.867-4.236-5.014-4.432-.146-.196-1.197-1.592-1.197-3.037 0-1.445.757-2.155 1.026-2.449.269-.294.587-.368.783-.368.196 0 .391.002.562.01.18.009.422-.068.66.504.244.587.831 2.027.904 2.174.073.147.122.318.024.514-.098.196-.147.318-.293.49-.147.171-.309.383-.441.514-.147.147-.3.306-.129.6.171.294.76 1.253 1.632 2.03 1.121.999 2.066 1.309 2.36 1.456.293.147.464.122.635-.074.171-.196.733-.856.929-1.15.196-.294.391-.245.66-.147.269.098 1.711.807 2004.954.293.147.489.22.562.343.073.122.073.709-.171 1.397z"/>
+          </svg>
+          <span id="wa-header-status-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#130f12]"></span>
+        </button>
+
+        <!-- Tombol Sync & Pengaturan -->
+        <button onclick="openModal('modal-sync')" title="Sinkronisasi & Pengaturan" class="relative w-8 h-8 rounded-full hover:bg-white/[0.08] flex items-center justify-center text-white/85 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span id="sync-status-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#130f12]"></span>
+        </button>
+
+        <!-- Tombol Ekspor Cepat -->
+        <button onclick="openModal('modal-export')" title="Ekspor CSV / JSON & Backup" class="w-8 h-8 rounded-full hover:bg-white/[0.08] flex items-center justify-center text-white/85 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================== KONTEN UTAMA (SPA VIEWS) ==================== -->
+    <main class="flex-1 px-4 pt-3 pb-28 space-y-5">
+
+      <!-- ==================== VIEW 1: BERANDA ==================== -->
+      <section id="view-beranda" class="space-y-5">
+
+        <!-- KARTU HERO SALDO UTAMA -->
+        <div class="hero-gradient-card rounded-[28px] p-5 relative overflow-hidden text-white">
+          <!-- Ilustrasi Siluet Bunga Transparan di Pojok Kanan Atas -->
+          <svg class="absolute -top-4 -right-4 w-40 h-40 text-white opacity-[0.18] pointer-events-none" viewBox="0 0 200 200" fill="currentColor">
+            <path d="M138 42c6-16 26-16 32 0 16-6 29 7 20 22 15 9 10 29-7 29 4 17-15 27-28 14-13 13-32 3-28-14-17 0-22-20-7-29-9-15 4-28 18-22zm16 24a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+            <path d="M84 18c4-11 18-11 22 0 11-4 20 5 14 15 10 6 7 20-5 20 3 12-10 19-19 10-9 9-22 2-19-10-12 0-15-14-5-20-6-10 3-19 12-15zm11 17a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+            <path d="M142 98c-3 24-15 44-34 58" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M132 126c16-4 28 3 26 16-14 4-26-2-26-16z"/>
+            <circle cx="95" cy="72" r="4"/>
+            <circle cx="118" cy="112" r="3"/>
+          </svg>
+
+          <!-- Baris Atas: Label Total Saldo & Tombol Eye Privacy -->
+          <div class="flex items-center gap-2.5 relative z-10">
+            <span class="text-sm font-medium text-white/90">Total saldo</span>
+            <button id="privacy-toggle-btn" onclick="togglePrivacyMode()" title="Sembunyikan/Tampilkan Nominal" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition">
+              <svg id="privacy-eye-icon" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+            <span id="hero-scope-pill" class="ml-auto text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-black/20 text-white/90">Gabungan</span>
+          </div>
+
+          <!-- Nominal Utama Besar -->
+          <div class="mt-1.5 mb-4 relative z-10">
+            <div id="hero-total-balance" class="text-[32px] leading-tight font-bold tracking-tight flex items-baseline gap-1">
+              <span class="font-serif font-semibold text-[34px]">Rp</span><span>0</span>
+            </div>
+          </div>
+
+          <!-- Dua Sub-Kartu Kaca Transparan (Pemasukan & Pengeluaran Bulan Ini) -->
+          <div class="grid grid-cols-2 gap-3 relative z-10">
+            <div class="hero-glass-subcard rounded-2xl p-3">
+              <div class="text-xs text-white/80 font-medium mb-1">Pemasukan</div>
+              <div id="hero-month-income" class="text-[15px] font-bold text-white truncate">Rp 0</div>
+            </div>
+            <div class="hero-glass-subcard rounded-2xl p-3">
+              <div class="text-xs text-white/80 font-medium mb-1">Pengeluaran</div>
+              <div id="hero-month-expense" class="text-[15px] font-bold text-white truncate">Rp 0</div>
+            </div>
+          </div>
+
+          <!-- Bagian Bawah Kartu Hero: Sisa Uang Bulan Ini & Progress Bar -->
+          <div class="mt-4 pt-1 relative z-10">
+            <div class="flex items-center justify-between text-xs sm:text-sm mb-2">
+              <span id="hero-month-label" class="text-white/90 font-medium">Sisa uang bulan ini</span>
+              <span id="hero-month-remaining" class="font-bold text-white">Rp 0</span>
+            </div>
+            <div class="w-full h-2.5 bg-black/20 rounded-full overflow-hidden">
+              <div id="hero-usage-bar" class="h-full bg-white rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+            <div id="hero-usage-caption" class="text-[11px] text-white/90 mt-2 font-medium">
+              0% pemasukan bulan ini sudah terpakai
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 TOMBOL AKSI CEPAT (GRID 2x2) -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- 1. Scan Struk -->
+          <button onclick="openModal('modal-scan-struk')" class="bg-[#f8c8dc] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#1D1922] shadow-sm">
+            <div class="w-8 h-8 rounded-xl bg-black/[0.06] flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-[#1D1922]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+            </div>
+            <span class="text-[14px] font-semibold tracking-tight">Scan struk</span>
+          </button>
+
+          <!-- 2. Impor Mutasi -->
+          <button onclick="openModal('modal-impor-mutasi')" class="bg-[#dcd0ff] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#1D1922] shadow-sm">
+            <div class="w-8 h-8 rounded-xl bg-black/[0.06] flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-[#1D1922]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <span class="text-[14px] font-semibold tracking-tight">Impor mutasi</span>
+          </button>
+
+          <!-- 3. Pengeluaran -->
+          <button onclick="openTransactionModal('expense')" class="bg-[#ffd6b0] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#1D1922] shadow-sm">
+            <div class="w-8 h-8 rounded-xl bg-black/[0.06] flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-[#1D1922]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </div>
+            <span class="text-[14px] font-semibold tracking-tight">Pengeluaran</span>
+          </button>
+
+          <!-- 4. Pemasukan -->
+          <button onclick="openTransactionModal('income')" class="bg-[#c3f0d8] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#1D1922] shadow-sm">
+            <div class="w-8 h-8 rounded-xl bg-black/[0.06] flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-[#1D1922]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+            </div>
+            <span class="text-[14px] font-semibold tracking-tight">Pemasukan</span>
+          </button>
+        </div>
+
+        <!-- KARTU RINGKASAN TAGIHAN BULAN INI (OTOMATIS BERKURANG SAAT DIBAYAR) -->
+        <div id="beranda-bills-card" class="bg-[#1c171b] border border-white/[0.08] rounded-[24px] p-4 space-y-3 shadow-lg">
+          <!-- Dirender dinamis oleh renderBerandaBillsCard() -->
+        </div>
+
+        <!-- BAGIAN "UANG KAMU ADA DI" (15 REKENING & E-WALLET ILHAM & PUSPA) -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-[17px] font-bold text-white tracking-tight">Uang kamu ada di</h2>
+              <p id="wallets-count-subtitle" class="text-[11px] text-white/50">15 Rekening & E-Wallet aktif</p>
+            </div>
+            <button onclick="openInitialBalanceModal()" class="text-xs font-semibold text-[#F299B9] hover:text-white bg-[#F299B9]/10 hover:bg-[#F299B9]/20 border border-[#F299B9]/25 px-3 py-1.5 rounded-full transition">
+              Saldo awal
+            </button>
+          </div>
+
+          <!-- Filter Pills Dompet -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+            <button onclick="setWalletFilter('all')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[#130f12] shrink-0 transition" data-filter="all">Semua (15)</button>
+            <button onclick="setWalletFilter('Ilham')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Ilham">Ilham</button>
+            <button onclick="setWalletFilter('Puspa')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Puspa">Puspa</button>
+            <button onclick="setWalletFilter('Rekening')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Rekening">Rekening</button>
+            <button onclick="setWalletFilter('E-Wallet')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="E-Wallet">E-Wallet</button>
+          </div>
+
+          <!-- Grid 2 Kolom Kartu Akun -->
+          <div id="wallets-grid" class="grid grid-cols-2 gap-2.5">
+            <!-- Dirender dinamis dari 15 akun -->
+          </div>
+        </div>
+
+        <!-- RINGKASAN TRANSAKSI TERAKHIR -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-center justify-between">
+            <h2 class="text-[16px] font-bold text-white tracking-tight">Transaksi terakhir</h2>
+            <button onclick="switchTab('riwayat')" class="text-xs font-medium text-[#E277A3] hover:underline">
+              Lihat semua →
+            </button>
+          </div>
+          <div id="recent-transactions-list" class="space-y-2.5">
+            <!-- Dirender dinamis -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 2: RIWAYAT ==================== -->
+      <section id="view-riwayat" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold text-white">Riwayat Transaksi</h1>
+            <p id="riwayat-subtitle" class="text-xs text-white/55">Semua catatan pemasukan, pengeluaran & transfer</p>
+          </div>
+          <button onclick="openTransactionModal('expense')" class="text-xs font-semibold px-3 py-2 rounded-xl bg-[#D84374] text-white hover:brightness-110 transition">
+            + Catat
+          </button>
+        </div>
+
+        <!-- Kolom Pencarian -->
+        <div class="relative">
+          <svg class="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="riwayat-search-input" oninput="renderRiwayat()" type="text" placeholder="Cari catatan, kategori, rekening..." class="w-full bg-[#1c171b] border border-white/10 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#D96B98]" />
+        </div>
+
+        <!-- Filter Pills: Pengguna & Tipe -->
+        <div class="flex flex-wrap gap-2">
+          <!-- Filter Pengguna -->
+          <div class="inline-flex rounded-xl bg-[#1c171b] p-1 border border-white/[0.07]">
+            <button onclick="setRiwayatFilter('user', 'all')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-medium bg-[#D96B98] text-white" data-val="all">Semua</button>
+            <button onclick="setRiwayatFilter('user', 'Ilham')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="Ilham">Ilham</button>
+            <button onclick="setRiwayatFilter('user', 'Puspa')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="Puspa">Puspa</button>
+          </div>
+
+          <!-- Filter Tipe -->
+          <div class="inline-flex rounded-xl bg-[#1c171b] p-1 border border-white/[0.07]">
+            <button onclick="setRiwayatFilter('type', 'all')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium bg-white/15 text-white" data-val="all">Semua</button>
+            <button onclick="setRiwayatFilter('type', 'expense')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="expense">Keluar</button>
+            <button onclick="setRiwayatFilter('type', 'income')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="income">Masuk</button>
+            <button onclick="setRiwayatFilter('type', 'transfer')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="transfer">Transfer</button>
+          </div>
+        </div>
+
+        <!-- Filter Kategori & Rekening -->
+        <div class="grid grid-cols-2 gap-2">
+          <select id="riwayat-category-filter" onchange="renderRiwayat()" class="bg-[#1c171b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white/85 focus:outline-none">
+            <option value="all">Semua Kategori</option>
+          </select>
+          <select id="riwayat-account-filter" onchange="renderRiwayat()" class="bg-[#1c171b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white/85 focus:outline-none">
+            <option value="all">Semua Rekening/E-Wallet</option>
+          </select>
+        </div>
+
+        <!-- Ringkasan Filter -->
+        <div id="riwayat-summary-bar" class="bg-[#1c171b] border border-white/[0.06] rounded-2xl p-3 flex items-center justify-between text-xs">
+          <span id="riwayat-count-label" class="text-white/60">0 transaksi</span>
+          <div class="flex items-center gap-3">
+            <span id="riwayat-filtered-in" class="text-emerald-400 font-semibold">+Rp 0</span>
+            <span id="riwayat-filtered-out" class="text-rose-400 font-semibold">-Rp 0</span>
+          </div>
+        </div>
+
+        <!-- Daftar Transaksi Lengkap -->
+        <div id="full-transactions-list" class="space-y-2.5">
+          <!-- Dirender dinamis -->
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: RENCANA (ANGGARAN & TABUNGAN BERSAMA) ==================== -->
+      <section id="view-rencana" class="hidden space-y-6">
+        <div>
+          <h1 class="text-xl font-bold text-white">Rencana Keuangan Bersama</h1>
+          <p class="text-xs text-white/55">Kontrol tagihan wajib, batas belanja bulanan & impian berdua</p>
+        </div>
+
+        <!-- MANAJEMEN TAGIHAN BULANAN, DEADLINE & REMINDER WA -->
+        <div id="rencana-bills-section" class="space-y-3">
+          <!-- Dirender dinamis oleh renderRencanaBillsSection() -->
+        </div>
+
+        <!-- Target Tabungan Bersama Suami-Istri -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Target Tabungan Bersama</h2>
+            <button onclick="openNewGoalModal()" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#dcd0ff] text-[#1D1922] hover:brightness-105 transition">
+              + Target Baru
+            </button>
+          </div>
+          <div id="savings-goals-list" class="space-y-3">
+            <!-- Dirender dinamis -->
+          </div>
+        </div>
+
+        <!-- Batas Anggaran Bulanan per Kategori (8 Kategori Spesifik) -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Anggaran Bulan Ini (8 Kategori)</h2>
+            <span class="text-[11px] text-white/50">Ketuk kartu untuk ubah batas</span>
+          </div>
+          <div id="category-budgets-list" class="space-y-2.5">
+            <!-- Dirender dinamis -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 4: ANALISA ==================== -->
+      <section id="view-analisa" class="hidden space-y-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold text-white">Analisa Keuangan</h1>
+            <p class="text-xs text-white/55">Evaluasi arus kas & kontribusi Ilham & Puspa</p>
+          </div>
+          <span id="analisa-month-badge" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/[0.08] text-white/90">Bulan Ini</span>
+        </div>
+
+        <!-- Perbandingan Kontribusi Suami vs Istri -->
+        <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-4 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-white">Perbandingan Ilham vs Puspa</h2>
+            <span class="text-[11px] text-white/50">Bulan Berjalan</span>
+          </div>
+          <div id="couple-comparison-cards" class="grid grid-cols-2 gap-3">
+            <!-- Dirender dinamis -->
+          </div>
+          <div class="space-y-1.5 pt-1">
+            <div class="flex justify-between text-[11px] text-white/70">
+              <span id="ilham-share-label">Ilham: 0%</span>
+              <span id="puspa-share-label">Puspa: 0%</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full bg-white/10 overflow-hidden flex">
+              <div id="ilham-share-bar" class="h-full bg-sky-400 transition-all duration-500" style="width: 50%;"></div>
+              <div id="puspa-share-bar" class="h-full bg-[#D84374] transition-all duration-500" style="width: 50%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grafik 1: Proporsi Pengeluaran per Kategori (Doughnut Chart) -->
+        <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-4 space-y-3">
+          <h2 class="text-sm font-bold text-white">Proporsi Pengeluaran per Kategori</h2>
+          <div class="relative h-56 w-full flex items-center justify-center">
+            <canvas id="categoryChartCanvas"></canvas>
+          </div>
+          <div id="category-chart-legend" class="grid grid-cols-2 gap-2 pt-2 text-xs">
+            <!-- Legend kustom -->
+          </div>
+        </div>
+
+        <!-- Grafik 2: Perbandingan Pemasukan vs Pengeluaran (Bar Chart) -->
+        <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-4 space-y-3">
+          <h2 class="text-sm font-bold text-white">Arus Kas: Pemasukan vs Pengeluaran</h2>
+          <div class="relative h-52 w-full">
+            <canvas id="cashflowChartCanvas"></canvas>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-30 bg-[#181317]/95 backdrop-blur-xl border-t border-white/[0.08] px-3 pt-2 pb-3 flex items-center justify-around">
+      <!-- 1. Beranda -->
+      <button onclick="switchTab('beranda')" class="nav-item flex flex-col items-center gap-1 py-1 px-3 text-[#F299B9]" data-tab="beranda">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span class="text-[11px] font-semibold">Beranda</span>
+      </button>
+
+      <!-- 2. Riwayat -->
+      <button onclick="switchTab('riwayat')" class="nav-item flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/80" data-tab="riwayat">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        <span class="text-[11px] font-medium">Riwayat</span>
+      </button>
+
+      <!-- 3. Tombol Tengah Floating "+" -->
+      <div class="relative -mt-8">
+        <button onclick="openTransactionModal('expense')" title="Catat Transaksi Cepat" class="fab-gradient w-14 h-14 rounded-full flex items-center justify-center text-white border-[4px] border-[#130f12] active:scale-95 transition">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 4. Rencana -->
+      <button onclick="switchTab('rencana')" class="nav-item flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/80" data-tab="rencana">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+        <span class="text-[11px] font-medium">Rencana</span>
+      </button>
+
+      <!-- 5. Analisa -->
+      <button onclick="switchTab('analisa')" class="nav-item flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/80" data-tab="analisa">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span class="text-[11px] font-medium">Analisa</span>
+      </button>
+    </nav>
+
+    <!-- ==================== MODAL 1: TAMBAH / EDIT TRANSAKSI (PENGELUARAN / PEMASUKAN / TRANSFER) ==================== -->
+    <div id="modal-transaction" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar">
+        <div class="flex items-center justify-between mb-4">
+          <h3 id="tx-modal-title" class="text-lg font-bold text-white">Catat Pengeluaran</h3>
+          <button onclick="closeModal('modal-transaction')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <!-- Switcher 3 Tipe Transaksi: Pengeluaran / Pemasukan / Transfer -->
+        <div class="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-[#130f12] mb-4">
+          <button type="button" id="tx-tab-expense" onclick="setTxFormType('expense')" class="py-2 rounded-xl text-xs font-bold bg-[#ffd6b0] text-[#1D1922] transition">
+            ↓ Pengeluaran
+          </button>
+          <button type="button" id="tx-tab-income" onclick="setTxFormType('income')" class="py-2 rounded-xl text-xs font-bold text-white/60 transition">
+            ↑ Pemasukan
+          </button>
+          <button type="button" id="tx-tab-transfer" onclick="setTxFormType('transfer')" class="py-2 rounded-xl text-xs font-bold text-white/60 transition">
+            ⇄ Transfer
+          </button>
+        </div>
+
+        <form id="transaction-form" onsubmit="handleSaveTransaction(event)" class="space-y-3.5">
+          <input type="hidden" id="tx-edit-id" value="" />
+          <input type="hidden" id="tx-type-input" value="expense" />
+
+          <!-- Nominal -->
+          <div>
+            <label class="block text-xs font-medium text-white/65 mb-1">Nominal (Rp)</label>
+            <input id="tx-amount" type="number" min="1" step="any" required placeholder="Contoh: 50000" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-4 py-3 text-xl font-bold text-white focus:outline-none focus:border-[#D96B98]" />
+          </div>
+
+          <!-- Kategori (Muncul saat Pengeluaran / Pemasukan) -->
+          <div id="tx-category-wrapper">
+            <label class="block text-xs font-medium text-white/65 mb-1">Kategori</label>
+            <select id="tx-category" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#D96B98]">
+              <!-- Diisi dinamis -->
+            </select>
+          </div>
+
+          <!-- Sumber Dana & Tujuan Transfer -->
+          <div class="grid grid-cols-1 gap-3" id="tx-accounts-grid">
+            <div>
+              <label id="tx-account-label" class="block text-xs font-medium text-white/65 mb-1">Sumber Dana (Rekening / E-Wallet)</label>
+              <select id="tx-account" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#D96B98]">
+                <!-- Diisi dinamis dengan optgroup per pemilik -->
+              </select>
+            </div>
+
+            <!-- Rekening Tujuan (Khusus Mode Transfer) -->
+            <div id="tx-to-account-wrapper" class="hidden">
+              <label class="block text-xs font-medium text-emerald-300/85 mb-1">Ke Dompet Tujuan (Transfer / Top Up)</label>
+              <select id="tx-to-account" class="w-full bg-[#130f12] border border-emerald-500/30 rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400">
+                <!-- Diisi dinamis dengan optgroup per pemilik -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Dicatat Oleh & Tanggal -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Dicatat Oleh</label>
+              <select id="tx-user" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#D96B98]">
+                <option value="Ilham">Ilham (Suami)</option>
+                <option value="Puspa">Puspa (Istri)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Tanggal</label>
+              <input id="tx-date" type="date" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#D96B98]" />
+            </div>
+          </div>
+
+          <!-- Catatan -->
+          <div>
+            <label class="block text-xs font-medium text-white/65 mb-1">Catatan / Keterangan</label>
+            <input id="tx-note" type="text" placeholder="Contoh: Kopi kenangan / SPP bulan ini / Top up Gopay" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-white/35 focus:outline-none focus:border-[#D96B98]" />
+          </div>
+
+          <!-- Indikator Status Notifikasi WhatsApp Otomatis -->
+          <div id="tx-wa-indicator" class="rounded-2xl bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span id="tx-wa-indicator-dot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+              <span id="tx-wa-indicator-text" class="text-[11px] font-medium text-emerald-300 truncate">Otomatis siap dikirim ke Grup WA Keluarga</span>
+            </div>
+            <button type="button" onclick="openWaSettingsModal()" class="text-[10px] font-bold text-white/80 underline shrink-0">Atur</button>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D96B98] to-[#7B74E4] hover:brightness-110 active:scale-[0.99] transition shadow-lg mt-2">
+            Simpan Transaksi
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 2: SCAN STRUK BELANJA ==================== -->
+    <div id="modal-scan-struk" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Scan Struk Belanja</h3>
+            <p class="text-xs text-white/55">Foto struk atau tempel rincian belanja untuk isi otomatis</p>
+          </div>
+          <button onclick="closeModal('modal-scan-struk')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <!-- Area Upload / Preview Foto Struk -->
+        <label class="block border-2 border-dashed border-[#f8c8dc]/40 hover:border-[#f8c8dc] rounded-2xl p-4 text-center cursor-pointer bg-[#130f12]/60 transition">
+          <input id="struk-file-input" type="file" accept="image/*" capture="environment" onchange="handleStrukImageUpload(event)" class="hidden" />
+          <div id="struk-placeholder" class="space-y-1.5 py-2">
+            <div class="w-10 h-10 rounded-full bg-[#f8c8dc]/20 text-[#f8c8dc] mx-auto flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+            </div>
+            <div class="text-xs font-semibold text-[#f8c8dc]">Ambil Foto / Pilih Gambar Struk</div>
+            <div class="text-[11px] text-white/45">Mendukung foto kamera HP atau galeri</div>
+          </div>
+          <img id="struk-preview-img" src="" alt="Preview Struk" class="hidden max-h-40 mx-auto rounded-xl object-contain" />
+        </label>
+
+        <!-- Parser Teks Struk Cepat -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-xs font-medium text-white/70">Teks Struk / OCR Cepat (Opsional)</label>
+            <button type="button" onclick="fillSampleReceipt()" class="text-[11px] text-[#f8c8dc] hover:underline">Isi Contoh Struk</button>
+          </div>
+          <textarea id="struk-raw-text" rows="3" placeholder="Tempel teks hasil Google Lens / iOS Live Text dari struk..." class="w-full bg-[#130f12] border border-white/15 rounded-2xl p-3 text-xs text-white placeholder-white/35 focus:outline-none focus:border-[#f8c8dc]"></textarea>
+          <button type="button" onclick="parseReceiptText()" class="mt-1.5 w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
+            Ekstrak Merchant & Total Otomatis
+          </button>
+        </div>
+
+        <!-- Hasil Ekstraksi Siap Simpan -->
+        <div class="space-y-3 pt-2 border-t border-white/10">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-white/60 mb-1">Merchant / Toko</label>
+              <input id="struk-merchant" type="text" placeholder="Contoh: Kopi Kenangan" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-white/60 mb-1">Total Belanja (Rp)</label>
+              <input id="struk-total" type="number" placeholder="45000" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-sm font-bold text-white" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-white/60 mb-1">Kategori</label>
+              <select id="struk-category" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                <!-- Diisi dinamis dari 8 kategori pengeluaran -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-white/60 mb-1">Sumber Dana</label>
+              <select id="struk-account" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                <!-- Diisi dinamis -->
+              </select>
+            </div>
+          </div>
+          <button type="button" onclick="saveScannedReceipt()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#f8c8dc] text-[#1D1922] hover:brightness-105 transition">
+            Simpan Transaksi Struk
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 3: IMPOR MUTASI M-BANKING / CSV ==================== -->
+    <div id="modal-impor-mutasi" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Impor Mutasi Rekening</h3>
+            <p class="text-xs text-white/55">Unggah CSV atau tempel teks mutasi Blu / Mandiri / E-Wallet</p>
+          </div>
+          <button onclick="closeModal('modal-impor-mutasi')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] text-white/60 mb-1">Rekening Tujuan Impor</label>
+            <select id="mutasi-account-select" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+              <!-- Diisi dinamis -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] text-white/60 mb-1">Unggah File CSV</label>
+            <label class="flex items-center justify-center gap-1.5 w-full bg-[#130f12] hover:bg-white/[0.06] border border-white/15 rounded-xl px-3 py-2 text-xs text-[#dcd0ff] cursor-pointer">
+              <span>Pilih .CSV</span>
+              <input type="file" accept=".csv,.txt" onchange="handleMutasiCsvUpload(event)" class="hidden" />
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-xs font-medium text-white/70">Tempel Teks Mutasi M-Banking</label>
+            <button type="button" onclick="fillSampleMutasi()" class="text-[11px] text-[#dcd0ff] hover:underline">Contoh Format</button>
+          </div>
+          <textarea id="mutasi-raw-text" rows="4" placeholder="Format per baris:&#10;2026-11-22 | QRIS KOPI KENANGAN | DB | 38000&#10;2026-11-22 | TRANSFER GAJI | CR | 8500000" class="w-full bg-[#130f12] border border-white/15 rounded-2xl p-3 text-xs text-white placeholder-white/35 focus:outline-none focus:border-[#dcd0ff] font-mono"></textarea>
+          <button type="button" onclick="parseMutasiText()" class="mt-2 w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
+            Proses & Pratinjau Baris Mutasi
+          </button>
+        </div>
+
+        <!-- Preview Baris Mutasi Terdeteksi -->
+        <div id="mutasi-preview-container" class="hidden space-y-2.5 pt-2 border-t border-white/10">
+          <div class="flex items-center justify-between text-xs">
+            <span id="mutasi-parsed-count" class="font-semibold text-[#dcd0ff]">0 transaksi terdeteksi</span>
+            <span class="text-white/50">Centang yang ingin diimpor</span>
+          </div>
+          <div id="mutasi-parsed-list" class="max-h-44 overflow-y-auto space-y-1.5 pr-1">
+            <!-- Baris mutasi -->
+          </div>
+          <button type="button" onclick="confirmImportMutasi()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#dcd0ff] text-[#1D1922] hover:brightness-105 transition">
+            Impor Transaksi Terpilih
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 4: SALDO AWAL & KELOLA 15 REKENING / E-WALLET ==================== -->
+    <div id="modal-saldo-awal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Saldo Awal & Dompet</h3>
+            <p class="text-xs text-white/55">Isi saldo awal masing-masing Rekening & E-Wallet Ilham & Puspa</p>
+          </div>
+          <button onclick="closeModal('modal-saldo-awal')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <div id="initial-balances-form-list" class="space-y-4">
+          <!-- Input saldo awal dikelompokkan per pemilik & jenis -->
+        </div>
+
+        <!-- Tambah Rekening / Dompet Baru (misal Tunai) -->
+        <div class="pt-3 border-t border-white/10 space-y-2.5">
+          <div class="text-xs font-bold text-white/80">+ Tambah Dompet / Rekening Lainnya</div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="new-wallet-name" type="text" placeholder="Nama (mis: Tunai)" class="bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white" />
+            <input id="new-wallet-balance" type="number" placeholder="Saldo awal (Rp)" class="bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <select id="new-wallet-owner" class="bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="Ilham">Milik Ilham</option>
+              <option value="Puspa">Milik Puspa</option>
+            </select>
+            <select id="new-wallet-type" class="bg-[#130f12] border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="Rekening">Jenis: Rekening</option>
+              <option value="E-Wallet">Jenis: E-Wallet</option>
+            </select>
+          </div>
+          <button type="button" onclick="addNewWallet()" class="w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
+            Tambah ke Daftar Dompet
+          </button>
+        </div>
+
+        <button type="button" onclick="saveInitialBalances()" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D96B98] to-[#7B74E4] hover:brightness-110 transition">
+          Simpan Perubahan Saldo Awal
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 5: EDIT ANGGARAN / TARGET TABUNGAN ==================== -->
+    <div id="modal-rencana-edit" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 id="rencana-modal-title" class="text-lg font-bold text-white">Atur Rencana</h3>
+          <button onclick="closeModal('modal-rencana-edit')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+        <div id="rencana-modal-body" class="space-y-3">
+          <!-- Konten dinamis -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 6: SINKRONISASI PASANGAN & PENGATURAN ==================== -->
+    <div id="modal-sync" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Pengaturan & Sinkronisasi</h3>
+            <p class="text-xs text-white/55">Hubungkan HP Ilham & HP Puspa serta atur notifikasi WA</p>
+          </div>
+          <button onclick="closeModal('modal-sync')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <!-- Status Koneksi -->
+        <div class="bg-[#130f12] border border-white/10 rounded-2xl p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span id="sync-modal-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <div>
+              <div id="sync-modal-status-title" class="text-xs font-bold text-white">Tersimpan Lokal</div>
+              <div id="sync-modal-status-desc" class="text-[11px] text-white/50">Otomatis tersimpan di perangkat ini</div>
+            </div>
+          </div>
+          <span class="text-[11px] font-mono px-2 py-1 rounded-lg bg-white/[0.06] text-white/80" id="sync-device-user-badge">Aktif: IL</span>
+        </div>
+
+        <!-- Pintasan Pengaturan Notifikasi WhatsApp -->
+        <button type="button" onclick="closeModal('modal-sync'); openWaSettingsModal();" class="w-full bg-emerald-500/15 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-2xl p-3.5 flex items-center justify-between text-left transition">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">WA</div>
+            <div>
+              <div class="text-xs font-bold text-white">Notifikasi WhatsApp Grup Keluarga</div>
+              <div id="sync-wa-summary-text" class="text-[11px] text-emerald-300">Aktif • Semua Catatan</div>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-300">Atur →</span>
+        </button>
+
+        <!-- Kode Ruang Keluarga & Firebase Realtime Database URL -->
+        <div class="space-y-2.5 pt-1">
+          <div>
+            <label class="block text-xs font-medium text-white/75 mb-1">Kode Ruang Keluarga (Family Room ID)</label>
+            <div class="flex gap-2">
+              <input id="room-code-input" type="text" value="ILHAM-PUSPA-2026" class="flex-1 bg-[#130f12] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-mono font-bold text-[#F299B9] uppercase focus:outline-none focus:border-[#D96B98]" />
+              <button type="button" onclick="copyRoomCode()" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white shrink-0">
+                Salin
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-white/75 mb-1">Firebase Realtime Database URL <span class="text-white/40">(Untuk Sync 2 HP Live)</span></label>
+            <input id="firebase-url-input" type="url" placeholder="https://kas-keluarga-default-rtdb.asia-southeast1.firebasedatabase.app" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#D96B98]" />
+            <p class="text-[10px] text-white/45 mt-1">Masukkan URL Firebase Realtime Database yang sama di HP Ilham & HP Puspa agar transaksi langsung sinkron.</p>
+          </div>
+
+          <button type="button" onclick="applyRoomCode()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#D96B98] to-[#7B74E4] text-xs font-bold text-white hover:brightness-110 transition">
+            Simpan & Hubungkan Ruang Keluarga
+          </button>
+        </div>
+
+        <!-- Reset Semua Data ke Rp 0 -->
+        <div class="pt-3 border-t border-white/10 space-y-2">
+          <div class="text-xs font-semibold text-white/80">Reset Buku Kas</div>
+          <p class="text-[11px] text-white/50">Hapus seluruh transaksi, target tabungan, dan kembalikan saldo seluruh 15 dompet ke Rp 0.</p>
+          <button type="button" onclick="promptResetDemoData()" class="w-full py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-xs font-bold text-rose-300 transition">
+            Reset Semua Data ke Rp 0
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 7: EKSPOR & BACKUP DATA ==================== -->
+    <div id="modal-export" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Ekspor & Backup Kas</h3>
+            <p class="text-xs text-white/55">Unduh laporan keuangan keluarga atau pulihkan backup</p>
+          </div>
+          <button onclick="closeModal('modal-export')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="exportDataJSON()" class="p-3.5 rounded-2xl bg-[#dcd0ff] text-[#1D1922] text-left space-y-1 hover:brightness-105 transition">
+            <div class="text-xs font-extrabold">Backup JSON</div>
+            <div class="text-[11px] opacity-75">Simpan seluruh transaksi, 15 dompet & target</div>
+          </button>
+          <button onclick="exportDataCSV()" class="p-3.5 rounded-2xl bg-[#c3f0d8] text-[#1D1922] text-left space-y-1 hover:brightness-105 transition">
+            <div class="text-xs font-extrabold">Laporan CSV / Excel</div>
+            <div class="text-[11px] opacity-75">Buka di Excel atau Google Sheets</div>
+          </button>
+        </div>
+
+        <div class="pt-2 border-t border-white/10">
+          <label class="block text-xs font-medium text-white/70 mb-1.5">Pulihkan dari File Backup (.JSON)</label>
+          <label class="flex items-center justify-center w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white cursor-pointer transition">
+            <span>Pilih File Backup JSON</span>
+            <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden" />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 11: TAMBAH / EDIT TAGIHAN BULANAN ==================== -->
+    <div id="modal-bill-form" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 id="bill-form-title" class="text-lg font-bold text-white">Tambah Tagihan Bulanan</h3>
+            <p class="text-xs text-white/55">Tagihan akan masuk ke total kewajiban bulan ini</p>
+          </div>
+          <button onclick="closeModal('modal-bill-form')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <form onsubmit="handleSaveBill(event)" class="space-y-3.5">
+          <input type="hidden" id="bill-edit-id" value="" />
+
+          <div>
+            <label class="block text-xs font-medium text-white/65 mb-1">Nama Tagihan</label>
+            <input id="bill-name" type="text" required placeholder="Contoh: SPP Sekolah Kakak / Listrik PLN / Cicilan KPR" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-white/35 focus:outline-none focus:border-[#D96B98]" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Nominal Tagihan (Rp)</label>
+              <input id="bill-amount" type="number" min="1" step="any" required placeholder="850000" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-base font-bold text-white focus:outline-none focus:border-[#D96B98]" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Deadline / Jatuh Tempo</label>
+              <input id="bill-deadline" type="date" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D96B98]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Kategori</label>
+              <select id="bill-category" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D96B98]">
+                <!-- Diisi dinamis dari 8 kategori pengeluaran -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Penanggung Jawab (PIC)</label>
+              <select id="bill-pic" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D96B98]">
+                <option value="Bersama">Bersama (Ilham & Puspa)</option>
+                <option value="Ilham">Ilham (Suami)</option>
+                <option value="Puspa">Puspa (Istri)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Akun Bayar Default</label>
+              <select id="bill-default-account" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D96B98]">
+                <!-- Diisi dinamis dari 15 rekening & e-wallet -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Sifat Tagihan</label>
+              <select id="bill-recurring" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D96B98]">
+                <option value="monthly">Rutin Bulanan</option>
+                <option value="once">Sekali Bayar</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-white/65 mb-1">Catatan / Nomor Virtual Account (Opsional)</label>
+            <input id="bill-note" type="text" placeholder="Contoh: VA BCA 8077708123456 / ID Pelanggan PLN" class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-white/35 focus:outline-none focus:border-[#D96B98]" />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D96B98] to-[#7B74E4] hover:brightness-110 transition shadow-lg">
+            Simpan Tagihan
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 12: KONFIRMASI PEMBAYARAN TAGIHAN ==================== -->
+    <div id="modal-bill-pay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Konfirmasi Bayar Tagihan</h3>
+            <p class="text-xs text-white/55">Otomatis mengurangi total tagihan bulan ini & saldo dompet</p>
+          </div>
+          <button onclick="closeModal('modal-bill-pay')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <div class="bg-[#130f12] border border-white/10 rounded-2xl p-3.5 space-y-1">
+          <div class="text-[11px] text-white/50">Tagihan yang akan dilunasi</div>
+          <div id="pay-bill-name" class="text-sm font-bold text-white">-</div>
+          <div id="pay-bill-amount" class="text-lg font-extrabold text-[#F299B9]">Rp 0</div>
+          <div id="pay-bill-deadline-info" class="text-[11px] text-white/55">Deadline: -</div>
+        </div>
+
+        <form onsubmit="handleConfirmPayBill(event)" class="space-y-3">
+          <input type="hidden" id="pay-bill-id" value="" />
+
+          <div>
+            <label class="block text-xs font-medium text-white/65 mb-1">Sumber Dana Pembayaran (15 Rekening / E-Wallet)</label>
+            <select id="pay-bill-account" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400">
+              <!-- Diisi dinamis -->
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Dibayar Oleh</label>
+              <select id="pay-bill-user" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white">
+                <option value="Ilham">Ilham (Suami)</option>
+                <option value="Puspa">Puspa (Istri)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-white/65 mb-1">Tanggal Bayar</label>
+              <input id="pay-bill-date" type="date" required class="w-full bg-[#130f12] border border-white/15 rounded-2xl px-3 py-2.5 text-xs text-white" />
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2.5 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl p-3 cursor-pointer">
+            <input id="pay-bill-share-wa" type="checkbox" checked class="w-4 h-4 accent-emerald-500 rounded" />
+            <span class="text-xs text-emerald-200 font-medium">Siapkan bukti lunas & sisa tagihan untuk Grup WA</span>
+          </label>
+
+          <button type="submit" class="w-full py-3.5 rounded-2xl font-extrabold text-sm bg-emerald-400 hover:bg-emerald-300 text-[#130f12] transition shadow-lg">
+            ✓ Konfirmasi Lunas & Potong Saldo
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 8: KONFIRMASI KUSTOM (PENGGANTI confirm()) ==================== -->
+    <div id="modal-confirm" class="hidden fixed inset-0 z-[65] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-[#211C23] border border-white/15 w-full max-w-[360px] rounded-3xl p-5 space-y-4 shadow-2xl">
+        <h4 id="confirm-title" class="text-base font-bold text-white">Konfirmasi</h4>
+        <p id="confirm-message" class="text-xs text-white/70 leading-relaxed">Apakah Anda yakin?</p>
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <button id="confirm-cancel-btn" onclick="closeModal('modal-confirm')" class="py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white">Batal</button>
+          <button id="confirm-ok-btn" class="py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-xs font-bold text-white">Ya, Lanjutkan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 9: PENGATURAN NOTIFIKASI WHATSAPP GRUP KELUARGA ==================== -->
+    <div id="modal-wa-settings" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white">Notifikasi WhatsApp Keluarga</h3>
+            <p class="text-xs text-white/55">Tersambung ke Grup WA Keluarga secara otomatis</p>
+          </div>
+          <button onclick="closeModal('modal-wa-settings')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+        </div>
+
+        <!-- Sakelar Utama -->
+        <label class="flex items-center justify-between bg-[#130f12] border border-white/10 rounded-2xl p-3.5 cursor-pointer">
+          <div>
+            <div class="text-sm font-bold text-white">Aktifkan Notifikasi WhatsApp</div>
+            <div class="text-[11px] text-white/50">Siapkan laporan & salin teks otomatis saat simpan</div>
+          </div>
+          <input id="wa-enabled-toggle" type="checkbox" checked onchange="updateWaLivePreview()" class="w-5 h-5 accent-emerald-500 rounded cursor-pointer" />
+        </label>
+
+        <!-- Tautan Grup WA Keluarga -->
+        <div>
+          <label class="block text-xs font-bold text-white/80 mb-1">Tautan Undangan Grup WA Keluarga</label>
+          <input id="wa-group-invite-link" type="url" value="https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2" class="w-full bg-[#130f12] border border-emerald-500/30 rounded-xl px-3.5 py-2.5 text-xs text-emerald-300 font-mono focus:outline-none focus:border-emerald-400" />
+          <p class="text-[10px] text-white/45 mt-1">Digunakan untuk tombol langsung buka grup WA & paste laporan.</p>
+        </div>
+
+        <!-- Pengaturan Pemicu (Trigger) -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-white/80">Pemicu Pengiriman Laporan</label>
+          <select id="wa-trigger-scope" onchange="updateWaLivePreview()" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400">
+            <option value="all">Setiap Catatan (Semua Pengeluaran, Pemasukan & Transfer)</option>
+            <option value="all_expense">Semua Transaksi Pengeluaran Saja</option>
+            <option value="Jajan dan Kopi">Khusus Kategori: Jajan dan Kopi</option>
+            <option value="SPP Sekolah">Khusus Kategori: SPP Sekolah</option>
+            <option value="ART">Khusus Kategori: ART</option>
+            <option value="Jemputan">Khusus Kategori: Jemputan</option>
+            <option value="Kredit">Khusus Kategori: Kredit</option>
+            <option value="Utilitas">Khusus Kategori: Utilitas</option>
+            <option value="BBM">Khusus Kategori: BBM</option>
+            <option value="Other">Khusus Kategori: Other</option>
+          </select>
+
+          <div>
+            <label class="block text-[11px] text-white/65 mb-1">Nominal Minimal Transaksi (Rp)</label>
+            <input id="wa-min-amount" type="number" min="0" step="1000" value="0" oninput="updateWaLivePreview()" placeholder="0 (Semua nominal)" class="w-full bg-[#130f12] border border-white/15 rounded-xl px-3.5 py-2 text-xs font-bold text-white focus:outline-none focus:border-emerald-400" />
+          </div>
+        </div>
+
+        <!-- Opsional: Gateway API Latar Belakang (Fonnte / Wablas) -->
+        <details class="bg-[#130f12] border border-white/10 rounded-2xl p-3">
+          <summary class="text-xs font-bold text-white/80 cursor-pointer">Opsional: Kirim Otomatis Tanpa Klik (Gateway API)</summary>
+          <div class="space-y-2.5 pt-3 mt-2 border-t border-white/10">
+            <div>
+              <label class="block text-[10px] text-white/60 mb-1">URL Endpoint API (Fonnte / Wablas)</label>
+              <input id="wa-api-url" type="url" value="https://api.fonnte.com/send" class="w-full bg-[#1B171D] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-white/60 mb-1">API Token</label>
+              <input id="wa-api-token" type="password" placeholder="Kosongkan jika pakai mode gratis WhatsApp" class="w-full bg-[#1B171D] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-white/60 mb-1">Group ID (@g.us)</label>
+              <input id="wa-group-id" type="text" placeholder="Contoh: 120363048192837465@g.us" class="w-full bg-[#1B171D] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+            </div>
+          </div>
+        </details>
+
+        <!-- Pratinjau Format Pesan Live -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white/80">Pratinjau Format Pesan Grup WA</span>
+            <button type="button" onclick="testWhatsAppNotification()" class="text-[11px] font-bold text-emerald-400 hover:underline">
+              Tes Kirim WA ↗
+            </button>
+          </div>
+          <pre id="wa-live-preview" class="bg-[#0F1A14] border border-emerald-500/25 rounded-2xl p-3 text-[11px] text-emerald-100 whitespace-pre-wrap font-sans leading-relaxed"></pre>
+        </div>
+
+        <button type="button" onclick="saveWaSettings()" class="w-full py-3 rounded-2xl font-bold text-sm text-[#130f12] bg-emerald-400 hover:brightness-105 transition">
+          Simpan Pengaturan WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 10: BOTTOM-SHEET KONFIRMASI KIRIM WA (SETELAH CATAT) ==================== -->
+    <div id="modal-wa-prompt" class="hidden fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center">
+      <div class="sheet-animate bg-[#1B171D] border border-emerald-500/35 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4 shadow-2xl">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white">Kirim Laporan ke Grup WA</h4>
+              <p class="text-[11px] font-medium text-emerald-300">✓ Teks laporan otomatis disalin ke clipboard!</p>
+            </div>
+          </div>
+          <button onclick="closeModal('modal-wa-prompt')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 shrink-0">✕</button>
+        </div>
+
+        <pre id="wa-prompt-message-preview" class="bg-[#130f12] border border-white/10 rounded-2xl p-3.5 text-xs text-white/90 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto"></pre>
+
+        <div class="space-y-2.5">
+          <!-- Primary Button 1: api.whatsapp.com/send?text=... -->
+          <a id="wa-prompt-direct-link" href="https://api.whatsapp.com/send?text=" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-wa-prompt')" class="w-full py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-xs font-extrabold text-[#130f12] flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition">
+            <span>Kirim ke WhatsApp (Pilih Grup) ↗</span>
+          </a>
+
+          <!-- Secondary Button 2: Buka Link Grup WA & Paste -->
+          <a id="wa-prompt-group-link" href="https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-wa-prompt')" class="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold text-white flex items-center justify-center gap-2 transition">
+            <span>Buka Link Grup WA & Paste ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast-container" class="fixed top-16 left-1/2 -translate-x-1/2 z-[70] pointer-events-none w-full max-w-[440px] px-4 flex flex-col items-center gap-2"></div>
+
+  </div>
+
+  <!-- ==================== LOGIKA APLIKASI & SINKRONISASI ==================== -->
+  <script>
+    // ---------------------------------------------------------
+    // 1. KONFIGURASI PENYIMPANAN LOKAL & FIREBASE RTDB
+    // ---------------------------------------------------------
+    const LOCAL_STORAGE_KEY = 'kas_harian_bersama_ilham_puspa_final_v1';
+    const DEFAULT_WA_GROUP_LINK = 'https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2';
+    let rtdbPollTimer = null;
+
+    // ---------------------------------------------------------
+    // 2. DEFINISI KATEGORI & 15 REKENING / E-WALLET EXACT
+    // ---------------------------------------------------------
+    const EXPENSE_CATEGORIES = [
+      { name: 'SPP Sekolah', icon: '🎓', color: '#60A5FA' },
+      { name: 'ART', icon: '🧹', color: '#F472B6' },
+      { name: 'Jemputan', icon: '🚐', color: '#34D399' },
+      { name: 'Kredit', icon: '💳', color: '#FB7185' },
+      { name: 'Utilitas', icon: '⚡', color: '#A78BFA' },
+      { name: 'BBM', icon: '⛽', color: '#38BDF8' },
+      { name: 'Jajan dan Kopi', icon: '☕', color: '#FBBF24' },
+      { name: 'Other', icon: '📦', color: '#94A3B8' }
+    ];
+
+    const INCOME_CATEGORIES = [
+      { name: 'Gaji', icon: '💼', color: '#34D399' },
+      { name: 'Bonus & Tunjangan', icon: '🎁', color: '#60A5FA' },
+      { name: 'Cashback & Refund', icon: '🔄', color: '#FBBF24' },
+      { name: 'Pemasukan Lainnya', icon: '✨', color: '#C084FC' }
+    ];
+
+    const WALLET_THEMES = {
+      'Puspa-Rekening': { bg: '#2B2029', badgeBg: '#422D3E', badgeText: '#F472B6' },
+      'Puspa-E-Wallet': { bg: '#272033', badgeBg: '#3A2E4D', badgeText: '#C4B5FD' },
+      'Ilham-Rekening': { bg: '#1F2833', badgeBg: '#2A394A', badgeText: '#7DD3FC' },
+      'Ilham-E-Wallet': { bg: '#1F2E28', badgeBg: '#2B4239', badgeText: '#6EE7B7' }
+    };
+
+    const NOW = new Date();
+    const CURRENT_YEAR_MONTH = `${NOW.getFullYear()}-${String(NOW.getMonth() + 1).padStart(2, '0')}`;
+    const MONTH_NAMES_ID = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const CURRENT_MONTH_NAME = MONTH_NAMES_ID[NOW.getMonth()];
+
+    function getInitialAccountsList() {
+      return [
+        // Rekening Puspa (5)
+        { id: 'acc-puspa-blu', name: 'Blu (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-puspa-dbs', name: 'DBS (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-puspa-bsi', name: 'BSI (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-puspa-seabank', name: 'Seabank (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-puspa-saku', name: 'Saku (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
+
+        // Rekening Ilham (3)
+        { id: 'acc-ilham-blu', name: 'Blu (Ilham)', owner: 'Ilham', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-ilham-mandiri-debit', name: 'Mandiri Debit (Ilham)', owner: 'Ilham', type: 'Rekening', initialBalance: 0 },
+        { id: 'acc-ilham-mandiri-credit', name: 'Mandiri Credit (Ilham)', owner: 'Ilham', type: 'Rekening', initialBalance: 0 },
+
+        // E-Wallet Puspa (4)
+        { id: 'acc-puspa-gopay', name: 'Gopay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
+        { id: 'acc-puspa-shopeepay', name: 'Shopeepay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
+        { id: 'acc-puspa-ovo', name: 'Ovo (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
+        { id: 'acc-puspa-astrapay', name: 'Astrapay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
+
+        // E-Wallet Ilham (3)
+        { id: 'acc-ilham-gopay', name: 'Gopay (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 },
+        { id: 'acc-ilham-shopeepay', name: 'Shopeepay (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 },
+        { id: 'acc-ilham-ovo', name: 'Ovo (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 }
+      ];
+    }
+
+    function getInitialBudgetsList() {
+      return EXPENSE_CATEGORIES.map(c => ({
+        category: c.name,
+        limit: 0
+      }));
+    }
+
+    function getCleanInitialState() {
+      return {
+        roomCode: 'ILHAM-PUSPA-2026',
+        firebaseDbUrl: '',
+        activeUser: 'Ilham',    // 'Ilham' (IL) atau 'Puspa' (PS)
+        viewScope: 'all',       // 'all' | 'Ilham' | 'Puspa'
+        walletFilter: 'all',    // 'all' | 'Ilham' | 'Puspa' | 'Rekening' | 'E-Wallet'
+        privacyMode: false,
+        activeTab: 'beranda',
+        waSettings: {
+          enabled: true,
+          groupInviteLink: DEFAULT_WA_GROUP_LINK,
+          triggerScope: 'all',  // 'all' | 'all_expense' | nama kategori spesifik
+          minAmount: 0,
+          apiUrl: 'https://api.fonnte.com/send',
+          apiToken: '',
+          groupId: ''
+        },
+        riwayatFilters: {
+          user: 'all',
+          type: 'all'
+        },
+        accounts: getInitialAccountsList(),
+        budgets: getInitialBudgetsList(),
+        goals: [],
+        transactions: [],
+        bills: []
+      };
+    }
+
+    let state = getCleanInitialState();
+    let categoryChartInstance = null;
+    let cashflowChartInstance = null;
+    let parsedMutasiItems = [];
+
+    // ---------------------------------------------------------
+    // 3. PENYIMPANAN LOCALSTORAGE & CLOUD SYNC
+    // ---------------------------------------------------------
+    function saveStateToLocalStorage() {
+      try {
+        const payload = {
+          roomCode: state.roomCode,
+          firebaseDbUrl: state.firebaseDbUrl || '',
+          activeUser: state.activeUser,
+          viewScope: state.viewScope,
+          walletFilter: state.walletFilter,
+          privacyMode: state.privacyMode,
+          accounts: state.accounts,
+          budgets: state.budgets,
+          goals: state.goals,
+          transactions: state.transactions,
+          bills: state.bills,
+          waSettings: state.waSettings
+        };
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+      } catch (err) {
+        console.warn('Gagal menyimpan ke localStorage:', err);
+      }
+    }
+
+    function loadStateFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed.roomCode) state.roomCode = parsed.roomCode;
+        if (typeof parsed.firebaseDbUrl === 'string') state.firebaseDbUrl = parsed.firebaseDbUrl;
+        if (parsed.activeUser) state.activeUser = parsed.activeUser;
+        if (parsed.viewScope) state.viewScope = parsed.viewScope;
+        if (parsed.walletFilter) state.walletFilter = parsed.walletFilter;
+        if (typeof parsed.privacyMode === 'boolean') state.privacyMode = parsed.privacyMode;
+        if (Array.isArray(parsed.accounts) && parsed.accounts.length) state.accounts = parsed.accounts;
+        if (Array.isArray(parsed.budgets) && parsed.budgets.length) state.budgets = parsed.budgets;
+        if (Array.isArray(parsed.goals)) state.goals = parsed.goals;
+        if (Array.isArray(parsed.transactions)) state.transactions = parsed.transactions;
+        if (Array.isArray(parsed.bills)) state.bills = parsed.bills;
+        if (parsed.waSettings) {
+          state.waSettings = {
+            ...state.waSettings,
+            ...parsed.waSettings,
+            groupInviteLink: parsed.waSettings.groupInviteLink || DEFAULT_WA_GROUP_LINK
+          };
+        }
+      } catch (err) {
+        console.warn('Gagal memuat localStorage:', err);
+      }
+    }
+
+    async function syncToCloudIfConfigured() {
+      saveStateToLocalStorage();
+      const baseUrl = (state.firebaseDbUrl || '').trim().replace(/\/+$/, '');
+      if (!baseUrl) {
+        updateSyncStatusUI(false, 'Tersimpan Lokal', 'Data tersimpan aman di HP ini');
+        return;
+      }
+      try {
+        const cleanRoom = state.roomCode.trim().toUpperCase();
+        const res = await fetch(`${baseUrl}/kas_bersama/${cleanRoom}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            updatedAt: Date.now(),
+            accounts: state.accounts,
+            budgets: state.budgets,
+            goals: state.goals,
+            transactions: state.transactions,
+            bills: state.bills
+          })
+        });
+        if (res.ok) {
+          updateSyncStatusUI(true, 'Tersinkron Cloud', `Ruang: ${cleanRoom}`);
+        }
+      } catch (err) {
+        console.warn('Gagal sinkronisasi ke Firebase:', err);
+      }
+    }
+
+    async function pullFromCloudIfConfigured() {
+      const baseUrl = (state.firebaseDbUrl || '').trim().replace(/\/+$/, '');
+      if (!baseUrl) {
+        updateSyncStatusUI(false, 'Tersimpan Lokal', 'Otomatis tersimpan di HP ini');
+        return;
+      }
+      try {
+        const cleanRoom = state.roomCode.trim().toUpperCase();
+        const res = await fetch(`${baseUrl}/kas_bersama/${cleanRoom}.json`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          if (Array.isArray(data.accounts)) state.accounts = data.accounts;
+          if (Array.isArray(data.budgets)) state.budgets = data.budgets;
+          if (Array.isArray(data.goals)) state.goals = data.goals;
+          if (Array.isArray(data.bills)) state.bills = data.bills;
+          if (Array.isArray(data.transactions)) {
+            state.transactions = data.transactions.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || 0) - (a.createdAt || 0));
+          }
+          saveStateToLocalStorage();
+          renderAll();
+          updateSyncStatusUI(true, 'Tersinkron Cloud', `Ruang: ${cleanRoom}`);
+        } else {
+          await syncToCloudIfConfigured();
+        }
+      } catch (err) {
+        console.warn('Gagal menarik data Firebase:', err);
+      }
+    }
+
+    function startCloudPolling() {
+      if (rtdbPollTimer) clearInterval(rtdbPollTimer);
+      if ((state.firebaseDbUrl || '').trim()) {
+        pullFromCloudIfConfigured();
+        rtdbPollTimer = setInterval(pullFromCloudIfConfigured, 6000);
+      } else {
+        updateSyncStatusUI(false, 'Tersimpan Lokal', 'Otomatis tersimpan di perangkat ini');
+      }
+    }
+
+    function updateSyncStatusUI(isCloud, title, desc) {
+      const dot = document.getElementById('sync-status-dot');
+      const modalDot = document.getElementById('sync-modal-dot');
+      const modalTitle = document.getElementById('sync-modal-status-title');
+      const modalDesc = document.getElementById('sync-modal-status-desc');
+      if (dot) dot.className = `absolute top-1 right-1 w-2 h-2 rounded-full ring-2 ring-[#130f12] ${isCloud ? 'bg-sky-400' : 'bg-emerald-400'}`;
+      if (modalDot) modalDot.className = `w-2.5 h-2.5 rounded-full ${isCloud ? 'bg-sky-400' : 'bg-emerald-400'}`;
+      if (modalTitle) modalTitle.textContent = title;
+      if (modalDesc) modalDesc.textContent = desc;
+    }
+
+    // ---------------------------------------------------------
+    // 4. UTILITAS FORMAT RUPIAH & CLIPBOARD AMAN
+    // ---------------------------------------------------------
+    function formatPlainRupiahNumber(amount) {
+      const absVal = Math.abs(Math.round(amount || 0));
+      return absVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function formatRupiah(amount, withSpace = true) {
+      const isNegative = amount < 0;
+      if (state.privacyMode) {
+        return `${isNegative ? '-' : ''}Rp••••••`;
+      }
+      const formatted = formatPlainRupiahNumber(amount);
+      return `${isNegative ? '-' : ''}Rp${withSpace ? ' ' : ''}${formatted}`;
+    }
+
+    function formatHeroRupiahHTML(amount) {
+      const isNegative = amount < 0;
+      if (state.privacyMode) {
+        return `<span class="font-serif font-semibold text-[34px]">${isNegative ? '-' : ''}Rp</span><span class="tracking-widest">••••••</span>`;
+      }
+      const formatted = formatPlainRupiahNumber(amount);
+      return `<span class="font-serif font-semibold text-[34px]">${isNegative ? '-' : ''}Rp</span><span>${formatted}</span>`;
+    }
+
+    function copyTextToClipboard(text) {
+      try {
+        const tempArea = document.createElement('textarea');
+        tempArea.value = text;
+        tempArea.style.position = 'fixed';
+        tempArea.style.left = '-9999px';
+        tempArea.style.top = '0';
+        document.body.appendChild(tempArea);
+        tempArea.focus();
+        tempArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempArea);
+      } catch (e) {
+        console.warn('Fallback clipboard execCommand:', e);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 5. KALKULASI SALDO PER DOMPET & TOTAL KELUARGA
+    // ---------------------------------------------------------
+    function getScopedTransactions() {
+      if (state.viewScope === 'all') return state.transactions;
+      return state.transactions.filter(t => t.user === state.viewScope);
+    }
+
+    function getAccountBalance(accountId) {
+      const acc = state.accounts.find(a => a.id === accountId);
+      const base = acc ? Number(acc.initialBalance || 0) : 0;
+      let delta = 0;
+
+      state.transactions.forEach(tx => {
+        const amt = Number(tx.amount || 0);
+        if (tx.type === 'income' && tx.accountId === accountId) {
+          delta += amt;
+        } else if (tx.type === 'expense' && tx.accountId === accountId) {
+          delta -= amt;
+        } else if (tx.type === 'transfer') {
+          if (tx.accountId === accountId) delta -= amt;
+          if (tx.toAccountId === accountId) delta += amt;
+        }
+      });
+
+      return base + delta;
+    }
+
+    function getTotalAllAccountsBalance() {
+      return state.accounts.reduce((sum, acc) => sum + getAccountBalance(acc.id), 0);
+    }
+
+    function calculateDashboardMetrics() {
+      const scopedTxs = getScopedTransactions();
+
+      // Total saldo: jika viewScope spesifik ke Ilham atau Puspa, hitung saldo akun milik orang tsb; jika Gabungan, hitung semua 15 akun
+      const relevantAccounts = state.viewScope === 'all'
+        ? state.accounts
+        : state.accounts.filter(a => a.owner === state.viewScope);
+
+      const totalBalance = relevantAccounts.reduce((sum, acc) => sum + getAccountBalance(acc.id), 0);
+
+      // Pemasukan & pengeluaran bulan berjalan (tidak menghitung transfer antar dompet)
+      const monthTxs = scopedTxs.filter(t => t.date && t.date.startsWith(CURRENT_YEAR_MONTH));
+      const monthIncome = monthTxs
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+      const monthExpense = monthTxs
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+
+      const monthRemaining = monthIncome - monthExpense;
+      const usagePercent = monthIncome > 0
+        ? Math.min(100, Math.round((monthExpense / monthIncome) * 100))
+        : (monthExpense > 0 ? 100 : 0);
+
+      return {
+        totalBalance,
+        monthIncome,
+        monthExpense,
+        monthRemaining,
+        usagePercent
+      };
+    }
+
+    // ---------------------------------------------------------
+    // 6. RENDERING SELURUH KOMPONEN UI
+    // ---------------------------------------------------------
+    function renderAll() {
+      renderTopBar();
+      renderHeroCard();
+      renderBerandaBillsCard();
+      renderWalletsGrid();
+      renderRecentTransactions();
+      renderRiwayat();
+      renderRencana();
+      if (state.activeTab === 'analisa') {
+        renderAnalisa();
+      }
+      populateAccountSelects();
+      populateCategoryFilterSelect();
+    }
+
+    function renderTopBar() {
+      const scopeLabels = {
+        all: 'Kas Harian Bersama',
+        Ilham: 'Catatan Ilham',
+        Puspa: 'Catatan Puspa'
+      };
+      document.getElementById('current-scope-label').textContent = scopeLabels[state.viewScope] || 'Kas Harian Bersama';
+
+      document.querySelectorAll('.scope-option').forEach(btn => {
+        const isSelected = btn.dataset.scope === state.viewScope;
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('font-semibold', isSelected);
+        btn.classList.toggle('text-white/75', !isSelected);
+        const check = btn.querySelector('.scope-check');
+        if (check) check.classList.toggle('hidden', !isSelected);
+      });
+
+      const isIlham = state.activeUser === 'Ilham';
+      const toggleBtn = document.getElementById('active-user-toggle');
+      toggleBtn.className = isIlham
+        ? 'h-8 px-2.5 rounded-full bg-[#D84374] hover:brightness-110 active:scale-95 transition flex items-center gap-1 shadow-md shadow-[#D84374]/30'
+        : 'h-8 px-2.5 rounded-full bg-gradient-to-r from-[#7B74E4] to-teal-500 hover:brightness-110 active:scale-95 transition flex items-center gap-1 shadow-md shadow-teal-500/30';
+      document.getElementById('active-user-initials').textContent = isIlham ? 'IL' : 'PS';
+      document.getElementById('active-user-name-short').textContent = isIlham ? 'Ilham' : 'Puspa';
+      document.getElementById('sync-device-user-badge').textContent = `Aktif: ${state.activeUser}`;
+
+      const waDot = document.getElementById('wa-header-status-dot');
+      if (waDot) {
+        waDot.className = `absolute top-1 right-1 w-2 h-2 rounded-full ring-2 ring-[#130f12] ${state.waSettings.enabled ? 'bg-emerald-400' : 'bg-white/30'}`;
+      }
+      const syncWaSummary = document.getElementById('sync-wa-summary-text');
+      if (syncWaSummary) {
+        if (!state.waSettings.enabled) {
+          syncWaSummary.textContent = 'Nonaktif';
+        } else {
+          const scopeLabel = state.waSettings.triggerScope === 'all'
+            ? 'Semua Catatan'
+            : (state.waSettings.triggerScope === 'all_expense' ? 'Semua Pengeluaran' : `Khusus ${state.waSettings.triggerScope}`);
+          syncWaSummary.textContent = `Aktif • ${scopeLabel}`;
+        }
+      }
+    }
+
+    function renderHeroCard() {
+      const m = calculateDashboardMetrics();
+      const scopeBadges = { all: 'Gabungan', Ilham: 'Ilham', Puspa: 'Puspa' };
+      document.getElementById('hero-scope-pill').textContent = scopeBadges[state.viewScope] || 'Gabungan';
+
+      // Ikon Eye / Eye-Off
+      const eyeIcon = document.getElementById('privacy-eye-icon');
+      if (state.privacyMode) {
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+
+      document.getElementById('hero-total-balance').innerHTML = formatHeroRupiahHTML(m.totalBalance);
+      document.getElementById('hero-month-income').textContent = formatRupiah(m.monthIncome);
+      document.getElementById('hero-month-expense').textContent = formatRupiah(m.monthExpense);
+      document.getElementById('hero-month-label').textContent = `Sisa uang ${CURRENT_MONTH_NAME}`;
+      document.getElementById('hero-month-remaining').textContent = formatRupiah(m.monthRemaining);
+      document.getElementById('hero-usage-bar').style.width = `${m.usagePercent}%`;
+      document.getElementById('hero-usage-caption').textContent = `${m.usagePercent}% pemasukan bulan ini sudah terpakai`;
+    }
+
+    function renderWalletsGrid() {
+      const grid = document.getElementById('wallets-grid');
+      const countSub = document.getElementById('wallets-count-subtitle');
+
+      // Update status aktif pill filter
+      document.querySelectorAll('.wallet-filter-pill').forEach(btn => {
+        const isAct = btn.dataset.filter === state.walletFilter;
+        btn.className = `wallet-filter-pill px-3 py-1.5 rounded-full text-xs shrink-0 transition ${
+          isAct
+            ? 'font-semibold bg-white text-[#130f12]'
+            : 'font-medium bg-white/[0.06] text-white/75 hover:bg-white/10'
+        }`;
+      });
+
+      const filteredAccounts = state.accounts.filter(acc => {
+        if (state.walletFilter === 'all') return true;
+        if (state.walletFilter === 'Ilham' || state.walletFilter === 'Puspa') {
+          return acc.owner === state.walletFilter;
+        }
+        return acc.type === state.walletFilter;
+      });
+
+      if (countSub) {
+        countSub.textContent = `${filteredAccounts.length} dari ${state.accounts.length} Rekening & E-Wallet`;
+      }
+
+      grid.innerHTML = filteredAccounts.map(acc => {
+        const themeKey = `${acc.owner}-${acc.type}`;
+        const theme = WALLET_THEMES[themeKey] || WALLET_THEMES['Ilham-Rekening'];
+        const bal = getAccountBalance(acc.id);
+        const iconSvg = acc.type === 'E-Wallet'
+          ? `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`
+          : `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7"></polygon></svg>`;
+
+        const ownerBadgeClass = acc.owner === 'Ilham'
+          ? 'bg-sky-500/20 text-sky-300'
+          : 'bg-pink-500/20 text-pink-300';
+
+        // Hilangkan suffix "(Puspa)" / "(Ilham)" di judul kartu karena sudah ada badge pemilik
+        const cleanName = acc.name.replace(/\s*\((Ilham|Puspa)\)\s*$/i, '');
+
+        return `
+          <div onclick="openInitialBalanceModal()" style="background-color: ${theme.bg};" class="rounded-[22px] p-3.5 border border-white/[0.06] hover:border-white/20 transition cursor-pointer flex flex-col justify-between min-h-[104px]">
+            <div class="flex items-center justify-between gap-1.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <div style="background-color: ${theme.badgeBg}; color: ${theme.badgeText};" class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0">
+                  ${iconSvg}
+                </div>
+                <span class="text-xs font-semibold text-white/95 truncate">${cleanName}</span>
+              </div>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md ${ownerBadgeClass} shrink-0">${acc.owner}</span>
+            </div>
+            <div class="mt-3">
+              <div class="text-[10px] text-white/45 mb-0.5">${acc.type}</div>
+              <div class="text-[14px] font-bold tracking-tight ${bal < 0 ? 'text-rose-300' : 'text-white'} truncate">
+                ${formatRupiah(bal, false)}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getCategoryMeta(tx) {
+      if (tx.type === 'transfer') {
+        return { name: 'Transfer / Top Up', icon: '⇄', color: '#38BDF8' };
+      }
+      const list = tx.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+      return list.find(c => c.name === tx.category) || { name: tx.category, icon: '🧾', color: '#A78BFA' };
+    }
+
+    function buildTransactionCardHTML(tx, showActions = false) {
+      const cat = getCategoryMeta(tx);
+      const acc = state.accounts.find(a => a.id === tx.accountId);
+      const accName = acc ? acc.name : 'Dompet';
+      const toAcc = tx.toAccountId ? state.accounts.find(a => a.id === tx.toAccountId) : null;
+
+      const isIncome = tx.type === 'income';
+      const isTransfer = tx.type === 'transfer';
+      const isIlham = tx.user === 'Ilham';
+
+      const walletLine = isTransfer
+        ? `${accName} → ${toAcc ? toAcc.name : 'Tujuan'}`
+        : accName;
+
+      const amountColor = isIncome
+        ? 'text-emerald-400'
+        : (isTransfer ? 'text-sky-300' : 'text-white');
+      const amountPrefix = isIncome ? '+' : (isTransfer ? '⇄ ' : '-');
+
+      return `
+        <div class="bg-[#1c171b] border border-white/[0.06] rounded-2xl p-3.5 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-2xl bg-white/[0.06] flex items-center justify-center text-lg shrink-0">
+              ${cat.icon}
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-semibold text-white truncate">${tx.note || tx.category}</span>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0 ${isIlham ? 'bg-sky-500/20 text-sky-300' : 'bg-[#D84374]/25 text-[#F299B9]'}">
+                  ${tx.user}
+                </span>
+              </div>
+              <div class="text-[11px] text-white/50 truncate mt-0.5">
+                ${isTransfer ? 'Transfer' : tx.category} • ${walletLine} • ${tx.date}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="text-right">
+              <div class="text-sm font-bold ${amountColor}">
+                ${amountPrefix}${formatRupiah(tx.amount)}
+              </div>
+            </div>
+            ${showActions ? `
+              <div class="flex items-center gap-1 ml-1">
+                <button onclick="shareTransactionToWa('${tx.id}')" title="Kirim Laporan ke WhatsApp" class="w-7 h-7 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2z"/></svg>
+                </button>
+                <button onclick="openEditTransaction('${tx.id}')" title="Edit" class="w-7 h-7 rounded-lg bg-white/[0.06] hover:bg-white/15 flex items-center justify-center text-white/70 text-xs">✎</button>
+                <button onclick="promptDeleteTransaction('${tx.id}')" title="Hapus" class="w-7 h-7 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 flex items-center justify-center text-rose-300 text-xs">🗑</button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRecentTransactions() {
+      const container = document.getElementById('recent-transactions-list');
+      const txs = getScopedTransactions().slice(0, 5);
+      if (txs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-[#1c171b] border border-white/[0.06] rounded-2xl p-6 text-center space-y-2">
+            <div class="text-sm font-semibold text-white/85">Buku kas siap digunakan dari Rp 0</div>
+            <div class="text-xs text-white/50">Atur <b>Saldo awal</b> rekening/e-wallet atau tekan tombol <b>+</b> untuk mulai mencatat transaksi pertama Ilham & Puspa.</div>
+          </div>
+        `;
+        return;
+      }
+      container.innerHTML = txs.map(tx => buildTransactionCardHTML(tx, false)).join('');
+    }
+
+    // ---------------------------------------------------------
+    // 8. RENDERING TAB RENCANA (TAGIHAN BULANAN, TARGET & ANGGARAN)
+    // ---------------------------------------------------------
+    function renderRencana() {
+      renderRencanaBillsSection();
+      const goalsContainer = document.getElementById('savings-goals-list');
+      if (state.goals.length === 0) {
+        goalsContainer.innerHTML = `
+          <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-5 text-center space-y-2">
+            <div class="text-xs font-semibold text-white/80">Belum ada target tabungan bersama</div>
+            <p class="text-[11px] text-white/45">Tekan tombol <b>+ Target Baru</b> di atas untuk menambahkan tujuan tabungan keluarga (misalnya Dana Darurat, Pendidikan Anak, atau Liburan).</p>
+          </div>
+        `;
+      } else {
+        goalsContainer.innerHTML = state.goals.map(g => {
+          const pct = g.target > 0 ? Math.min(100, Math.round((g.current / g.target) * 100)) : 0;
+          return `
+            <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-4 space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-10 h-10 rounded-2xl bg-white/[0.06] flex items-center justify-center text-lg">${g.icon || '🎯'}</div>
+                  <div>
+                    <div class="text-sm font-bold text-white">${g.title}</div>
+                    <div class="text-xs text-white/55">${formatRupiah(g.current)} / ${formatRupiah(g.target)}</div>
+                  </div>
+                </div>
+                <button onclick="openDepositGoalModal('${g.id}')" class="px-3 py-1.5 rounded-xl bg-[#c3f0d8] text-[#1D1922] text-xs font-bold hover:brightness-105 transition">
+                  + Nabung
+                </button>
+              </div>
+              <div class="space-y-1">
+                <div class="w-full h-2.5 rounded-full bg-white/10 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${g.accent || '#6EE7B7'};"></div>
+                </div>
+                <div class="flex justify-between text-[11px] text-white/60">
+                  <span>Terkumpul ${pct}%</span>
+                  <span>Kurang ${formatRupiah(Math.max(0, g.target - g.current))}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const monthExpenses = state.transactions.filter(t => t.type === 'expense' && t.date && t.date.startsWith(CURRENT_YEAR_MONTH));
+      const budgetsContainer = document.getElementById('category-budgets-list');
+
+      budgetsContainer.innerHTML = state.budgets.map(b => {
+        const catMeta = EXPENSE_CATEGORIES.find(c => c.name === b.category) || { icon: '📦', color: '#A78BFA' };
+        const spent = monthExpenses
+          .filter(t => t.category === b.category)
+          .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+        const pct = b.limit > 0 ? Math.min(100, Math.round((spent / b.limit) * 100)) : 0;
+        const isOver = b.limit > 0 && spent > b.limit;
+
+        return `
+          <div onclick="openEditBudgetModal('${b.category}')" class="bg-[#1c171b] border border-white/[0.07] hover:border-white/20 rounded-2xl p-3.5 space-y-2 cursor-pointer transition">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 font-semibold text-white">
+                <span>${catMeta.icon}</span>
+                <span>${b.category}</span>
+              </div>
+              <div class="${isOver ? 'text-rose-400 font-bold' : 'text-white/75'}">
+                ${formatRupiah(spent)} / <span class="text-white/45">${b.limit > 0 ? formatRupiah(b.limit) : 'Belum diatur'}</span>
+              </div>
+            </div>
+            <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${isOver ? '#FB7185' : catMeta.color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ---------------------------------------------------------
+    // 9. RENDERING TAB ANALISA (CHART.JS & PERBANDINGAN PASANGAN)
+    // ---------------------------------------------------------
+    function renderAnalisa() {
+      document.getElementById('analisa-month-badge').textContent = `${CURRENT_MONTH_NAME} ${NOW.getFullYear()}`;
+      const monthTxs = state.transactions.filter(t => t.date && t.date.startsWith(CURRENT_YEAR_MONTH));
+
+      const ilhamOut = monthTxs.filter(t => t.user === 'Ilham' && t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
+      const puspaOut = monthTxs.filter(t => t.user === 'Puspa' && t.type === 'expense').reduce((s, t) => s + Number(t.amount), 0);
+      const ilhamIn = monthTxs.filter(t => t.user === 'Ilham' && t.type === 'income').reduce((s, t) => s + Number(t.amount), 0);
+      const puspaIn = monthTxs.filter(t => t.user === 'Puspa' && t.type === 'income').reduce((s, t) => s + Number(t.amount), 0);
+
+      document.getElementById('couple-comparison-cards').innerHTML = `
+        <div class="bg-[#130f12] border border-sky-400/20 rounded-2xl p-3 space-y-1">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-sky-400">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span> Ilham (Suami)
+          </div>
+          <div class="text-[11px] text-white/50">Masuk: <span class="text-emerald-400 font-semibold">${formatRupiah(ilhamIn)}</span></div>
+          <div class="text-[11px] text-white/50">Keluar: <span class="text-white font-semibold">${formatRupiah(ilhamOut)}</span></div>
+        </div>
+        <div class="bg-[#130f12] border border-[#D84374]/25 rounded-2xl p-3 space-y-1">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-[#F299B9]">
+            <span class="w-2 h-2 rounded-full bg-[#D84374]"></span> Puspa (Istri)
+          </div>
+          <div class="text-[11px] text-white/50">Masuk: <span class="text-emerald-400 font-semibold">${formatRupiah(puspaIn)}</span></div>
+          <div class="text-[11px] text-white/50">Keluar: <span class="text-white font-semibold">${formatRupiah(puspaOut)}</span></div>
+        </div>
+      `;
+
+      const totalCoupleOut = ilhamOut + puspaOut;
+      const ilhamPct = totalCoupleOut > 0 ? Math.round((ilhamOut / totalCoupleOut) * 100) : 50;
+      const puspaPct = totalCoupleOut > 0 ? (100 - ilhamPct) : 50;
+      document.getElementById('ilham-share-label').textContent = `Ilham: ${ilhamPct}%`;
+      document.getElementById('puspa-share-label').textContent = `Puspa: ${puspaPct}%`;
+      document.getElementById('ilham-share-bar').style.width = `${ilhamPct}%`;
+      document.getElementById('puspa-share-bar').style.width = `${puspaPct}%`;
+
+      const catTotals = EXPENSE_CATEGORIES.map(c => {
+        const sum = monthTxs
+          .filter(t => t.type === 'expense' && t.category === c.name)
+          .reduce((s, t) => s + Number(t.amount), 0);
+        return { ...c, sum };
+      }).filter(c => c.sum > 0);
+
+      const catCanvas = document.getElementById('categoryChartCanvas');
+      if (categoryChartInstance) categoryChartInstance.destroy();
+
+      if (catCanvas && typeof Chart !== 'undefined') {
+        categoryChartInstance = new Chart(catCanvas, {
+          type: 'doughnut',
+          data: {
+            labels: catTotals.length ? catTotals.map(c => c.name) : ['Belum ada pengeluaran'],
+            datasets: [{
+              data: catTotals.length ? catTotals.map(c => c.sum) : [1],
+              backgroundColor: catTotals.length ? catTotals.map(c => c.color) : ['#2A242B'],
+              borderWidth: 0,
+              hoverOffset: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '66%',
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => catTotals.length
+                    ? ` ${ctx.label}: ${formatRupiah(ctx.raw)}`
+                    : ' Belum ada pengeluaran bulan ini'
+                }
+              }
+            }
+          }
+        });
+      }
+
+      const legendEl = document.getElementById('category-chart-legend');
+      legendEl.innerHTML = catTotals.length
+        ? catTotals.map(c => `
+          <div class="flex items-center justify-between bg-[#130f12] px-2.5 py-1.5 rounded-xl">
+            <span class="flex items-center gap-1.5 text-white/80 truncate">
+              <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${c.color};"></span>
+              <span class="truncate">${c.name}</span>
+            </span>
+            <span class="font-semibold text-white shrink-0 ml-1">${formatRupiah(c.sum, false)}</span>
+          </div>
+        `).join('')
+        : `<div class="col-span-2 text-center text-white/45 py-2">Belum ada pengeluaran bulan ini untuk ditampilkan.</div>`;
+
+      const cfCanvas = document.getElementById('cashflowChartCanvas');
+      if (cashflowChartInstance) cashflowChartInstance.destroy();
+
+      const totalInMonth = ilhamIn + puspaIn;
+      const totalOutMonth = ilhamOut + puspaOut;
+
+      if (cfCanvas && typeof Chart !== 'undefined') {
+        cashflowChartInstance = new Chart(cfCanvas, {
+          type: 'bar',
+          data: {
+            labels: ['Pemasukan', 'Pengeluaran', 'Selisih Bersih'],
+            datasets: [{
+              label: CURRENT_MONTH_NAME,
+              data: [totalInMonth, totalOutMonth, Math.max(0, totalInMonth - totalOutMonth)],
+              backgroundColor: ['#6EE7B7', '#F472B6', '#A78BFA'],
+              borderRadius: 12,
+              barThickness: 38
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: 'rgba(255,255,255,0.7)', font: { size: 11 } }
+              },
+              y: {
+                grid: { color: 'rgba(255,255,255,0.06)' },
+                ticks: {
+                  color: 'rgba(255,255,255,0.5)',
+                  font: { size: 10 },
+                  callback: (val) => state.privacyMode ? '•••' : `Rp${(val / 1000000).toFixed(1)}jt`
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 10. INTERAKSI TOP BAR, FILTER DOMPET, NAVIGASI & PRIVASI
+    // ---------------------------------------------------------
+    window.switchTab = function(tabName) {
+      state.activeTab = tabName;
+      ['beranda', 'riwayat', 'rencana', 'analisa'].forEach(t => {
+        const el = document.getElementById(`view-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tabName);
+      });
+
+      document.querySelectorAll('.nav-item').forEach(btn => {
+        const isAct = btn.dataset.tab === tabName;
+        btn.className = `nav-item flex flex-col items-center gap-1 py-1 px-3 transition ${isAct ? 'text-[#F299B9]' : 'text-white/50 hover:text-white/80'}`;
+      });
+
+      if (tabName === 'analisa') renderAnalisa();
+      if (tabName === 'riwayat') renderRiwayat();
+      if (tabName === 'rencana') renderRencana();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.toggleScopeDropdown = function() {
+      document.getElementById('scope-dropdown-menu').classList.toggle('hidden');
+    };
+
+    window.setViewScope = function(scope) {
+      state.viewScope = scope;
+      document.getElementById('scope-dropdown-menu').classList.add('hidden');
+      saveStateToLocalStorage();
+      renderAll();
+      const labelMap = { all: 'Kas Harian Bersama', Ilham: 'Catatan Ilham', Puspa: 'Catatan Puspa' };
+      showToast(`Menampilkan: ${labelMap[scope]}`);
+    };
+
+    window.setWalletFilter = function(filterVal) {
+      state.walletFilter = filterVal;
+      saveStateToLocalStorage();
+      renderWalletsGrid();
+    };
+
+    window.toggleActiveUser = function() {
+      state.activeUser = state.activeUser === 'Ilham' ? 'Puspa' : 'Ilham';
+      saveStateToLocalStorage();
+      renderTopBar();
+      showToast(`Mode input aktif: ${state.activeUser} (${state.activeUser === 'Ilham' ? 'IL' : 'PS'})`);
+    };
+
+    window.togglePrivacyMode = function() {
+      state.privacyMode = !state.privacyMode;
+      saveStateToLocalStorage();
+      renderAll();
+      showToast(state.privacyMode ? 'Mode privasi aktif: nominal disembunyikan' : 'Mode privasi nonaktif: nominal ditampilkan');
+    };
+
+    window.setRiwayatFilter = function(filterKey, val) {
+      state.riwayatFilters[filterKey] = val;
+      renderRiwayat();
+    };
+
+    // ---------------------------------------------------------
+    // 11. POPULATE OPTGROUP REKENING & KATEGORI
+    // ---------------------------------------------------------
+    function buildGroupedAccountOptionsHTML() {
+      const groups = [
+        { label: 'Rekening Ilham', items: state.accounts.filter(a => a.owner === 'Ilham' && a.type === 'Rekening') },
+        { label: 'E-Wallet Ilham', items: state.accounts.filter(a => a.owner === 'Ilham' && a.type === 'E-Wallet') },
+        { label: 'Rekening Puspa', items: state.accounts.filter(a => a.owner === 'Puspa' && a.type === 'Rekening') },
+        { label: 'E-Wallet Puspa', items: state.accounts.filter(a => a.owner === 'Puspa' && a.type === 'E-Wallet') }
+      ];
+
+      return groups
+        .filter(g => g.items.length > 0)
+        .map(g => `
+          <optgroup label="${g.label}">
+            ${g.items.map(a => `<option value="${a.id}">${a.name} (${formatRupiah(getAccountBalance(a.id), false)})</option>`).join('')}
+          </optgroup>
+        `).join('');
+    }
+
+    function populateAccountSelects() {
+      const groupedOptionsHTML = buildGroupedAccountOptionsHTML();
+
+      ['tx-account', 'tx-to-account', 'struk-account', 'mutasi-account-select', 'bill-default-account', 'pay-bill-account'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          const prevVal = el.value;
+          el.innerHTML = groupedOptionsHTML;
+          if (prevVal && state.accounts.some(a => a.id === prevVal)) {
+            el.value = prevVal;
+          }
+        }
+      });
+
+      const riwSelect = document.getElementById('riwayat-account-filter');
+      if (riwSelect) {
+        const prev = riwSelect.value;
+        riwSelect.innerHTML = `<option value="all">Semua Rekening/E-Wallet</option>` + groupedOptionsHTML;
+        if (prev) riwSelect.value = prev;
+      }
+    }
+
+    function populateCategoryFilterSelect() {
+      const catFilter = document.getElementById('riwayat-category-filter');
+      if (!catFilter) return;
+      const prev = catFilter.value;
+      const expOpts = EXPENSE_CATEGORIES.map(c => `<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+      const incOpts = INCOME_CATEGORIES.map(c => `<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+      catFilter.innerHTML = `
+        <option value="all">Semua Kategori</option>
+        <optgroup label="Pengeluaran">${expOpts}</optgroup>
+        <optgroup label="Pemasukan">${incOpts}</optgroup>
+        <optgroup label="Lainnya"><option value="Transfer">⇄ Transfer / Top Up</option></optgroup>
+      `;
+      if (prev) catFilter.value = prev;
+    }
+
+    // ---------------------------------------------------------
+    // 17B. MODUL TAGIHAN BULANAN, DEADLINE & REMINDER WHATSAPP
+    // ---------------------------------------------------------
+    function getBillSummaryMetrics() {
+      const totalAll = state.bills.reduce((s, b) => s + Number(b.amount || 0), 0);
+      const unpaidBills = state.bills.filter(b => !b.paid);
+      const paidBills = state.bills.filter(b => b.paid);
+      const totalUnpaid = unpaidBills.reduce((s, b) => s + Number(b.amount || 0), 0);
+      const totalPaid = paidBills.reduce((s, b) => s + Number(b.amount || 0), 0);
+      const paidPct = totalAll > 0 ? Math.min(100, Math.round((totalPaid / totalAll) * 100)) : 0;
+
+      // Urutkan tagihan belum lunas berdasarkan deadline paling dekat
+      const sortedUnpaid = [...unpaidBills].sort((a, b) => (a.deadline || '9999-12-31').localeCompare(b.deadline || '9999-12-31'));
+      return {
+        totalAll,
+        totalUnpaid,
+        totalPaid,
+        paidPct,
+        unpaidCount: unpaidBills.length,
+        paidCount: paidBills.length,
+        totalCount: state.bills.length,
+        nearestUnpaid: sortedUnpaid[0] || null
+      };
+    }
+
+    function formatShortDateID(dateStr) {
+      if (!dateStr) return '-';
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const monthIdx = Math.max(0, Math.min(11, Number(parts[1]) - 1));
+      const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+      return `${Number(parts[2])} ${shortMonths[monthIdx]}`;
+    }
+
+    function getDeadlineBadgeInfo(bill) {
+      if (bill.paid) {
+        return {
+          text: `LUNAS • Dibayar ${formatShortDateID(bill.paidDate)}${bill.paidBy ? ` (${bill.paidBy})` : ''}`,
+          badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+          countdownText: 'Lunas',
+          isUrgent: false
+        };
+      }
+
+      if (!bill.deadline) {
+        return {
+          text: 'Tanpa deadline',
+          badgeClass: 'bg-white/10 text-white/70 border-white/10',
+          countdownText: '-',
+          isUrgent: false
+        };
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const due = new Date(`${bill.deadline}T00:00:00`);
+      const diffDays = Math.round((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      const dateLabel = formatShortDateID(bill.deadline);
+
+      if (diffDays < 0) {
+        const lateDays = Math.abs(diffDays);
+        return {
+          text: `Lewat Deadline ${lateDays} hari (${dateLabel})`,
+          badgeClass: 'bg-rose-500/20 text-rose-300 border-rose-500/35',
+          countdownText: `Terlambat ${lateDays} hari`,
+          isUrgent: true
+        };
+      }
+      if (diffDays === 0) {
+        return {
+          text: `Jatuh Tempo Hari Ini (${dateLabel})`,
+          badgeClass: 'bg-amber-500/25 text-amber-200 border-amber-400/40',
+          countdownText: 'Hari ini!',
+          isUrgent: true
+        };
+      }
+      if (diffDays <= 3) {
+        return {
+          text: `Jatuh Tempo: ${dateLabel} • H-${diffDays}`,
+          badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+          countdownText: `H-${diffDays} hari lagi`,
+          isUrgent: true
+        };
+      }
+      return {
+        text: `Jatuh Tempo: ${dateLabel} • H-${diffDays}`,
+        badgeClass: 'bg-purple-500/20 text-purple-200 border-purple-400/25',
+        countdownText: `H-${diffDays} hari lagi`,
+        isUrgent: false
+      };
+    }
+
+    function renderBerandaBillsCard() {
+      const container = document.getElementById('beranda-bills-card');
+      if (!container) return;
+
+      const m = getBillSummaryMetrics();
+      const nearest = m.nearestUnpaid;
+      const nearestBadge = nearest ? getDeadlineBadgeInfo(nearest) : null;
+
+      container.innerHTML = `
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-white/60">Tagihan Bulan Ini</span>
+              ${m.unpaidCount > 0 ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300">${m.unpaidCount} belum lunas</span>` : ''}
+            </div>
+            <div class="text-[11px] text-white/45 mt-0.5">Total tagihan harus dibayar</div>
+            <div class="text-xl font-extrabold text-white mt-0.5">${formatRupiah(m.totalUnpaid)}</div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="openBillFormModal()" class="px-2.5 py-1.5 rounded-xl bg-white/[0.08] hover:bg-white/15 text-xs font-semibold text-white transition">
+              + Tagihan
+            </button>
+            <button onclick="openBillsManagementView()" class="px-2.5 py-1.5 rounded-xl bg-[#dcd0ff]/15 hover:bg-[#dcd0ff]/25 text-xs font-semibold text-[#dcd0ff] transition">
+              Semua →
+            </button>
+          </div>
+        </div>
+
+        ${m.totalCount > 0 ? `
+          <div class="space-y-1">
+            <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-emerald-400 to-[#A879E8] rounded-full transition-all duration-500" style="width: ${m.paidPct}%;"></div>
+            </div>
+            <div class="flex justify-between text-[11px] text-white/55">
+              <span>Sudah dibayar: <b class="text-emerald-300">${formatRupiah(m.totalPaid)}</b> (${m.paidCount}/${m.totalCount})</span>
+              <span>${m.paidPct}% lunas</span>
+            </div>
+          </div>
+        ` : ''}
+
+        ${nearest ? `
+          <div class="bg-[#130f12] border border-white/[0.08] rounded-2xl p-3 space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-white/45">Deadline Terdekat</div>
+                <div class="text-sm font-bold text-white truncate">${nearest.name}</div>
+                <div class="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${nearestBadge.badgeClass}">
+                  ${nearestBadge.text}
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-sm font-extrabold text-[#F299B9]">${formatRupiah(nearest.amount)}</div>
+                <div class="text-[10px] text-white/45 mt-0.5">PIC: ${nearest.pic}</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-0.5">
+              <button onclick="sendBillWaReminder('${nearest.id}')" class="py-2 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center justify-center gap-1.5 transition">
+                <span>🔔 Reminder WA</span>
+              </button>
+              <button onclick="openPayBillModal('${nearest.id}')" class="py-2 px-3 rounded-xl bg-[#c3f0d8] hover:brightness-105 text-xs font-extrabold text-[#130f12] flex items-center justify-center gap-1 transition">
+                <span>✓ Bayar</span>
+              </button>
+            </div>
+          </div>
+        ` : `
+          <div class="bg-[#130f12] border border-white/[0.06] rounded-2xl p-3 flex items-center justify-between gap-2">
+            <span class="text-xs text-white/60">
+              ${m.totalCount === 0 ? 'Belum ada daftar tagihan bulan ini.' : '🎉 Seluruh tagihan bulan ini sudah lunas!'}
+            </span>
+            ${m.totalCount === 0 ? `<button onclick="openBillFormModal()" class="text-xs font-bold text-[#F299B9] hover:underline shrink-0">+ Tambah</button>` : ''}
+          </div>
+        `}
+      `;
+    }
+
+    function renderRencanaBillsSection() {
+      const container = document.getElementById('rencana-bills-section');
+      if (!container) return;
+
+      const m = getBillSummaryMetrics();
+      // Urutkan: belum lunas di atas berdasarkan deadline terdekat, lalu yang sudah lunas di bawah
+      const sortedBills = [...state.bills].sort((a, b) => {
+        if (a.paid !== b.paid) return a.paid ? 1 : -1;
+        return (a.deadline || '9999-12-31').localeCompare(b.deadline || '9999-12-31');
+      });
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Tagihan Bulanan & Deadline</h2>
+          <button onclick="openBillFormModal()" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#f8c8dc] text-[#1D1922] hover:brightness-105 transition">
+            + Tambah Tagihan
+          </button>
+        </div>
+
+        <!-- Ringkasan Kewajiban Tagihan Bulan Ini -->
+        <div class="bg-[#1c171b] border border-white/[0.08] rounded-3xl p-4 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-[#130f12] border border-rose-500/20 rounded-2xl p-3">
+              <div class="text-[11px] text-white/55">Harus Dibayar Bulan Ini</div>
+              <div class="text-base font-extrabold text-white mt-0.5">${formatRupiah(m.totalUnpaid)}</div>
+              <div class="text-[10px] text-rose-300 mt-0.5">${m.unpaidCount} tagihan belum lunas</div>
+            </div>
+            <div class="bg-[#130f12] border border-emerald-500/20 rounded-2xl p-3">
+              <div class="text-[11px] text-white/55">Sudah Dibayar</div>
+              <div class="text-base font-extrabold text-emerald-400 mt-0.5">${formatRupiah(m.totalPaid)}</div>
+              <div class="text-[10px] text-emerald-300/80 mt-0.5">${m.paidCount} dari ${m.totalCount} lunas</div>
+            </div>
+          </div>
+
+          <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-emerald-400 to-[#A879E8] rounded-full transition-all duration-500" style="width: ${m.paidPct}%;"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button onclick="sendAllBillsWaRecap()" class="py-2 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-[11px] font-bold text-emerald-300 transition">
+              📲 Rekap Reminder WA
+            </button>
+            <button onclick="promptResetBillsNewMonth()" class="py-2 px-3 rounded-xl bg-white/[0.07] hover:bg-white/15 text-[11px] font-semibold text-white/85 transition">
+              ↻ Reset Bulan Baru
+            </button>
+          </div>
+        </div>
+
+        <!-- Daftar Item Tagihan -->
+        <div class="space-y-2.5">
+          ${sortedBills.length === 0 ? `
+            <div class="bg-[#1c171b] border border-white/[0.07] rounded-3xl p-5 text-center space-y-2">
+              <div class="text-xs font-semibold text-white/80">Belum ada tagihan bulanan tercatat</div>
+              <p class="text-[11px] text-white/45">Tambahkan tagihan rutin seperti <b>SPP Sekolah</b>, <b>ART</b>, <b>Jemputan</b>, <b>Kredit</b>, atau <b>Utilitas</b> lengkap dengan tanggal deadline dan tombol reminder WA.</p>
+            </div>
+          ` : sortedBills.map(bill => {
+            const badge = getDeadlineBadgeInfo(bill);
+            const acc = state.accounts.find(a => a.id === bill.defaultAccountId);
+            const accName = acc ? acc.name : 'Dompet';
+            return `
+              <div class="bg-[#1c171b] border ${bill.paid ? 'border-emerald-500/20 opacity-85' : 'border-white/[0.08]'} rounded-2xl p-3.5 space-y-2.5">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-sm font-bold text-white truncate ${bill.paid ? 'line-through text-white/65' : ''}">${bill.name}</span>
+                      <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/[0.07] text-white/65 shrink-0">${bill.category}</span>
+                    </div>
+                    <div class="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${badge.badgeClass}">
+                      ${badge.text}
+                    </div>
+                    <div class="text-[11px] text-white/50 mt-1 truncate">
+                      PIC: ${bill.pic} • Akun: ${accName}${bill.note ? ` • ${bill.note}` : ''}
+                    </div>
+                  </div>
+
+                  <div class="text-right shrink-0">
+                    <div class="text-sm font-extrabold ${bill.paid ? 'text-emerald-400' : 'text-white'}">${formatRupiah(bill.amount)}</div>
+                    <div class="flex items-center justify-end gap-1 mt-1.5">
+                      <button onclick="openBillFormModal('${bill.id}')" title="Edit Tagihan" class="w-6 h-6 rounded-lg bg-white/[0.06] hover:bg-white/15 text-[11px] text-white/75">✎</button>
+                      <button onclick="promptDeleteBill('${bill.id}')" title="Hapus Tagihan" class="w-6 h-6 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 text-[11px] text-rose-300">🗑</button>
+                    </div>
+                  </div>
+                </div>
+
+                ${bill.paid ? `
+                  <div class="pt-1 border-t border-white/[0.06] flex items-center justify-between">
+                    <span class="text-[11px] text-emerald-300 font-medium">✓ Sudah mengurangi total tagihan bulan ini</span>
+                    <button onclick="promptUnpayBill('${bill.id}')" class="px-2.5 py-1 rounded-lg bg-white/[0.07] hover:bg-white/15 text-[11px] font-semibold text-white/80">
+                      Batalkan Lunas
+                    </button>
+                  </div>
+                ` : `
+                  <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/[0.06]">
+                    <button onclick="sendBillWaReminder('${bill.id}')" class="py-2 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-bold text-emerald-300 flex items-center justify-center gap-1 transition">
+                      <span>🔔 Reminder WA</span>
+                    </button>
+                    <button onclick="openPayBillModal('${bill.id}')" class="py-2 px-3 rounded-xl bg-[#c3f0d8] hover:brightness-105 text-xs font-extrabold text-[#130f12] flex items-center justify-center gap-1 transition">
+                      <span>✓ Bayar</span>
+                    </button>
+                  </div>
+                `}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    window.openBillsManagementView = function() {
+      switchTab('rencana');
+    };
+
+    window.openBillFormModal = function(billId = '') {
+      populateAccountSelects();
+      const catSel = document.getElementById('bill-category');
+      if (catSel) {
+        catSel.innerHTML = EXPENSE_CATEGORIES.map(c => `<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+      }
+
+      const existing = billId ? state.bills.find(b => b.id === billId) : null;
+      document.getElementById('bill-edit-id').value = existing ? existing.id : '';
+      document.getElementById('bill-form-title').textContent = existing ? 'Edit Tagihan Bulanan' : 'Tambah Tagihan Bulanan';
+      document.getElementById('bill-name').value = existing ? existing.name : '';
+      document.getElementById('bill-amount').value = existing ? existing.amount : '';
+      document.getElementById('bill-deadline').value = existing ? existing.deadline : new Date().toISOString().slice(0, 10);
+      if (existing) {
+        document.getElementById('bill-category').value = existing.category;
+        document.getElementById('bill-pic').value = existing.pic;
+        document.getElementById('bill-default-account').value = existing.defaultAccountId;
+        document.getElementById('bill-recurring').value = existing.recurring || 'monthly';
+        document.getElementById('bill-note').value = existing.note || '';
+      } else {
+        document.getElementById('bill-pic').value = 'Bersama';
+        document.getElementById('bill-recurring').value = 'monthly';
+        document.getElementById('bill-note').value = '';
+      }
+      openModal('modal-bill-form');
+    };
+
+    window.handleSaveBill = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('bill-edit-id').value;
+      const name = document.getElementById('bill-name').value.trim();
+      const amount = Number(document.getElementById('bill-amount').value);
+      const deadline = document.getElementById('bill-deadline').value;
+      const category = document.getElementById('bill-category').value;
+      const pic = document.getElementById('bill-pic').value;
+      const defaultAccountId = document.getElementById('bill-default-account').value;
+      const recurring = document.getElementById('bill-recurring').value;
+      const note = document.getElementById('bill-note').value.trim();
+
+      if (!name || !amount || amount <= 0 || !deadline) {
+        showToast('Lengkapi nama tagihan, nominal, dan tanggal deadline');
+        return;
+      }
+
+      if (editId) {
+        const idx = state.bills.findIndex(b => b.id === editId);
+        if (idx !== -1) {
+          state.bills[idx] = {
+            ...state.bills[idx],
+            name,
+            amount,
+            deadline,
+            category,
+            pic,
+            defaultAccountId,
+            recurring,
+            note
+          };
+        }
+      } else {
+        state.bills.push({
+          id: `bill-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          name,
+          amount,
+          deadline,
+          category,
+          pic,
+          defaultAccountId,
+          recurring,
+          note,
+          paid: false,
+          paidDate: '',
+          paidBy: '',
+          paidAccountId: '',
+          linkedTxId: ''
+        });
+      }
+
+      closeModal('modal-bill-form');
+      renderAll();
+      showToast(editId ? 'Tagihan berhasil diperbarui' : `Tagihan "${name}" ditambahkan!`);
+      await syncToCloudIfConfigured();
+    };
+
+    window.openPayBillModal = function(billId) {
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+      populateAccountSelects();
+
+      const badge = getDeadlineBadgeInfo(bill);
+      document.getElementById('pay-bill-id').value = bill.id;
+      document.getElementById('pay-bill-name').textContent = `${bill.name} (${bill.category})`;
+      document.getElementById('pay-bill-amount').textContent = formatRupiah(bill.amount);
+      document.getElementById('pay-bill-deadline-info').textContent = badge.text;
+      if (bill.defaultAccountId && state.accounts.some(a => a.id === bill.defaultAccountId)) {
+        document.getElementById('pay-bill-account').value = bill.defaultAccountId;
+      }
+      document.getElementById('pay-bill-user').value = bill.pic === 'Ilham' || bill.pic === 'Puspa' ? bill.pic : state.activeUser;
+      document.getElementById('pay-bill-date').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('pay-bill-share-wa').checked = true;
+      openModal('modal-bill-pay');
+    };
+
+    window.handleConfirmPayBill = async function(e) {
+      e.preventDefault();
+      const billId = document.getElementById('pay-bill-id').value;
+      const accountId = document.getElementById('pay-bill-account').value;
+      const user = document.getElementById('pay-bill-user').value;
+      const date = document.getElementById('pay-bill-date').value;
+      const shareToWa = document.getElementById('pay-bill-share-wa').checked;
+
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+
+      const txId = `tx-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const txObj = {
+        id: txId,
+        type: 'expense',
+        amount: Number(bill.amount),
+        category: bill.category,
+        accountId,
+        toAccountId: '',
+        user,
+        date,
+        note: `Bayar Tagihan: ${bill.name}${bill.note ? ` (${bill.note})` : ''}`,
+        createdAt: Date.now()
+      };
+
+      // 1. Tambahkan transaksi pengeluaran ke Riwayat & potong saldo dompet
+      state.transactions.unshift(txObj);
+      state.transactions.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || 0) - (a.createdAt || 0));
+
+      // 2. Tandai tagihan LUNAS sehingga otomatis mengurangi "Total Tagihan Harus Dibayar Bulan Ini"
+      bill.paid = true;
+      bill.paidDate = date;
+      bill.paidBy = user;
+      bill.paidAccountId = accountId;
+      bill.linkedTxId = txId;
+
+      closeModal('modal-bill-pay');
+      renderAll();
+      await syncToCloudIfConfigured();
+
+      const m = getBillSummaryMetrics();
+      showToast(`Tagihan lunas! Sisa tagihan bulan ini: ${formatRupiah(m.totalUnpaid)}`);
+
+      if (shareToWa) {
+        const accName = state.accounts.find(a => a.id === accountId)?.name || 'Dompet';
+        const msg = [
+          `✅ *Konfirmasi Pembayaran Tagihan*`,
+          `• *Tagihan:* ${bill.name}`,
+          `• *Nominal Dibayar:* Rp ${formatPlainRupiahNumber(bill.amount)}`,
+          `• *Dibayar Oleh:* ${user} via ${accName}`,
+          `• *Tanggal Bayar:* ${formatShortDateID(date)}`,
+          `• *Sisa Total Tagihan Bulan Ini:* Rp ${formatPlainRupiahNumber(m.totalUnpaid)} (${m.unpaidCount} tagihan tersisa)`
+        ].join('\n');
+        copyTextToClipboard(msg);
+        openWaPromptModal(msg);
+      }
+    };
+
+    window.promptUnpayBill = function(billId) {
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+      openConfirmDialog(
+        'Batalkan Status Lunas?',
+        `Tagihan "${bill.name}" (${formatRupiah(bill.amount)}) akan kembali masuk ke Total Tagihan Harus Dibayar Bulan Ini dan transaksi pembayarannya di Riwayat akan dihapus.`,
+        async () => {
+          if (bill.linkedTxId) {
+            state.transactions = state.transactions.filter(t => t.id !== bill.linkedTxId);
+          }
+          bill.paid = false;
+          bill.paidDate = '';
+          bill.paidBy = '';
+          bill.paidAccountId = '';
+          bill.linkedTxId = '';
+
+          renderAll();
+          showToast('Status lunas dibatalkan');
+          await syncToCloudIfConfigured();
+        }
+      );
+    };
+
+    window.promptDeleteBill = function(billId) {
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+      openConfirmDialog(
+        'Hapus Tagihan?',
+        `Tagihan "${bill.name}" akan dihapus dari daftar tagihan bulanan.`,
+        async () => {
+          state.bills = state.bills.filter(b => b.id !== billId);
+          renderAll();
+          showToast('Tagihan dihapus');
+          await syncToCloudIfConfigured();
+        }
+      );
+    };
+
+    window.sendBillWaReminder = function(billId) {
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+
+      const badge = getDeadlineBadgeInfo(bill);
+      const accName = state.accounts.find(a => a.id === bill.defaultAccountId)?.name || 'Belum ditentukan';
+      const m = getBillSummaryMetrics();
+
+      const msg = [
+        `⏰ *REMINDER TAGIHAN KELUARGA*`,
+        `• *Tagihan:* ${bill.name}`,
+        `• *Nominal:* Rp ${formatPlainRupiahNumber(bill.amount)}`,
+        `• *Deadline:* ${formatShortDateID(bill.deadline)} (${badge.countdownText})`,
+        `• *PIC:* ${bill.pic}`,
+        `• *Akun Pembayaran:* ${accName}`,
+        bill.note ? `• *Catatan / VA:* ${bill.note}` : null,
+        `• *Sisa Total Tagihan Bulan Ini:* Rp ${formatPlainRupiahNumber(m.totalUnpaid)}`
+      ].filter(Boolean).join('\n');
+
+      copyTextToClipboard(msg);
+      openWaPromptModal(msg);
+    };
+
+    window.sendAllBillsWaRecap = function() {
+      const m = getBillSummaryMetrics();
+      const unpaidList = [...state.bills]
+        .filter(b => !b.paid)
+        .sort((a, b) => (a.deadline || '9999-12-31').localeCompare(b.deadline || '9999-12-31'));
+
+      if (unpaidList.length === 0) {
+        showToast('Tidak ada tagihan yang belum lunas bulan ini');
+        return;
+      }
+
+      const lines = unpaidList.map((b, i) => {
+        const badge = getDeadlineBadgeInfo(b);
+        return `${i + 1}. *${b.name}* — Rp ${formatPlainRupiahNumber(b.amount)} (Deadline: ${formatShortDateID(b.deadline)} • ${badge.countdownText})`;
+      });
+
+      const msg = [
+        `📋 *REKAP TAGIHAN BULAN ${CURRENT_MONTH_NAME.toUpperCase()}*`,
+        `Total Harus Dibayar: *Rp ${formatPlainRupiahNumber(m.totalUnpaid)}*`,
+        ``,
+        ...lines,
+        ``,
+        `Sudah Lunas: Rp ${formatPlainRupiahNumber(m.totalPaid)} (${m.paidCount}/${m.totalCount} tagihan)`
+      ].join('\n');
+
+      copyTextToClipboard(msg);
+      openWaPromptModal(msg);
+    };
+
+    window.promptResetBillsNewMonth = function() {
+      if (state.bills.length === 0) {
+        showToast('Belum ada daftar tagihan untuk di-reset');
+        return;
+      }
+      openConfirmDialog(
+        'Reset Tagihan untuk Bulan Baru?',
+        'Tagihan rutin bulanan akan dikembalikan ke status BELUM LUNAS dengan tanggal deadline dimajukan 1 bulan ke depan (transaksi riwayat bulan lalu tetap tersimpan).',
+        async () => {
+          state.bills = state.bills
+            .filter(b => b.recurring !== 'once' || !b.paid)
+            .map(b => {
+              let nextDeadline = b.deadline;
+              if (b.deadline && b.recurring === 'monthly') {
+                const d = new Date(`${b.deadline}T00:00:00`);
+                d.setMonth(d.getMonth() + 1);
+                nextDeadline = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+              }
+              return {
+                ...b,
+                deadline: nextDeadline,
+                paid: false,
+                paidDate: '',
+                paidBy: '',
+                paidAccountId: '',
+                linkedTxId: ''
+              };
+            });
+
+          renderAll();
+          showToast('Siklus tagihan bulan baru siap digunakan!');
+          await syncToCloudIfConfigured();
+        }
+      );
+    };
+
+    // ---------------------------------------------------------
+    // 18. SINKRONISASI KODE RUANG, EKSPOR JSON/CSV & RESET
+    // ---------------------------------------------------------
+    window.copyRoomCode = function() {
+      const inp = document.getElementById('room-code-input');
+      const code = inp.value.trim().toUpperCase();
+      copyTextToClipboard(code);
+      showToast(`Kode Ruang "${code}" disalin! Kirim ke pasangan Anda.`);
+    };
+
+    window.applyRoomCode = function() {
+      const newCode = document.getElementById('room-code-input').value.trim().toUpperCase();
+      const fbUrl = (document.getElementById('firebase-url-input')?.value || '').trim();
+      if (!newCode) {
+        showToast('Masukkan Kode Ruang Keluarga yang valid');
+        return;
+      }
+      state.roomCode = newCode;
+      state.firebaseDbUrl = fbUrl;
+      saveStateToLocalStorage();
+      startCloudPolling();
+      closeModal('modal-sync');
+      showToast(`Terhubung ke Ruang Keluarga: ${newCode}`);
+    };
+
+    window.promptResetDemoData = function() {
+      openConfirmDialog(
+        'Reset Semua Data ke Rp 0?',
+        'Seluruh transaksi, target tabungan, dan saldo awal ke-15 Rekening & E-Wallet akan dikembalikan ke Rp 0.',
+        async () => {
+          const savedRoom = state.roomCode;
+          const savedFb = state.firebaseDbUrl;
+          const savedWa = state.waSettings;
+
+          state = getCleanInitialState();
+          state.roomCode = savedRoom;
+          state.firebaseDbUrl = savedFb;
+          state.waSettings = savedWa;
+
+          closeModal('modal-sync');
+          renderAll();
+          showToast('Seluruh data berhasil di-reset ke Rp 0!');
+          await syncToCloudIfConfigured();
+        }
+      );
+    };
+
+    window.exportDataJSON = function() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        roomCode: state.roomCode,
+        accounts: state.accounts,
+        budgets: state.budgets,
+        goals: state.goals,
+        transactions: state.transactions,
+        bills: state.bills
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `kas-bersama-ilham-puspa-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('File backup JSON berhasil diunduh');
+    };
+
+    window.exportDataCSV = function() {
+      const headers = ['Tanggal', 'Tipe', 'Kategori', 'Nominal', 'Dompet', 'Tujuan Transfer', 'Dicatat Oleh', 'Catatan'];
+      const rows = state.transactions.map(t => {
+        const acc = state.accounts.find(a => a.id === t.accountId)?.name || t.accountId;
+        const toAcc = t.toAccountId ? (state.accounts.find(a => a.id === t.toAccountId)?.name || t.toAccountId) : '-';
+        const tipeLabel = t.type === 'income' ? 'Pemasukan' : (t.type === 'transfer' ? 'Transfer' : 'Pengeluaran');
+        return [
+          t.date,
+          tipeLabel,
+          `"${t.category}"`,
+          t.amount,
+          `"${acc}"`,
+          `"${toAcc}"`,
+          t.user,
+          `"${(t.note || '').replace(/"/g, '""')}"`
+        ].join(',');
+      });
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `laporan-kas-ilham-puspa-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Laporan CSV berhasil diunduh');
+    };
+
+    window.importBackupJSON = function(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async function(ev) {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (Array.isArray(parsed.transactions)) state.transactions = parsed.transactions;
+          if (Array.isArray(parsed.accounts) && parsed.accounts.length) state.accounts = parsed.accounts;
+          if (Array.isArray(parsed.budgets) && parsed.budgets.length) state.budgets = parsed.budgets;
+          if (Array.isArray(parsed.goals)) state.goals = parsed.goals;
+          if (Array.isArray(parsed.bills)) state.bills = parsed.bills;
+          closeModal('modal-export');
+          renderAll();
+          showToast('Backup JSON berhasil dipulihkan!');
+          await syncToCloudIfConfigured();
+        } catch (err) {
+          showToast('File backup JSON tidak valid');
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    // ---------------------------------------------------------
+    // 19. UTILITAS MODAL, KONFIRMASI KUSTOM & TOAST
+    // ---------------------------------------------------------
+    window.openModal = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    };
+
+    window.closeModal = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    };
+
+    function openConfirmDialog(title, message, onConfirm) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      const okBtn = document.getElementById('confirm-ok-btn');
+      okBtn.onclick = () => {
+        closeModal('modal-confirm');
+        if (typeof onConfirm === 'function') onConfirm();
+      };
+      openModal('modal-confirm');
+    }
+
+    window.showToast = function(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'bg-[#262029]/95 border border-white/15 text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-xl backdrop-blur-md transition-all duration-300';
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-8px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    };
+
+    document.addEventListener('click', (e) => {
+      const btn = document.getElementById('scope-dropdown-btn');
+      const menu = document.getElementById('scope-dropdown-menu');
+      if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromLocalStorage();
+      populateStrukCategorySelect();
+      if (document.getElementById('room-code-input')) {
+        document.getElementById('room-code-input').value = state.roomCode;
+      }
+      if (document.getElementById('firebase-url-input')) {
+        document.getElementById('firebase-url-input').value = state.firebaseDbUrl || '';
+      }
+      renderAll();
+      startCloudPolling();
+    });
+  </script>
+</body>
+</html>

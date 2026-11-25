@@ -4,18 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#120f14" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Kas Bersama" />
   <title>Kas Harian Bersama — Ilham & Puspa</title>
 
-  <!-- Google Fonts: Inter & Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,12 +19,6 @@
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
             serif: ['Playfair Display', 'serif'],
-          },
-          colors: {
-            base: '#120f14',
-            surface: '#1c1720',
-            elevated: '#241e29',
-            magenta: '#D9468F',
           }
         }
       }
@@ -38,1421 +26,1647 @@
   </script>
 
   <style>
-    /* Reset & Optimalisasi Layar Sentuh HP (Android & iOS) */
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #09070b;
-      color: #F6F2F8;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      margin: 0; padding: 0;
+      background-color: #09070b; color: #F6F2F8;
+      font-family: 'Inter', sans-serif; overflow-x: hidden;
     }
-
-    /* Latar Belakang Dark Mode Botanical Pastel (#120f14) */
     .botanical-bg {
       background-color: #120f14;
       background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.032'%3E%3Cpath d='M45 28c4-9 14-9 18 0 9-4 16 4 11 13 9 5 6 16-4 16 2 10-9 15-16 8-7 7-18 2-16-8-10 0-13-11-4-16-5-9 2-17 11-13zm9 14a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'/%3E%3Cpath d='M135 112c3-7 11-7 14 0 7-3 13 3 9 10 7 4 5 13-3 13 2 8-7 12-13 6-6 6-15 2-13-6-8 0-10-9-3-13-4-7 2-13 9-10zm7 11a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'/%3E%3Ccircle cx='24' cy='135' r='3'/%3E%3Ccircle cx='148' cy='34' r='2.5'/%3E%3Cpath d='M92 78c10-6 20 0 16 11-9 5-19 0-16-11z'/%3E%3C/g%3E%3C/svg%3E");
     }
-
-    /* Kartu Hero Saldo Likuid dengan Gradasi Pink ke Ungu Lavender */
-    .hero-gradient-card {
+    .hero-card {
       background:
-        repeating-linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.035) 0px,
-          rgba(255, 255, 255, 0.035) 2px,
-          transparent 2px,
-          transparent 10px
-        ),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 2px, transparent 2px, transparent 10px),
         linear-gradient(135deg, #D9468F 0%, #A864D8 52%, #7579E7 100%);
-      box-shadow: 0 20px 44px -14px rgba(217, 70, 143, 0.42);
+      box-shadow: 0 18px 40px -12px rgba(217, 70, 143, 0.42);
     }
-
-    /* Sub-kartu Kaca Transparan di Hero Card */
-    .hero-glass-subcard {
-      background: rgba(255, 255, 255, 0.14);
+    .glass-box {
+      background: rgba(255,255,255,0.14);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255,255,255,0.18);
     }
-
-    /* Kartu Khusus Limit Credit Card (Mandiri Credit) */
-    .credit-card-panel {
-      background:
-        radial-gradient(circle at top right, rgba(251, 191, 36, 0.14), transparent 55%),
-        linear-gradient(135deg, #1f1b29 0%, #272034 60%, #1b1824 100%);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      box-shadow: 0 14px 32px -12px rgba(0, 0, 0, 0.55);
+    .cc-box {
+      background: radial-gradient(circle at top right, rgba(251,191,36,0.14), transparent 55%), linear-gradient(135deg, #1f1b29 0%, #272034 65%, #1b1824 100%);
+      border: 1px solid rgba(251,191,36,0.25);
     }
-
-    /* Bottom Navigation Bar & Tombol Bulat Plus (+) Responsif */
     #bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      z-index: 50;
-      overflow: visible;
-      background: rgba(20, 16, 24, 0.96);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px; z-index: 50; overflow: visible;
+      background: rgba(20,16,24,0.96); backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
-
     #center-plus-btn {
-      position: relative;
-      z-index: 60;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      margin-top: -28px;
-      pointer-events: auto;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-      cursor: pointer;
+      position: relative; z-index: 60; width: 58px; height: 58px; border-radius: 50%;
+      margin-top: -28px; pointer-events: auto; touch-action: manipulation; cursor: pointer;
       background: linear-gradient(135deg, #F0529C 0%, #D9468F 55%, #B43878 100%);
-      color: #FFFFFF;
-      border: 4px solid #120f14;
+      color: #fff; border: 4px solid #120f14;
       box-shadow: 0 10px 26px rgba(217, 70, 143, 0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.15s ease, filter 0.15s ease;
+      display: flex; align-items: center; justify-content: center;
     }
-
-    #center-plus-btn:active {
-      transform: scale(0.92);
+    #center-plus-btn:active { transform: scale(0.92); }
+    .modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 80;
+      background: rgba(0,0,0,0.82); backdrop-filter: blur(4px);
+      align-items: flex-end; justify-content: center;
     }
-
-    .nav-tab-btn {
-      pointer-events: auto;
-      touch-action: manipulation;
-      cursor: pointer;
-    }
-
-    /* Modal Overlay: Wajib display: none saat tertutup agar tidak memblokir sentuhan */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    @media (min-width: 640px) {
-      .modal-overlay {
-        align-items: center;
-        padding: 16px;
-      }
-    }
-
-    @keyframes slideUpModal {
-      from {
-        transform: translateY(24px);
-        opacity: 0.4;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .modal-sheet {
-      animation: slideUpModal 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      opacity: 0.75;
-    }
+    .modal-bg.active { display: flex; }
+    @media (min-width: 640px) { .modal-bg { align-items: center; padding: 16px; } }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.75; }
   </style>
 </head>
 <body>
-  <!-- Kontainer Utama Mobile-First (Maksimal 480px di tengah layar) -->
-  <div id="app-shell" class="botanical-bg max-w-[480px] mx-auto min-h-screen relative flex flex-col border-x border-white/[0.08] shadow-2xl">
+  <div class="botanical-bg max-w-[480px] mx-auto min-h-screen relative flex flex-col border-x border-white/[0.08] shadow-2xl">
 
-    <!-- ==================== TOP BAR ==================== -->
+    <!-- ==================== HEADER ==================== -->
     <header class="sticky top-0 z-40 bg-[#120f14]/92 backdrop-blur-md px-4 pt-3.5 pb-2.5 flex items-center justify-between border-b border-white/[0.08]">
-      <!-- Kiri: Ikon Home + Dropdown Filter "Kas Harian Bersama" -->
       <div class="relative flex items-center gap-2 min-w-0">
-        <button type="button" onclick="switchTab('beranda')" title="Ke Beranda" class="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-white/90 shrink-0 transition">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
-          </svg>
+        <button type="button" onclick="switchTab('beranda')" title="Beranda" class="w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-white shrink-0">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
         </button>
-
         <div class="relative">
-          <button type="button" id="scope-dropdown-btn" onclick="toggleScopeDropdown()" class="flex items-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-white/[0.07] transition text-left">
-            <span id="current-scope-label" class="text-[15px] font-bold text-white truncate max-w-[155px]">Kas Harian Bersama</span>
-            <svg class="w-3.5 h-3.5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+          <button type="button" id="scope-btn" onclick="toggleScopeMenu()" class="flex items-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-white/[0.07] text-left">
+            <span id="scope-label" class="text-[15px] font-bold text-white truncate max-w-[145px]">Gabungan</span>
+            <svg class="w-3.5 h-3.5 text-white/70 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
-
-          <!-- Dropdown Opsi Filter Buku Kas -->
-          <div id="scope-dropdown-menu" class="hidden absolute left-0 mt-1.5 w-56 rounded-2xl bg-[#241e29] border border-white/10 shadow-2xl py-1.5 z-50">
-            <div class="px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/45">Tampilan Buku Kas</div>
-            <button type="button" onclick="setViewScope('all')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white" data-scope="all">
-              <span>Kas Harian Bersama</span>
-              <span class="scope-check text-xs text-[#F9D5E5]">✓</span>
-            </button>
-            <button type="button" onclick="setViewScope('Ilham')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white/80" data-scope="Ilham">
-              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-400"></span>Ilham</span>
-              <span class="scope-check hidden text-xs text-[#F9D5E5]">✓</span>
-            </button>
-            <button type="button" onclick="setViewScope('Puspa')" class="scope-option w-full px-3.5 py-2.5 text-left text-sm flex items-center justify-between hover:bg-white/[0.06] text-white/80" data-scope="Puspa">
-              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#D9468F]"></span>Puspa</span>
-              <span class="scope-check hidden text-xs text-[#F9D5E5]">✓</span>
-            </button>
+          <div id="scope-menu" class="hidden absolute left-0 mt-1.5 w-48 rounded-2xl bg-[#241e29] border border-white/10 shadow-2xl py-1.5 z-50">
+            <button type="button" onclick="setViewScope('all')" class="w-full px-3.5 py-2 text-left text-sm hover:bg-white/[0.06] text-white">Gabungan (Ilham &amp; Puspa)</button>
+            <button type="button" onclick="setViewScope('Ilham')" class="w-full px-3.5 py-2 text-left text-sm hover:bg-white/[0.06] text-sky-300">Ilham</button>
+            <button type="button" onclick="setViewScope('Puspa')" class="w-full px-3.5 py-2 text-left text-sm hover:bg-white/[0.06] text-[#F9D5E5]">Puspa</button>
           </div>
         </div>
       </div>
 
-      <!-- Kanan: Badge Pengguna Aktif (IL/PS), WhatsApp, Sync/Settings, Export CSV/JSON -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Toggle Pengguna Aktif (IL / PS) -->
-        <button type="button" id="active-user-toggle" onclick="toggleActiveUser()" title="Ketuk untuk ganti pengguna aktif (Ilham / Puspa)" class="h-8 px-2.5 rounded-full bg-[#D9468F] hover:brightness-110 active:scale-95 transition flex items-center gap-1 shadow-md shadow-[#D9468F]/35">
-          <span id="active-user-initials" class="text-xs font-extrabold tracking-tight text-white">IL</span>
-          <span id="active-user-name-short" class="text-[11px] font-medium text-white/95 hidden sm:inline">Ilham</span>
+        <!-- Toggle Pengguna Aktif IL / PS -->
+        <button type="button" id="user-toggle-btn" onclick="toggleActiveUser()" title="Ganti pengguna aktif (IL / PS)" class="h-8 px-2.5 rounded-full bg-[#D9468F] hover:brightness-110 active:scale-95 transition flex items-center gap-1 text-white shadow-md">
+          <span id="user-initials" class="text-xs font-extrabold">IL</span>
+          <span id="user-name-tag" class="text-[11px] font-medium hidden sm:inline">Ilham</span>
         </button>
 
-        <!-- Tombol Pengaturan Grup WhatsApp -->
-        <button type="button" onclick="openWaSettingsModal()" title="Notifikasi Grup WhatsApp Keluarga" class="relative w-8 h-8 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 flex items-center justify-center text-emerald-400 transition">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2zm5.803 14.234c-.244.688-1.422 1.314-1.969 1.396-.504.076-1.141.108-1.842-.115-.426-.135-.972-.316-1.673-.619-2.944-1.271-4.867-4.236-5.014-4.432-.146-.196-1.197-1.592-1.197-3.037 0-1.445.757-2.155 1.026-2.449.269-.294.587-.368.783-.368.196 0 .391.002.562.01.18.009.422-.068.66.504.244.587.831 2.027.904 2.174.073.147.122.318.024.514-.098.196-.147.318-.293.49-.147.171-.309.383-.441.514-.147.147-.3.306-.129.6.171.294.76 1.253 1.632 2.03 1.121.999 2.066 1.309 2.36 1.456.293.147.464.122.635-.074.171-.196.733-.856.929-1.15.196-.294.391-.245.66-.147.269.098 1.711.807 2.004.954.293.147.489.22.562.343.073.122.073.709-.171 1.397z"/>
-          </svg>
-          <span id="wa-header-status-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#120f14]"></span>
+        <!-- Tombol Notifikasi WhatsApp -->
+        <button type="button" onclick="openWaModal()" title="Notifikasi & Reminder WhatsApp" class="relative w-8 h-8 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 flex items-center justify-center text-emerald-400">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2zm5.803 14.234c-.244.688-1.422 1.314-1.969 1.396-.504.076-1.141.108-1.842-.115-.426-.135-.972-.316-1.673-.619-2.944-1.271-4.867-4.236-5.014-4.432-.146-.196-1.197-1.592-1.197-3.037 0-1.445.757-2.155 1.026-2.449.269-.294.587-.368.783-.368.196 0 .391.002.562.01.18.009.422-.068.66.504.244.587.831 2.027.904 2.174.073.147.122.318.024.514-.098.196-.147.318-.293.49-.147.171-.309.383-.441.514-.147.147-.3.306-.129.6.171.294.76 1.253 1.632 2.03 1.121.999 2.066 1.309 2.36 1.456.293.147.464.122.635-.074.171-.196.733-.856.929-1.15.196-.294.391-.245.66-.147.269.098 1.711.807 2.004.954.293.147.489.22.562.343.073.122.073.709-.171 1.397z"/></svg>
+          <span id="wa-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#120f14]"></span>
         </button>
 
-        <!-- Tombol Sync Firebase & Settings -->
-        <button type="button" onclick="openSyncModal()" title="Sinkronisasi Firebase & Pengaturan" class="relative w-8 h-8 rounded-full hover:bg-white/[0.08] flex items-center justify-center text-white/85 transition">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          <span id="sync-status-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#120f14]"></span>
-        </button>
-
-        <!-- Tombol Export CSV/JSON -->
-        <button type="button" onclick="openModal('modal-export')" title="Ekspor CSV / JSON & Backup" class="w-8 h-8 rounded-full hover:bg-white/[0.08] flex items-center justify-center text-white/85 transition">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
+        <!-- Tombol Sinkronisasi Firebase & Backup/Reset -->
+        <button type="button" onclick="openSyncModal()" title="Firebase Sync, Backup & Reset" class="relative w-8 h-8 rounded-full hover:bg-white/[0.08] flex items-center justify-center text-white/85">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span id="sync-dot" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#120f14]"></span>
         </button>
       </div>
     </header>
 
-    <!-- ==================== KONTEN UTAMA (4 TAB) ==================== -->
-    <main class="flex-1 px-4 pt-3 pb-32 space-y-5">
+    <!-- ==================== KONTEN UTAMA ==================== -->
+    <main class="flex-1 px-4 pt-3 pb-32 space-y-4">
 
-      <!-- ==================== TAB 1: BERANDA ==================== -->
+      <!-- TAB 1: BERANDA -->
       <section id="view-beranda" class="space-y-4">
-
-        <!-- KARTU HERO SALDO LIKUID (KHUSUS KAS, BANK & E-WALLET — DI LUAR LIMIT CC) -->
-        <div class="hero-gradient-card rounded-[28px] p-5 relative overflow-hidden text-white">
-          <!-- Ilustrasi Siluet Bunga Botanical -->
-          <svg class="absolute -top-4 -right-4 w-40 h-40 text-white opacity-[0.18] pointer-events-none" viewBox="0 0 200 200" fill="currentColor">
-            <path d="M138 42c6-16 26-16 32 0 16-6 29 7 20 22 15 9 10 29-7 29 4 17-15 27-28 14-13 13-32 3-28-14-17 0-22-20-7-29-9-15 4-28 18-22zm16 24a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
-            <path d="M84 18c4-11 18-11 22 0 11-4 20 5 14 15 10 6 7 20-5 20 3 12-10 19-19 10-9 9-22 2-19-10-12 0-15-14-5-20-6-10 3-19 12-15zm11 17a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
-            <path d="M142 98c-3 24-15 44-34 58" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-            <path d="M132 126c16-4 28 3 26 16-14 4-26-2-26-16z"/>
-            <circle cx="95" cy="72" r="4"/>
-            <circle cx="118" cy="112" r="3"/>
-          </svg>
-
-          <!-- Baris Atas: Total Saldo + Tombol Eye Privacy -->
-          <div class="flex items-center gap-2.5 relative z-10">
+        <!-- Kartu Hero Saldo Likuid (15 Rekening & E-Wallet, di luar Limit CC) -->
+        <div class="hero-card rounded-[28px] p-5 relative overflow-hidden text-white">
+          <div class="flex items-center gap-2.5">
             <span class="text-sm font-medium text-white/90">Total saldo</span>
-            <button type="button" id="privacy-toggle-btn" onclick="togglePrivacyMode()" title="Sembunyikan/Tampilkan Nominal" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition">
-              <svg id="privacy-eye-icon" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+            <button type="button" onclick="togglePrivacy()" title="Sembunyikan/Tampilkan Nominal" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center">
+              <svg id="eye-icon" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
-            <span id="hero-scope-pill" class="ml-auto text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-black/20 text-white/95">Gabungan</span>
+            <span id="hero-scope-badge" class="ml-auto text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-black/20">Gabungan</span>
           </div>
 
-          <!-- Nominal Utama Besar (Hanya Saldo Kas, Bank & E-Wallet) -->
-          <div class="mt-1.5 mb-3.5 relative z-10">
-            <div id="hero-total-balance" class="text-[32px] leading-tight font-bold tracking-tight flex items-baseline gap-1">
+          <div class="mt-1.5 mb-3.5">
+            <div id="hero-total-saldo" class="text-[32px] leading-tight font-bold tracking-tight flex items-baseline gap-1">
               <span class="font-serif font-semibold text-[34px]">Rp</span><span>0</span>
             </div>
-            <div class="text-[11px] font-medium text-white/80 mt-0.5">
-              Saldo Kas, Bank &amp; E-Wallet (di luar Limit CC)
+            <div class="text-[11px] text-white/80 mt-0.5">15 Rekening &amp; E-Wallet likuid (di luar Limit CC)</div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="glass-box rounded-2xl p-3">
+              <div class="text-xs text-white/85 mb-1">Pemasukan bulan ini</div>
+              <div id="hero-pemasukan" class="text-[15px] font-bold truncate">Rp 0</div>
+            </div>
+            <div class="glass-box rounded-2xl p-3">
+              <div class="text-xs text-white/85 mb-1">Pengeluaran bulan ini</div>
+              <div id="hero-pengeluaran" class="text-[15px] font-bold truncate">Rp 0</div>
             </div>
           </div>
 
-          <!-- Sub-kartu Pemasukan & Pengeluaran Bulan Ini -->
-          <div class="grid grid-cols-2 gap-3 relative z-10">
-            <div class="hero-glass-subcard rounded-2xl p-3">
-              <div class="text-xs text-white/85 font-medium mb-1">Pemasukan</div>
-              <div id="hero-month-income" class="text-[15px] font-bold text-white truncate">Rp 0</div>
-            </div>
-            <div class="hero-glass-subcard rounded-2xl p-3">
-              <div class="text-xs text-white/85 font-medium mb-1">Pengeluaran</div>
-              <div id="hero-month-expense" class="text-[15px] font-bold text-white truncate">Rp 0</div>
-            </div>
-          </div>
-
-          <!-- Sisa Uang Bulan Ini & Progress Bar -->
-          <div class="mt-4 pt-1 relative z-10">
+          <div class="mt-4">
             <div class="flex items-center justify-between text-xs sm:text-sm mb-2">
-              <span id="hero-month-label" class="text-white/90 font-medium">Sisa uang bulan ini</span>
-              <span id="hero-month-remaining" class="font-bold text-white">Rp 0</span>
+              <span class="text-white/90 font-medium">Sisa uang bulan ini</span>
+              <span id="hero-sisa-uang" class="font-bold">Rp 0</span>
             </div>
             <div class="w-full h-2.5 bg-black/20 rounded-full overflow-hidden">
-              <div id="hero-usage-bar" class="h-full bg-white rounded-full transition-all duration-500" style="width: 0%;"></div>
+              <div id="hero-progress-bar" class="h-full bg-white rounded-full transition-all duration-300" style="width:0%"></div>
             </div>
-            <div id="hero-usage-caption" class="text-[11px] text-white/90 mt-2 font-medium">
-              0% pemasukan bulan ini sudah terpakai
-            </div>
+            <div id="hero-progress-text" class="text-[11px] text-white/90 mt-2 font-medium">0% pemasukan bulan ini terpakai</div>
           </div>
         </div>
 
-        <!-- PANEL TERPISAH: LIMIT CREDIT CARD — MANDIRI CREDIT (ILHAM) -->
-        <div id="hero-credit-card-panel" class="credit-card-panel rounded-[24px] p-4 space-y-3 relative overflow-hidden">
-          <!-- Dirender dinamis oleh renderHeroCreditCardPanel() -->
-        </div>
+        <!-- Panel Terpisah: Mandiri Credit (Ilham) -->
+        <div id="cc-hero-panel" class="cc-box rounded-[24px] p-4 space-y-2.5"></div>
 
-        <!-- MODUL RINGKASAN TAGIHAN BULAN INI -->
-        <div id="beranda-bills-card" class="bg-[#1c1720] border border-white/[0.08] rounded-[24px] p-4 space-y-3 shadow-lg">
-          <!-- Dirender dinamis -->
-        </div>
-
-        <!-- 4 TOMBOL AKSI CEPAT PASTEL (GRID 2x2) -->
+        <!-- 4 Tombol Aksi Cepat -->
         <div class="grid grid-cols-2 gap-3">
-          <!-- 1. Scan struk -->
-          <button type="button" onclick="openModal('modal-scan-struk')" class="bg-[#F9D5E5] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] shadow-sm">
-            <div class="w-8 h-8 rounded-xl bg-black/[0.07] flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-[#120f14]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                <circle cx="12" cy="13" r="4"></circle>
-              </svg>
-            </div>
-            <span class="text-[14px] font-bold tracking-tight">Scan struk</span>
+          <button type="button" onclick="openModal('modal-struk')" class="bg-[#F9D5E5] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] font-bold text-sm">
+            <span>📷</span><span>Scan struk</span>
           </button>
-
-          <!-- 2. Impor mutasi -->
-          <button type="button" onclick="openModal('modal-impor-mutasi')" class="bg-[#E2D5F9] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] shadow-sm">
-            <div class="w-8 h-8 rounded-xl bg-black/[0.07] flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-[#120f14]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-              </svg>
-            </div>
-            <span class="text-[14px] font-bold tracking-tight">Impor mutasi</span>
+          <button type="button" onclick="openModal('modal-mutasi')" class="bg-[#E2D5F9] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] font-bold text-sm">
+            <span>📄</span><span>Impor mutasi</span>
           </button>
-
-          <!-- 3. Pengeluaran -->
-          <button type="button" onclick="openTxModal('expense')" class="bg-[#FDE2C4] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] shadow-sm">
-            <div class="w-8 h-8 rounded-xl bg-black/[0.07] flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-[#120f14]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <polyline points="19 12 12 19 5 12"></polyline>
-              </svg>
-            </div>
-            <span class="text-[14px] font-bold tracking-tight">Pengeluaran</span>
+          <button type="button" onclick="openTxModal('expense')" class="bg-[#FDE2C4] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] font-bold text-sm">
+            <span>↓</span><span>Pengeluaran</span>
           </button>
-
-          <!-- 4. Pemasukan -->
-          <button type="button" onclick="openTxModal('income')" class="bg-[#C9F2DE] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] shadow-sm">
-            <div class="w-8 h-8 rounded-xl bg-black/[0.07] flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-[#120f14]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5 12 12 5 19 12"></polyline>
-              </svg>
-            </div>
-            <span class="text-[14px] font-bold tracking-tight">Pemasukan</span>
+          <button type="button" onclick="openTxModal('income')" class="bg-[#C9F2DE] hover:brightness-105 active:scale-[0.98] transition rounded-[20px] py-3.5 px-4 flex items-center gap-3 text-[#120f14] font-bold text-sm">
+            <span>↑</span><span>Pemasukan</span>
           </button>
         </div>
 
-        <!-- BAGIAN 1: "UANG KAMU ADA DI" (15 REKENING & E-WALLET LIKUID) -->
+        <!-- Tagihan Bulan Ini -->
+        <div id="beranda-bills-panel" class="bg-[#1c1720] border border-white/[0.08] rounded-[24px] p-4 space-y-3"></div>
+
+        <!-- Uang Kamu Ada Di (15 Rekening & E-Wallet) -->
         <div class="space-y-3 pt-1">
           <div class="flex items-center justify-between gap-2">
             <div>
-              <h2 class="text-[17px] font-bold text-white tracking-tight">Uang kamu ada di</h2>
-              <p id="wallets-count-subtitle" class="text-[11px] text-white/50">15 Rekening &amp; E-Wallet aktif</p>
+              <h2 class="text-[17px] font-bold text-white">Uang kamu ada di</h2>
+              <p class="text-[11px] text-white/50">15 Rekening &amp; E-Wallet (Saldo awal Rp 0)</p>
             </div>
-            <button type="button" onclick="openInitialBalanceModal()" class="text-xs font-semibold text-[#F9D5E5] hover:text-white bg-[#F9D5E5]/10 hover:bg-[#F9D5E5]/20 border border-[#F9D5E5]/25 px-3 py-1.5 rounded-full transition shrink-0">
+            <button type="button" onclick="openSaldoAwalModal()" class="text-xs font-semibold text-[#F9D5E5] bg-[#F9D5E5]/10 hover:bg-[#F9D5E5]/20 border border-[#F9D5E5]/25 px-3 py-1.5 rounded-full shrink-0">
               Saldo awal &amp; Limit CC
             </button>
           </div>
 
-          <!-- Filter Tabs Dompet Likuid -->
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
-            <button type="button" onclick="setWalletFilter('all')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-white text-[#120f14] shrink-0 transition" data-filter="all">Semua</button>
-            <button type="button" onclick="setWalletFilter('Ilham')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Ilham">Ilham</button>
-            <button type="button" onclick="setWalletFilter('Puspa')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Puspa">Puspa</button>
-            <button type="button" onclick="setWalletFilter('Rekening')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="Rekening">Rekening</button>
-            <button type="button" onclick="setWalletFilter('E-Wallet')" class="wallet-filter-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 hover:bg-white/10 shrink-0 transition" data-filter="E-Wallet">E-Wallet</button>
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <button type="button" onclick="setWalletFilter('all')" class="wf-pill px-3 py-1 rounded-full text-xs font-semibold bg-white text-[#120f14] shrink-0" data-wf="all">Semua</button>
+            <button type="button" onclick="setWalletFilter('Ilham')" class="wf-pill px-3 py-1 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 shrink-0" data-wf="Ilham">Ilham</button>
+            <button type="button" onclick="setWalletFilter('Puspa')" class="wf-pill px-3 py-1 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 shrink-0" data-wf="Puspa">Puspa</button>
+            <button type="button" onclick="setWalletFilter('Rekening')" class="wf-pill px-3 py-1 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 shrink-0" data-wf="Rekening">Rekening</button>
+            <button type="button" onclick="setWalletFilter('E-Wallet')" class="wf-pill px-3 py-1 rounded-full text-xs font-medium bg-white/[0.06] text-white/75 shrink-0" data-wf="E-Wallet">E-Wallet</button>
           </div>
 
-          <!-- Grid 2 Kolom Dompet Likuid -->
-          <div id="wallets-grid" class="grid grid-cols-2 gap-2.5">
-            <!-- Dirender dinamis -->
-          </div>
+          <div id="wallets-grid" class="grid grid-cols-2 gap-2.5"></div>
         </div>
 
-        <!-- BAGIAN 2: KARTU KREDIT TERPISAH (MANDIRI CREDIT ILHAM) -->
-        <div id="beranda-credit-card-section" class="space-y-2.5 pt-1">
-          <!-- Dirender dinamis -->
-        </div>
+        <!-- Kartu Kredit Terpisah di Bagian Bawah -->
+        <div id="beranda-cc-bottom" class="space-y-2"></div>
 
-        <!-- TRANSAKSI TERAKHIR -->
-        <div class="space-y-3 pt-1">
+        <!-- Transaksi Terakhir -->
+        <div class="space-y-2.5 pt-1">
           <div class="flex items-center justify-between">
-            <h2 class="text-[16px] font-bold text-white tracking-tight">Transaksi terakhir</h2>
-            <button type="button" onclick="switchTab('riwayat')" class="text-xs font-semibold text-[#F9D5E5] hover:underline">
-              Lihat semua →
-            </button>
+            <h2 class="text-[16px] font-bold text-white">Transaksi terakhir</h2>
+            <button type="button" onclick="switchTab('riwayat')" class="text-xs font-semibold text-[#F9D5E5]">Lihat semua →</button>
           </div>
-          <div id="recent-transactions-list" class="space-y-2.5">
-            <!-- Dirender dinamis -->
-          </div>
+          <div id="recent-tx-list" class="space-y-2"></div>
         </div>
       </section>
 
-      <!-- ==================== TAB 2: RIWAYAT ==================== -->
+      <!-- TAB 2: RIWAYAT -->
       <section id="view-riwayat" class="hidden space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-xl font-bold text-white">Riwayat Transaksi</h1>
-            <p class="text-xs text-white/55">Catatan pemasukan, pengeluaran &amp; transfer/bayar CC</p>
+            <p class="text-xs text-white/55">Semua catatan pemasukan, pengeluaran &amp; transfer/CC</p>
           </div>
-          <button type="button" onclick="openTxModal('expense')" class="text-xs font-bold px-3.5 py-2 rounded-xl bg-[#D9468F] text-white hover:brightness-110 transition">
-            + Catat
-          </button>
+          <button type="button" onclick="openTxModal('expense')" class="text-xs font-bold px-3.5 py-2 rounded-xl bg-[#D9468F] text-white">+ Catat</button>
         </div>
 
-        <!-- Search Bar -->
-        <div class="relative">
-          <svg class="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input id="riwayat-search-input" oninput="renderRiwayat()" type="text" placeholder="Cari catatan, kategori, rekening, CC..." class="w-full bg-[#1c1720] border border-white/[0.08] rounded-2xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#D9468F]" />
-        </div>
+        <input id="riwayat-search" oninput="renderRiwayat()" type="text" placeholder="Cari catatan, kategori, akun..." class="w-full bg-[#1c1720] border border-white/[0.08] rounded-2xl px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#D9468F]" />
 
-        <!-- Filter Pengguna & Tipe -->
         <div class="flex flex-wrap gap-2">
-          <div class="inline-flex rounded-xl bg-[#1c1720] p-1 border border-white/[0.08]">
-            <button type="button" onclick="setRiwayatFilter('user', 'all')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#D9468F] text-white" data-val="all">Semua</button>
-            <button type="button" onclick="setRiwayatFilter('user', 'Ilham')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="Ilham">Ilham</button>
-            <button type="button" onclick="setRiwayatFilter('user', 'Puspa')" class="riw-user-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="Puspa">Puspa</button>
-          </div>
-
-          <div class="inline-flex rounded-xl bg-[#1c1720] p-1 border border-white/[0.08]">
-            <button type="button" onclick="setRiwayatFilter('type', 'all')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/15 text-white" data-val="all">Semua</button>
-            <button type="button" onclick="setRiwayatFilter('type', 'expense')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="expense">Keluar</button>
-            <button type="button" onclick="setRiwayatFilter('type', 'income')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="income">Masuk</button>
-            <button type="button" onclick="setRiwayatFilter('type', 'transfer')" class="riw-type-pill px-2.5 py-1 rounded-lg text-xs font-medium text-white/65" data-val="transfer">Transfer</button>
-          </div>
-        </div>
-
-        <!-- Filter Kategori & Rekening -->
-        <div class="grid grid-cols-2 gap-2">
-          <select id="riwayat-category-filter" onchange="renderRiwayat()" class="bg-[#1c1720] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white/85 focus:outline-none">
+          <select id="riwayat-user-filter" onchange="renderRiwayat()" class="bg-[#1c1720] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white">
+            <option value="all">Semua Pencatat</option>
+            <option value="Ilham">Ilham</option>
+            <option value="Puspa">Puspa</option>
+          </select>
+          <select id="riwayat-type-filter" onchange="renderRiwayat()" class="bg-[#1c1720] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white">
+            <option value="all">Semua Jenis</option>
+            <option value="expense">Pengeluaran</option>
+            <option value="income">Pemasukan</option>
+            <option value="transfer">Transfer / CC</option>
+          </select>
+          <select id="riwayat-cat-filter" onchange="renderRiwayat()" class="bg-[#1c1720] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white">
             <option value="all">Semua Kategori</option>
           </select>
-          <select id="riwayat-account-filter" onchange="renderRiwayat()" class="bg-[#1c1720] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white/85 focus:outline-none">
-            <option value="all">Semua Akun &amp; CC</option>
-          </select>
         </div>
 
-        <!-- Ringkasan Filter -->
-        <div class="bg-[#1c1720] border border-white/[0.08] rounded-2xl p-3 flex items-center justify-between text-xs">
-          <span id="riwayat-count-label" class="text-white/60">0 transaksi</span>
-          <div class="flex items-center gap-3">
-            <span id="riwayat-filtered-in" class="text-emerald-400 font-semibold">+Rp 0</span>
-            <span id="riwayat-filtered-out" class="text-rose-400 font-semibold">-Rp 0</span>
-          </div>
-        </div>
-
-        <!-- Daftar Transaksi Lengkap -->
-        <div id="full-transactions-list" class="space-y-2.5">
-          <!-- Dirender dinamis -->
-        </div>
+        <div id="full-tx-list" class="space-y-2"></div>
       </section>
 
-      <!-- ==================== TAB 3: RENCANA ==================== -->
+      <!-- TAB 3: RENCANA (TAGIHAN, ANGGARAN 12 KATEGORI & TABUNGAN) -->
       <section id="view-rencana" class="hidden space-y-6">
         <div>
-          <h1 class="text-xl font-bold text-white">Rencana Keuangan Bersama</h1>
-          <p class="text-xs text-white/55">Tagihan wajib bulanan, batas anggaran &amp; tabungan impian</p>
+          <h1 class="text-xl font-bold text-white">Rencana Keuangan</h1>
+          <p class="text-xs text-white/55">Tagihan bulanan, anggaran 12 kategori &amp; target tabungan</p>
         </div>
-
-        <!-- 1. MANAJEMEN PENUH TAGIHAN BULANAN & REMINDER WA -->
-        <div id="rencana-bills-section" class="space-y-3">
-          <!-- Dirender dinamis -->
-        </div>
-
-        <!-- 2. ANGGARAN BULANAN PER 12 KATEGORI PENGELUARAN -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Anggaran Bulanan (12 Kategori)</h2>
-            <span class="text-[11px] text-white/50">Ketuk kartu untuk ubah batas</span>
-          </div>
-          <div id="category-budgets-list" class="space-y-2.5">
-            <!-- Dirender dinamis -->
-          </div>
-        </div>
-
-        <!-- 3. TARGET TABUNGAN BERSAMA -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Target Tabungan Bersama</h2>
-            <button type="button" onclick="openNewGoalModal()" class="text-xs font-bold px-3 py-1.5 rounded-full bg-[#E2D5F9] text-[#120f14] hover:brightness-105 transition">
-              + Target Baru
-            </button>
-          </div>
-          <div id="savings-goals-list" class="space-y-3">
-            <!-- Dirender dinamis -->
-          </div>
-        </div>
+        <div id="rencana-bills-panel" class="space-y-3"></div>
+        <div id="rencana-budgets-panel" class="space-y-2.5"></div>
+        <div id="rencana-goals-panel" class="space-y-2.5"></div>
       </section>
 
-      <!-- ==================== TAB 4: ANALISA ==================== -->
-      <section id="view-analisa" class="hidden space-y-5">
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-xl font-bold text-white">Analisa Keuangan</h1>
-            <p class="text-xs text-white/55">Arus kas bulanan &amp; perbandingan Ilham vs Puspa</p>
-          </div>
-          <span id="analisa-month-badge" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/[0.08] text-white/90">Bulan Ini</span>
+      <!-- TAB 4: ANALISA -->
+      <section id="view-analisa" class="hidden space-y-4">
+        <div>
+          <h1 class="text-xl font-bold text-white">Analisa Bulanan</h1>
+          <p class="text-xs text-white/55">Ringkasan arus kas &amp; porsi Ilham vs Puspa</p>
         </div>
-
-        <!-- Perbandingan Ilham vs Puspa -->
-        <div class="bg-[#1c1720] border border-white/[0.08] rounded-3xl p-4 space-y-3.5">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-white">Perbandingan Ilham vs Puspa</h2>
-            <span class="text-[11px] text-white/50">Bulan Berjalan</span>
-          </div>
-          <div id="couple-comparison-cards" class="grid grid-cols-2 gap-3">
-            <!-- Dirender dinamis -->
-          </div>
-          <div class="space-y-1.5 pt-1">
-            <div class="flex justify-between text-[11px] text-white/70">
-              <span id="ilham-share-label">Ilham: 50%</span>
-              <span id="puspa-share-label">Puspa: 50%</span>
-            </div>
-            <div class="w-full h-2.5 rounded-full bg-white/10 overflow-hidden flex">
-              <div id="ilham-share-bar" class="h-full bg-sky-400 transition-all duration-500" style="width: 50%;"></div>
-              <div id="puspa-share-bar" class="h-full bg-[#D9468F] transition-all duration-500" style="width: 50%;"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visual Chart Pemasukan vs Pengeluaran -->
-        <div class="bg-[#1c1720] border border-white/[0.08] rounded-3xl p-4 space-y-3">
-          <h2 class="text-sm font-bold text-white">Pemasukan vs Pengeluaran Bulan Ini</h2>
-          <div id="cashflow-visual-bars" class="space-y-3 pt-1">
-            <!-- Dirender dinamis -->
-          </div>
-        </div>
-
-        <!-- Breakdown 12 Kategori Pengeluaran -->
-        <div class="bg-[#1c1720] border border-white/[0.08] rounded-3xl p-4 space-y-3">
-          <h2 class="text-sm font-bold text-white">Rincian Pengeluaran (12 Kategori)</h2>
-          <div id="category-breakdown-list" class="space-y-2.5">
-            <!-- Dirender dinamis -->
-          </div>
-        </div>
+        <div id="analisa-content" class="space-y-4"></div>
       </section>
-
     </main>
 
-    <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
+    <!-- ==================== BOTTOM NAV + TOMBOL PLUS (+) ==================== -->
     <nav id="bottom-nav" class="px-2 pt-2 pb-3 flex items-center justify-around">
-      <!-- 1. Beranda -->
-      <button type="button" onclick="switchTab('beranda')" class="nav-tab-btn flex flex-col items-center gap-1 py-1 px-3 text-[#F9D5E5]" data-tab="beranda">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
-        </svg>
+      <button type="button" onclick="switchTab('beranda')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 text-[#F9D5E5]" data-tab="beranda">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
         <span class="text-[11px] font-semibold">Beranda</span>
       </button>
 
-      <!-- 2. Riwayat -->
-      <button type="button" onclick="switchTab('riwayat')" class="nav-tab-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/85" data-tab="riwayat">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="8" y1="6" x2="21" y2="6"></line>
-          <line x1="8" y1="12" x2="21" y2="12"></line>
-          <line x1="8" y1="18" x2="21" y2="18"></line>
-          <line x1="3" y1="6" x2="3.01" y2="6"></line>
-          <line x1="3" y1="12" x2="3.01" y2="12"></line>
-          <line x1="3" y1="18" x2="3.01" y2="18"></line>
-        </svg>
+      <button type="button" onclick="switchTab('riwayat')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50" data-tab="riwayat">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         <span class="text-[11px] font-medium">Riwayat</span>
       </button>
 
-      <!-- 3. Tombol Bulat Tengah Plus (+) -->
-      <button type="button" id="center-plus-btn" onclick="openTxModal('expense')" aria-label="Catat Transaksi Baru" title="Catat Transaksi Baru">
-        <svg class="w-7 h-7 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
+      <button type="button" id="center-plus-btn" onclick="openTxModal('expense')" aria-label="Tambah Transaksi" title="Tambah Transaksi">
+        <svg class="w-7 h-7 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
 
-      <!-- 4. Rencana -->
-      <button type="button" onclick="switchTab('rencana')" class="nav-tab-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/85" data-tab="rencana">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <circle cx="12" cy="12" r="6"></circle>
-          <circle cx="12" cy="12" r="2"></circle>
-        </svg>
+      <button type="button" onclick="switchTab('rencana')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50" data-tab="rencana">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
         <span class="text-[11px] font-medium">Rencana</span>
       </button>
 
-      <!-- 5. Analisa -->
-      <button type="button" onclick="switchTab('analisa')" class="nav-tab-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50 hover:text-white/85" data-tab="analisa">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"></line>
-          <line x1="12" y1="20" x2="12" y2="4"></line>
-          <line x1="6" y1="20" x2="6" y2="14"></line>
-        </svg>
+      <button type="button" onclick="switchTab('analisa')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 text-white/50" data-tab="analisa">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         <span class="text-[11px] font-medium">Analisa</span>
       </button>
     </nav>
 
-    <!-- ==================== MODAL 1: TAMBAH TRANSAKSI (PENGELUARAN / PEMASUKAN / TRANSFER & BAYAR CC) ==================== -->
-    <div id="modal-transaction" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-transaction')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar">
-        <div class="flex items-center justify-between mb-4">
-          <h3 id="tx-modal-title" class="text-lg font-bold text-white">Catat Pengeluaran</h3>
-          <button type="button" onclick="closeModal('modal-transaction')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+    <!-- ==================== MODAL TRANSAKSI ==================== -->
+    <div id="modal-tx" class="modal-bg" onclick="backdropClose(event, 'modal-tx')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[90vh] overflow-y-auto no-scrollbar space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h3 id="tx-title" class="text-lg font-bold text-white">Catat Pengeluaran</h3>
+          <button type="button" onclick="closeModal('modal-tx')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
 
-        <!-- Switcher 3 Mode: Pengeluaran / Pemasukan / Transfer & Bayar CC -->
-        <div class="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-[#120f14] mb-4">
-          <button type="button" id="tx-tab-expense" onclick="setTxFormType('expense')" class="py-2 rounded-xl text-xs font-bold bg-[#FDE2C4] text-[#120f14] transition">
-            ↓ Pengeluaran
-          </button>
-          <button type="button" id="tx-tab-income" onclick="setTxFormType('income')" class="py-2 rounded-xl text-xs font-bold text-white/60 transition">
-            ↑ Pemasukan
-          </button>
-          <button type="button" id="tx-tab-transfer" onclick="setTxFormType('transfer')" class="py-2 rounded-xl text-xs font-bold text-white/60 transition">
-            ⇄ Transfer / CC
-          </button>
+        <div class="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-[#120f14]">
+          <button type="button" id="m-tab-expense" onclick="setTxMode('expense')" class="py-2 rounded-xl text-xs font-bold bg-[#FDE2C4] text-[#120f14]">↓ Keluar</button>
+          <button type="button" id="m-tab-income" onclick="setTxMode('income')" class="py-2 rounded-xl text-xs font-bold text-white/60">↑ Masuk</button>
+          <button type="button" id="m-tab-transfer" onclick="setTxMode('transfer')" class="py-2 rounded-xl text-xs font-bold text-white/60">⇄ Transfer / CC</button>
         </div>
 
-        <form id="transaction-form" onsubmit="handleSaveTransaction(event)" class="space-y-3.5">
-          <input type="hidden" id="tx-type-input" value="expense" />
-
-          <!-- Nominal -->
+        <form onsubmit="saveTransaction(event)" class="space-y-3">
+          <input type="hidden" id="tx-mode" value="expense" />
           <div>
-            <label class="block text-xs font-medium text-white/65 mb-1">Nominal (Rp)</label>
-            <input id="tx-amount" type="number" inputmode="numeric" min="1" step="any" required placeholder="Contoh: 50000" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-4 py-3 text-xl font-bold text-white focus:outline-none focus:border-[#D9468F]" />
+            <label class="block text-xs text-white/65 mb-1">Nominal (Rp)</label>
+            <input id="tx-amount" type="number" inputmode="numeric" min="1" step="any" required placeholder="0" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-4 py-3 text-xl font-bold text-white focus:outline-none focus:border-[#D9468F]" />
           </div>
 
-          <!-- Kategori -->
-          <div id="tx-category-wrapper">
-            <label class="block text-xs font-medium text-white/65 mb-1">Kategori</label>
-            <select id="tx-category" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#D9468F]">
-              <!-- Diisi dinamis -->
-            </select>
+          <div id="tx-cat-wrap">
+            <label class="block text-xs text-white/65 mb-1">Kategori</label>
+            <select id="tx-cat" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm text-white"></select>
           </div>
 
-          <!-- Dari Akun & Ke Akun (Transfer / Bayar Tagihan CC) -->
-          <div class="space-y-3">
-            <div>
-              <label id="tx-account-label" class="block text-xs font-medium text-white/65 mb-1">Dari Akun (Rekening / E-Wallet / CC)</label>
-              <select id="tx-account" required onchange="updateTxAccountHint()" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#D9468F]">
-                <!-- Diisi dinamis dengan optgroup Puspa, Ilham & Kartu Kredit -->
-              </select>
-              <p id="tx-cc-accounting-hint" class="hidden text-[11px] text-amber-300/90 mt-1">
-                💳 Menggunakan Mandiri Credit akan mengurangi Sisa Limit CC (tidak mengurangi Total Saldo tunai/bank).
-              </p>
-            </div>
-
-            <div id="tx-to-account-wrapper" class="hidden">
-              <label class="block text-xs font-medium text-emerald-300 mb-1">Ke Akun Tujuan (Dompet / Bayar Tagihan CC)</label>
-              <select id="tx-to-account" onchange="updateTxAccountHint()" class="w-full bg-[#241e29] border border-emerald-500/35 rounded-2xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400">
-                <!-- Diisi dinamis -->
-              </select>
-              <p id="tx-cc-pay-hint" class="hidden text-[11px] text-emerald-300 mt-1">
-                ✓ Pembayaran ke Mandiri Credit akan mengurangi saldo bank &amp; memulihkan Sisa Limit CC.
-              </p>
-            </div>
+          <div>
+            <label id="tx-from-label" class="block text-xs text-white/65 mb-1">Dari Rekening / E-Wallet / CC</label>
+            <select id="tx-from" required onchange="refreshTxCcNote()" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm text-white"></select>
+            <p id="tx-cc-hint" class="hidden text-[11px] text-amber-300 mt-1">💳 Memakai Mandiri Credit mengurangi Sisa Limit CC (tidak mengurangi Total Saldo).</p>
           </div>
 
-          <!-- Dicatat Oleh & Tanggal -->
+          <div id="tx-to-wrap" class="hidden">
+            <label class="block text-xs text-emerald-300 mb-1">Ke Akun Tujuan / Bayar Tagihan CC</label>
+            <select id="tx-to" onchange="refreshTxCcNote()" class="w-full bg-[#241e29] border border-emerald-500/30 rounded-2xl px-3.5 py-2.5 text-sm text-white"></select>
+            <p id="tx-paycc-hint" class="hidden text-[11px] text-emerald-300 mt-1">✓ Bayar ke Mandiri Credit memotong saldo bank &amp; mengembalikan Sisa Limit CC.</p>
+          </div>
+
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Dicatat Oleh</label>
-              <select id="tx-user" required class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#D9468F]">
-                <option value="Ilham">Ilham (Suami)</option>
-                <option value="Puspa">Puspa (Istri)</option>
+              <label class="block text-xs text-white/65 mb-1">Dicatat Oleh</label>
+              <select id="tx-user" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3 py-2.5 text-sm text-white">
+                <option value="Ilham">Ilham</option>
+                <option value="Puspa">Puspa</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Tanggal</label>
-              <input id="tx-date" type="date" required class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#D9468F]" />
+              <label class="block text-xs text-white/65 mb-1">Tanggal</label>
+              <input id="tx-date" type="date" required class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3 py-2.5 text-sm text-white" />
             </div>
           </div>
 
-          <!-- Catatan -->
           <div>
-            <label class="block text-xs font-medium text-white/65 mb-1">Catatan / Keterangan</label>
-            <input id="tx-note" type="text" placeholder="Contoh: Es kopi susu / Bayar tagihan CC Mandiri" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-white/35 focus:outline-none focus:border-[#D9468F]" />
+            <label class="block text-xs text-white/65 mb-1">Catatan</label>
+            <input id="tx-note" type="text" placeholder="Contoh: Kopi / Bayar CC Mandiri" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-white/35" />
           </div>
 
-          <!-- Indikator Status Notifikasi WhatsApp -->
-          <div id="tx-wa-indicator" class="rounded-2xl bg-emerald-500/10 border border-emerald-500/25 px-3.5 py-2.5 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2 min-w-0">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
-              <span id="tx-wa-indicator-text" class="text-[11px] font-medium text-emerald-300 truncate">Siap kirim laporan ke Grup WA Keluarga</span>
-            </div>
-            <button type="button" onclick="openWaSettingsModal()" class="text-[10px] font-bold text-white/85 underline shrink-0">Atur</button>
-          </div>
-
-          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7] hover:brightness-110 active:scale-[0.99] transition shadow-lg">
+          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7] hover:brightness-110">
             Simpan Transaksi
           </button>
         </form>
       </div>
     </div>
 
-    <!-- ==================== MODAL 2: TAMBAH / EDIT TAGIHAN BULANAN ==================== -->
-    <div id="modal-bill-form" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-bill-form')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 id="bill-form-title" class="text-lg font-bold text-white">Tambah Tagihan Bulanan</h3>
-            <p class="text-xs text-white/55">Otomatis menghitung total kewajiban &amp; pengingat deadline</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-bill-form')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+    <!-- ==================== MODAL TAGIHAN BULANAN ==================== -->
+    <div id="modal-bill" class="modal-bg" onclick="backdropClose(event, 'modal-bill')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h3 id="bill-modal-title" class="text-lg font-bold text-white">Tambah Tagihan Bulanan</h3>
+          <button type="button" onclick="closeModal('modal-bill')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
-
-        <form onsubmit="handleSaveBill(event)" class="space-y-3.5">
-          <input type="hidden" id="bill-edit-id" value="" />
-
+        <form onsubmit="saveBill(event)" class="space-y-3">
+          <input type="hidden" id="bill-id" value="" />
           <div>
-            <label class="block text-xs font-medium text-white/65 mb-1">Nama Tagihan</label>
-            <input id="bill-name" type="text" required placeholder="Contoh: SPP Sekolah / Gaji ART / Listrik PLN" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-sm text-white placeholder-white/35 focus:outline-none focus:border-[#D9468F]" />
+            <label class="block text-xs text-white/65 mb-1">Nama Tagihan</label>
+            <input id="bill-name" type="text" required placeholder="Contoh: CC Mandiri / SPP Sekolah / Listrik" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm text-white" />
           </div>
-
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Nominal Tagihan (Rp)</label>
-              <input id="bill-amount" type="number" inputmode="numeric" min="1" step="any" required placeholder="850000" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-base font-bold text-white focus:outline-none focus:border-[#D9468F]" />
+              <label class="block text-xs text-white/65 mb-1">Nominal (Rp)</label>
+              <input id="bill-amount" type="number" inputmode="numeric" min="1" required class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm font-bold text-white" />
             </div>
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Tanggal Jatuh Tempo (1–31)</label>
-              <input id="bill-due-day" type="number" inputmode="numeric" min="1" max="31" required placeholder="10" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-base font-bold text-white focus:outline-none focus:border-[#D9468F]" />
+              <label class="block text-xs text-white/65 mb-1">Tanggal Jatuh Tempo (1-31)</label>
+              <input id="bill-due" type="number" inputmode="numeric" min="1" max="31" required value="20" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3.5 py-2.5 text-sm font-bold text-white" />
             </div>
           </div>
-
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Kategori</label>
-              <select id="bill-category" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9468F]"></select>
+              <label class="block text-xs text-white/65 mb-1">Kategori</label>
+              <select id="bill-cat" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3 py-2.5 text-xs text-white"></select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Penanggung Jawab</label>
-              <select id="bill-owner" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9468F]">
-                <option value="Ilham">Ilham</option>
-                <option value="Puspa">Puspa</option>
-                <option value="Bersama">Bersama</option>
-              </select>
+              <label class="block text-xs text-white/65 mb-1">Akun Pembayar</label>
+              <select id="bill-acc" class="w-full bg-[#241e29] border border-white/10 rounded-2xl px-3 py-2.5 text-xs text-white"></select>
             </div>
           </div>
-
-          <div>
-            <label class="block text-xs font-medium text-white/65 mb-1">Akun Pembayaran Default</label>
-            <select id="bill-default-account" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9468F]"></select>
-          </div>
-
-          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7] hover:brightness-110 transition shadow-lg">
-            Simpan Tagihan
-          </button>
+          <button type="submit" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7]">Simpan Tagihan</button>
         </form>
       </div>
     </div>
 
-    <!-- ==================== MODAL 3: KONFIRMASI BAYAR TAGIHAN ==================== -->
-    <div id="modal-bill-pay" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-bill-pay')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-white">Bayar Tagihan</h3>
-            <p class="text-xs text-white/55">Mengurangi total tagihan bulan ini &amp; saldo akun terkait</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-bill-pay')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
-        </div>
-
-        <div class="bg-[#241e29] border border-white/[0.08] rounded-2xl p-3.5 space-y-1">
-          <div id="pay-bill-name" class="text-sm font-bold text-white">-</div>
-          <div id="pay-bill-amount" class="text-xl font-extrabold text-[#F9D5E5]">Rp 0</div>
-          <div id="pay-bill-deadline-info" class="text-[11px] text-white/60">-</div>
-        </div>
-
-        <form onsubmit="handleConfirmPayBill(event)" class="space-y-3">
-          <input type="hidden" id="pay-bill-id" value="" />
-
-          <div>
-            <label class="block text-xs font-medium text-white/65 mb-1">Bayar Menggunakan Akun</label>
-            <select id="pay-bill-account" required class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-xs text-white"></select>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Dibayar Oleh</label>
-              <select id="pay-bill-user" required class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3.5 py-2.5 text-xs text-white">
-                <option value="Ilham">Ilham</option>
-                <option value="Puspa">Puspa</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-white/65 mb-1">Tanggal Bayar</label>
-              <input id="pay-bill-date" type="date" required class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl px-3 py-2.5 text-xs text-white" />
-            </div>
-          </div>
-
-          <label class="flex items-center gap-2.5 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl p-3 cursor-pointer">
-            <input id="pay-bill-share-wa" type="checkbox" checked class="w-4 h-4 accent-emerald-500 rounded" />
-            <span class="text-xs text-emerald-200 font-medium">Kirim laporan lunas &amp; sisa tagihan ke Grup WA</span>
-          </label>
-
-          <button type="submit" class="w-full py-3.5 rounded-2xl font-extrabold text-sm bg-[#C9F2DE] hover:brightness-105 text-[#120f14] transition shadow-lg">
-            ✓ Konfirmasi Lunas
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 4: SCAN STRUK BELANJA ==================== -->
-    <div id="modal-scan-struk" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-scan-struk')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-white">Scan Struk Belanja</h3>
-            <p class="text-xs text-white/55">Foto struk atau tempel rincian untuk ekstraksi cepat</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-scan-struk')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
-        </div>
-
-        <label class="block border-2 border-dashed border-[#F9D5E5]/40 hover:border-[#F9D5E5] rounded-2xl p-4 text-center cursor-pointer bg-[#241e29]/60 transition">
-          <input id="struk-file-input" type="file" accept="image/*" capture="environment" onchange="handleStrukImageUpload(event)" class="hidden" />
-          <div id="struk-placeholder" class="space-y-1.5 py-2">
-            <div class="text-xs font-bold text-[#F9D5E5]">📷 Ambil Foto / Pilih Gambar Struk</div>
-            <div class="text-[11px] text-white/45">Mendukung kamera HP atau galeri</div>
-          </div>
-          <img id="struk-preview-img" src="" alt="Preview Struk" class="hidden max-h-40 mx-auto rounded-xl object-contain" />
-        </label>
-
-        <div>
-          <label class="block text-xs font-medium text-white/70 mb-1">Tempel Teks Struk / OCR (Opsional)</label>
-          <textarea id="struk-raw-text" rows="3" placeholder="Tempel teks struk dari Google Lens / Live Text..." class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl p-3 text-xs text-white placeholder-white/35 focus:outline-none focus:border-[#F9D5E5]"></textarea>
-          <button type="button" onclick="parseReceiptText()" class="mt-1.5 w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
-            Ekstrak Merchant &amp; Total Otomatis
-          </button>
-        </div>
-
-        <div class="space-y-3 pt-2 border-t border-white/10">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] text-white/60 mb-1">Merchant / Catatan</label>
-              <input id="struk-merchant" type="text" placeholder="Contoh: Kopi Kenangan" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-sm text-white" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-white/60 mb-1">Total (Rp)</label>
-              <input id="struk-total" type="number" inputmode="numeric" placeholder="45000" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-sm font-bold text-white" />
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] text-white/60 mb-1">Kategori</label>
-              <select id="struk-category" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white"></select>
-            </div>
-            <div>
-              <label class="block text-[11px] text-white/60 mb-1">Sumber Dana / CC</label>
-              <select id="struk-account" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white"></select>
-            </div>
-          </div>
-          <button type="button" onclick="saveScannedReceipt()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#F9D5E5] text-[#120f14] hover:brightness-105 transition">
-            Simpan Transaksi Struk
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 5: IMPOR MUTASI M-BANKING / CSV ==================== -->
-    <div id="modal-impor-mutasi" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-impor-mutasi')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-white">Impor Mutasi Rekening</h3>
-            <p class="text-xs text-white/55">Unggah CSV atau tempel teks mutasi m-banking</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-impor-mutasi')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2.5">
-          <div>
-            <label class="block text-[11px] text-white/60 mb-1">Akun Tujuan</label>
-            <select id="mutasi-account-select" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white"></select>
-          </div>
-          <div>
-            <label class="block text-[11px] text-white/60 mb-1">Unggah File CSV</label>
-            <label class="flex items-center justify-center gap-1.5 w-full bg-[#241e29] hover:bg-white/[0.08] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-[#E2D5F9] cursor-pointer">
-              <span>Pilih .CSV</span>
-              <input type="file" accept=".csv,.txt" onchange="handleMutasiCsvUpload(event)" class="hidden" />
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-medium text-white/70 mb-1">Tempel Teks Mutasi (Tanggal | Keterangan | DB/CR | Nominal)</label>
-          <textarea id="mutasi-raw-text" rows="4" placeholder="2026-11-22 | QRIS KOPI KENANGAN | DB | 38000&#10;2026-11-22 | TRANSFER GAJI | CR | 8500000" class="w-full bg-[#241e29] border border-white/[0.08] rounded-2xl p-3 text-xs text-white placeholder-white/35 focus:outline-none focus:border-[#E2D5F9] font-mono"></textarea>
-          <button type="button" onclick="parseMutasiText()" class="mt-2 w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
-            Proses Baris Mutasi
-          </button>
-        </div>
-
-        <div id="mutasi-preview-container" class="hidden space-y-2.5 pt-2 border-t border-white/10">
-          <div class="flex items-center justify-between text-xs">
-            <span id="mutasi-parsed-count" class="font-semibold text-[#E2D5F9]">0 transaksi</span>
-            <span class="text-white/50">Centang untuk impor</span>
-          </div>
-          <div id="mutasi-parsed-list" class="max-h-44 overflow-y-auto space-y-1.5 pr-1"></div>
-          <button type="button" onclick="confirmImportMutasi()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#E2D5F9] text-[#120f14] hover:brightness-105 transition">
-            Impor Transaksi Terpilih
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 6: SALDO AWAL & LIMIT CREDIT CARD ==================== -->
-    <div id="modal-saldo-awal" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-saldo-awal')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] max-h-[92vh] flex flex-col overflow-hidden">
-        <!-- Header Tetap -->
-        <div class="px-5 pt-5 pb-3 border-b border-white/[0.08] flex items-center justify-between shrink-0">
+    <!-- ==================== MODAL SALDO AWAL & LIMIT CC ==================== -->
+    <div id="modal-saldo" class="modal-bg" onclick="backdropClose(event, 'modal-saldo')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="px-5 pt-5 pb-3 border-b border-white/10 flex items-center justify-between shrink-0">
           <div>
             <h3 class="text-lg font-bold text-white">Saldo Awal &amp; Limit CC</h3>
-            <p class="text-xs text-white/55">Limit Kartu Kredit dipisahkan otomatis dari Total Saldo</p>
+            <p class="text-xs text-white/55">Limit CC terpisah dari Total Saldo likuid</p>
           </div>
-          <button type="button" onclick="closeModal('modal-saldo-awal')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+          <button type="button" onclick="closeModal('modal-saldo')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
-
-        <!-- Konten Scrollable -->
-        <div class="px-5 py-4 overflow-y-auto no-scrollbar space-y-5 flex-1">
-          <!-- BAGIAN 1: LIMIT KARTU KREDIT -->
-          <div id="initial-cc-limit-section" class="space-y-2"></div>
-
-          <!-- BAGIAN 2: SALDO AWAL 14 REKENING & E-WALLET -->
-          <div id="initial-balances-form-list" class="space-y-4"></div>
-
-          <!-- Tambah Rekening / E-Wallet Baru -->
-          <div class="pt-3 border-t border-white/10 space-y-2.5">
-            <div class="text-xs font-bold text-white/85">+ Tambah Rekening / E-Wallet Baru</div>
-            <div class="grid grid-cols-2 gap-2">
-              <input id="new-acc-name" type="text" placeholder="Nama (mis: BCA / Dana)" class="bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white" />
-              <input id="new-acc-balance" type="number" inputmode="numeric" placeholder="Saldo awal (Rp)" class="bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white" />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <select id="new-acc-owner" class="bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white">
-                <option value="Ilham">Milik Ilham</option>
-                <option value="Puspa">Milik Puspa</option>
-              </select>
-              <select id="new-acc-type" class="bg-[#241e29] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white">
-                <option value="Rekening">Rekening</option>
-                <option value="E-Wallet">E-Wallet</option>
-              </select>
-            </div>
-            <button type="button" onclick="addNewAccount()" class="w-full py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition">
-              + Tambah ke Daftar Dompet
-            </button>
-          </div>
-        </div>
-
-        <!-- Sticky Footer Simpan -->
-        <div class="px-5 py-3.5 bg-[#151118] border-t border-white/[0.08] shrink-0">
-          <button type="button" onclick="saveInitialBalances()" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7] hover:brightness-110 transition">
-            Simpan Saldo Awal &amp; Limit CC
-          </button>
+        <div id="saldo-form-body" class="px-5 py-4 overflow-y-auto no-scrollbar space-y-4 flex-1"></div>
+        <div class="px-5 py-3.5 bg-[#151118] border-t border-white/10 shrink-0">
+          <button type="button" onclick="saveSaldoAwal()" class="w-full py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7]">Simpan Perubahan</button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== MODAL 7: EDIT ANGGARAN / TARGET TABUNGAN ==================== -->
-    <div id="modal-rencana-edit" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-rencana-edit')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
+    <!-- ==================== MODAL SCAN STRUK & IMPOR MUTASI ==================== -->
+    <div id="modal-struk" class="modal-bg" onclick="backdropClose(event, 'modal-struk')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-3.5">
         <div class="flex items-center justify-between">
-          <h3 id="rencana-modal-title" class="text-lg font-bold text-white">Atur Rencana</h3>
-          <button type="button" onclick="closeModal('modal-rencana-edit')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+          <h3 class="text-lg font-bold text-white">Scan Struk</h3>
+          <button type="button" onclick="closeModal('modal-struk')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
-        <div id="rencana-modal-body" class="space-y-3"></div>
+        <input type="file" accept="image/*" capture="environment" onchange="previewReceipt(event)" class="block w-full text-xs text-white/75 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:bg-[#F9D5E5] file:text-[#120f14] file:font-bold" />
+        <img id="struk-img" src="" alt="Struk" class="hidden max-h-36 mx-auto rounded-xl object-contain" />
+        <div class="grid grid-cols-2 gap-2.5">
+          <input id="struk-note" type="text" placeholder="Keterangan struk" class="bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-white" />
+          <input id="struk-amount" type="number" inputmode="numeric" placeholder="Nominal (Rp)" class="bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs font-bold text-white" />
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <select id="struk-cat" class="bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-white"></select>
+          <select id="struk-acc" class="bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-white"></select>
+        </div>
+        <button type="button" onclick="saveReceiptTx()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#F9D5E5] text-[#120f14]">Simpan Struk</button>
       </div>
     </div>
 
-    <!-- ==================== MODAL 8: PENGATURAN & SINKRONISASI FIREBASE ==================== -->
-    <div id="modal-sync" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-sync')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[92vh] overflow-y-auto no-scrollbar space-y-4">
+    <div id="modal-mutasi" class="modal-bg" onclick="backdropClose(event, 'modal-mutasi')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-3.5">
         <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-white">Pengaturan &amp; Sinkronisasi</h3>
-            <p class="text-xs text-white/55">Sinkronisasi real-time Firebase &amp; pengaturan WA</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-sync')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+          <h3 class="text-lg font-bold text-white">Impor Mutasi</h3>
+          <button type="button" onclick="closeModal('modal-mutasi')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
-
-        <div class="bg-[#241e29] border border-white/[0.08] rounded-2xl p-3.5 flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <span id="sync-modal-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-            <div>
-              <div id="sync-modal-status-title" class="text-xs font-bold text-white">Tersimpan Lokal</div>
-              <div id="sync-modal-status-desc" class="text-[11px] text-white/50">Otomatis tersimpan di perangkat ini</div>
-            </div>
-          </div>
-          <span class="text-[11px] font-mono px-2 py-1 rounded-lg bg-white/[0.06] text-white/80" id="sync-device-user-badge">Aktif: IL</span>
-        </div>
-
-        <button type="button" onclick="closeModal('modal-sync'); openWaSettingsModal();" class="w-full bg-emerald-500/15 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-2xl p-3.5 flex items-center justify-between text-left transition">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">WA</div>
-            <div>
-              <div class="text-xs font-bold text-white">Notifikasi Grup WhatsApp Keluarga</div>
-              <div id="sync-wa-summary-text" class="text-[11px] text-emerald-300">Aktif • Semua Catatan</div>
-            </div>
-          </div>
-          <span class="text-xs font-bold text-emerald-300">Atur →</span>
-        </button>
-
-        <div class="space-y-2.5 pt-1">
-          <div>
-            <label class="block text-xs font-medium text-white/75 mb-1">Kode Ruang Keluarga (Family Code)</label>
-            <div class="flex gap-2">
-              <input id="room-code-input" type="text" value="ILHAM-PUSPA-2026" class="flex-1 bg-[#241e29] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm font-mono font-bold text-[#F9D5E5] uppercase focus:outline-none focus:border-[#D9468F]" />
-              <button type="button" onclick="copyRoomCode()" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white shrink-0">Salin</button>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-medium text-white/75 mb-1">Firebase Realtime Database URL <span class="text-white/40">(Sync 2 HP)</span></label>
-            <input id="firebase-url-input" type="url" placeholder="https://kas-keluarga-default-rtdb.asia-southeast1.firebasedatabase.app" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#D9468F]" />
-          </div>
-
-          <button type="button" onclick="applyRoomCode()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#D9468F] to-[#7579E7] text-xs font-bold text-white hover:brightness-110 transition">
-            Simpan &amp; Hubungkan Sinkronisasi
-          </button>
-        </div>
-
-        <div class="pt-3 border-t border-white/10 space-y-2">
-          <div class="text-xs font-semibold text-white/80">Reset Semua Data ke Rp 0</div>
-          <button type="button" onclick="promptResetAllData()" class="w-full py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-xs font-bold text-rose-300 transition">
-            Reset Buku Kas ke Rp 0
-          </button>
-        </div>
+        <select id="mutasi-acc" class="w-full bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-white"></select>
+        <textarea id="mutasi-lines" rows="4" placeholder="Format per baris: Tanggal | Keterangan | DB/CR | Nominal&#10;2026-11-25 | KOPI KENANGAN | DB | 35000" class="w-full bg-[#241e29] border border-white/10 rounded-2xl p-3 text-xs text-white font-mono"></textarea>
+        <button type="button" onclick="importMutasiLines()" class="w-full py-3 rounded-2xl font-bold text-sm bg-[#E2D5F9] text-[#120f14]">Impor Sekarang</button>
       </div>
     </div>
 
-    <!-- ==================== MODAL 9: EKSPOR & BACKUP DATA ==================== -->
-    <div id="modal-export" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-export')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4">
+    <!-- ==================== MODAL WHATSAPP ==================== -->
+    <div id="modal-wa" class="modal-bg" onclick="backdropClose(event, 'modal-wa')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[90vh] overflow-y-auto no-scrollbar space-y-3.5">
         <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-bold text-white">Ekspor &amp; Backup Data</h3>
-            <p class="text-xs text-white/55">Unduh laporan CSV / JSON atau pulihkan backup</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-export')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
+          <h3 class="text-lg font-bold text-white">WhatsApp Grup Keluarga</h3>
+          <button type="button" onclick="closeModal('modal-wa')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
         </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <button type="button" onclick="exportDataJSON()" class="p-3.5 rounded-2xl bg-[#E2D5F9] text-[#120f14] text-left space-y-1 hover:brightness-105 transition">
-            <div class="text-xs font-extrabold">Backup JSON</div>
-            <div class="text-[11px] opacity-75">Simpan seluruh transaksi, tagihan &amp; dompet</div>
-          </button>
-          <button type="button" onclick="exportDataCSV()" class="p-3.5 rounded-2xl bg-[#C9F2DE] text-[#120f14] text-left space-y-1 hover:brightness-105 transition">
-            <div class="text-xs font-extrabold">Laporan CSV</div>
-            <div class="text-[11px] opacity-75">Buka di Excel atau Google Sheets</div>
-          </button>
+        <div id="wa-status-box" class="rounded-2xl bg-[#120f14] border border-white/10 p-3 text-xs text-white/75">Siap mengirim laporan &amp; reminder tagihan.</div>
+        <label class="flex items-center justify-between bg-[#241e29] rounded-2xl p-3 cursor-pointer">
+          <span class="text-xs font-bold text-white">Aktifkan Notifikasi WhatsApp</span>
+          <input id="wa-enabled" type="checkbox" checked class="w-4 h-4 accent-emerald-500" />
+        </label>
+        <div>
+          <label class="block text-xs text-white/65 mb-1">Link Grup WA</label>
+          <input id="wa-link" type="url" class="w-full bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-emerald-300 font-mono" />
         </div>
-
-        <div class="pt-2 border-t border-white/10">
-          <label class="block text-xs font-medium text-white/70 mb-1.5">Pulihkan dari Backup (.JSON)</label>
-          <label class="flex items-center justify-center w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white cursor-pointer transition">
-            <span>Pilih File Backup JSON</span>
-            <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden" />
-          </label>
+        <div class="bg-[#241e29] border border-emerald-500/25 rounded-2xl p-3 space-y-2.5">
+          <div class="text-xs font-bold text-emerald-300">Auto-Send Fonnte Gateway API (Opsional)</div>
+          <input id="wa-api-url" type="url" value="https://api.fonnte.com/send" class="w-full bg-[#120f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+          <input id="wa-api-token" type="password" placeholder="Token Fonnte" class="w-full bg-[#120f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+          <input id="wa-group-id" type="text" placeholder="Group ID (@g.us)" class="w-full bg-[#120f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono" />
         </div>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 10: PENGATURAN WHATSAPP GRUP KELUARGA (STICKY FOOTER + LIVE DIAGNOSTIC) ==================== -->
-    <div id="modal-wa-settings" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-wa-settings')">
-      <div class="modal-sheet bg-[#1c1720] border border-white/[0.08] w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
-        <!-- Header Tetap -->
-        <div class="px-5 pt-5 pb-3 border-b border-white/[0.08] flex items-center justify-between shrink-0">
-          <div>
-            <h3 class="text-lg font-bold text-white">Notifikasi Grup WA Keluarga</h3>
-            <p class="text-xs text-white/55">Kirim otomatis via Fonnte API atau tautan grup WA</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-wa-settings')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80">✕</button>
-        </div>
-
-        <!-- Konten Dapat Di-scroll -->
-        <div class="px-5 py-4 overflow-y-auto no-scrollbar space-y-4 flex-1">
-          <!-- Kotak Status Diagnosa Live -->
-          <div id="wa-diagnostic-box" class="rounded-2xl bg-[#120f14] border border-white/10 p-3 flex items-start gap-2.5">
-            <span id="wa-diag-icon" class="text-sm shrink-0 mt-0.5">ℹ️</span>
-            <div class="min-w-0 flex-1">
-              <div id="wa-diag-title" class="text-xs font-bold text-white">Status Koneksi WhatsApp</div>
-              <div id="wa-diag-desc" class="text-[11px] text-white/60 leading-relaxed mt-0.5">Isi API Token &amp; Group ID (@g.us) lalu tekan "Tes Kirim WA Sekarang" di bawah.</div>
-            </div>
-          </div>
-
-          <label class="flex items-center justify-between bg-[#241e29] border border-white/[0.08] rounded-2xl p-3.5 cursor-pointer">
-            <div>
-              <div class="text-sm font-bold text-white">Aktifkan Notifikasi WhatsApp</div>
-              <div class="text-[11px] text-white/50">Kirim laporan otomatis setiap transaksi disimpan</div>
-            </div>
-            <input id="wa-enabled-toggle" type="checkbox" checked onchange="updateWaLivePreview()" class="w-5 h-5 accent-emerald-500 rounded cursor-pointer" />
-          </label>
-
-          <!-- Konfigurasi Auto-Send Fonnte / Gateway API -->
-          <div class="bg-[#241e29] border border-emerald-500/25 rounded-2xl p-3.5 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-emerald-300">Auto-Send Fonnte / Gateway API</span>
-              <span id="wa-gateway-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">Siap</span>
-            </div>
-
-            <div>
-              <label class="block text-[11px] text-white/65 mb-1">URL Endpoint API</label>
-              <input id="wa-api-url" type="url" value="https://api.fonnte.com/send" class="w-full bg-[#120f14] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-emerald-400" />
-            </div>
-
-            <div>
-              <label class="block text-[11px] text-white/65 mb-1">API Token Fonnte</label>
-              <input id="wa-api-token" type="password" placeholder="Tempel Token dari menu Device Fonnte..." class="w-full bg-[#120f14] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-emerald-400" />
-            </div>
-
-            <div>
-              <label class="block text-[11px] text-white/65 mb-1">Group ID (@g.us)</label>
-              <input id="wa-group-id" type="text" placeholder="Contoh: 120363414239698208@g.us" class="w-full bg-[#120f14] border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-emerald-400" />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-white/80 mb-1">Filter Pemicu Notifikasi</label>
-            <select id="wa-trigger-scope" onchange="updateWaLivePreview()" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-white">
-              <option value="all">Semua Catatan (Pengeluaran, Pemasukan &amp; Transfer)</option>
-              <option value="jajan">Khusus Kuliner &amp; Jajan (Jajan dan Kopi &amp; Makan Di Restaurant)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-white/80 mb-1">Tautan Cadangan Grup WA Keluarga</label>
-            <input id="wa-group-invite-link" type="url" value="https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2" class="w-full bg-[#241e29] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-emerald-300 font-mono focus:outline-none" />
-          </div>
-
-          <div class="space-y-1.5">
-            <span class="text-xs font-bold text-white/80">Pratinjau Pesan Grup WA</span>
-            <pre id="wa-live-preview" class="bg-[#0F1A14] border border-emerald-500/25 rounded-2xl p-3 text-[11px] text-emerald-100 whitespace-pre-wrap font-sans leading-relaxed"></pre>
-          </div>
-        </div>
-
-        <!-- Sticky Footer: Selalu Terlihat Tanpa Scroll -->
-        <div class="px-5 py-3.5 bg-[#151118] border-t border-white/[0.08] grid grid-cols-2 gap-2.5 shrink-0">
-          <button type="button" id="wa-test-btn" onclick="testWaAutoSend()" class="py-3 px-3 rounded-2xl font-bold text-xs text-emerald-300 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/35 transition">
-            Tes Kirim WA Sekarang
-          </button>
-          <button type="button" onclick="saveWaSettings(true)" class="py-3 px-3 rounded-2xl font-extrabold text-xs text-[#120f14] bg-[#C9F2DE] hover:brightness-105 transition shadow-lg">
-            Simpan Pengaturan WA
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 11: QUICK ACTION KIRIM KE GRUP WA (FALLBACK) ==================== -->
-    <div id="modal-wa-prompt" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-wa-prompt')">
-      <div class="modal-sheet bg-[#1c1720] border border-emerald-500/35 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-4 shadow-2xl">
-        <div class="flex items-start justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.93 9.93 0 0 0 19.082 4.92 9.914 9.914 0 0 0 12.031 2z"/>
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-base font-bold text-white">Kirim ke Grup WA Keluarga</h4>
-              <p class="text-[11px] font-medium text-emerald-300">✓ Teks laporan otomatis tersalin ke clipboard!</p>
-            </div>
-          </div>
-          <button type="button" onclick="closeModal('modal-wa-prompt')" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 shrink-0">✕</button>
-        </div>
-
-        <pre id="wa-prompt-message-preview" class="bg-[#120f14] border border-white/10 rounded-2xl p-3.5 text-xs text-white/90 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto"></pre>
-
-        <div class="space-y-2.5">
-          <a id="wa-prompt-direct-link" href="https://wa.me/?text=" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-wa-prompt')" class="w-full py-3.5 rounded-2xl bg-[#C9F2DE] hover:brightness-105 text-xs font-extrabold text-[#120f14] flex items-center justify-center gap-2 shadow-lg transition">
-            <span>Kirim ke WhatsApp (Pilih Grup) ↗</span>
-          </a>
-          <a id="wa-prompt-group-link" href="https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-wa-prompt')" class="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold text-white flex items-center justify-center gap-2 transition">
-            <span>Buka Grup WA Keluarga &amp; Paste ↗</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== MODAL 12: KONFIRMASI KUSTOM ==================== -->
-    <div id="modal-confirm" class="modal-overlay" onclick="handleBackdropClose(event, 'modal-confirm')">
-      <div class="bg-[#241e29] border border-white/15 w-full max-w-[360px] rounded-3xl p-5 m-4 space-y-4 shadow-2xl">
-        <h4 id="confirm-title" class="text-base font-bold text-white">Konfirmasi</h4>
-        <p id="confirm-message" class="text-xs text-white/75 leading-relaxed">Apakah Anda yakin?</p>
         <div class="grid grid-cols-2 gap-2.5 pt-1">
-          <button type="button" onclick="closeModal('modal-confirm')" class="py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white">Batal</button>
-          <button type="button" id="confirm-ok-btn" class="py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-xs font-bold text-white">Ya, Lanjutkan</button>
+          <button type="button" onclick="sendTestWa()" class="py-3 rounded-2xl font-bold text-xs bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Tes Kirim WA</button>
+          <button type="button" onclick="saveWaConfig()" class="py-3 rounded-2xl font-extrabold text-xs bg-[#C9F2DE] text-[#120f14]">Simpan WA</button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== TOAST NOTIFICATION ==================== -->
-    <div id="toast-container" class="fixed top-16 left-1/2 -translate-x-1/2 z-[95] pointer-events-none w-full max-w-[440px] px-4 flex flex-col items-center gap-2"></div>
+    <!-- ==================== MODAL SINKRONISASI FIREBASE, BACKUP & RESET ==================== -->
+    <div id="modal-sync" class="modal-bg" onclick="backdropClose(event, 'modal-sync')">
+      <div class="bg-[#1c1720] border border-white/10 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 max-h-[90vh] overflow-y-auto no-scrollbar space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-white">Sinkronisasi &amp; Data</h3>
+          <button type="button" onclick="closeModal('modal-sync')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
+        </div>
+        <div>
+          <label class="block text-xs text-white/65 mb-1">Kode Ruang Keluarga</label>
+          <input id="sync-room-code" type="text" value="ILHAM-PUSPA-2026" class="w-full bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-sm font-mono font-bold text-[#F9D5E5] uppercase" />
+        </div>
+        <div>
+          <label class="block text-xs text-white/65 mb-1">Firebase Realtime Database URL</label>
+          <input id="sync-fb-url" type="url" placeholder="https://xxx.firebasedatabase.app" class="w-full bg-[#241e29] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono" />
+        </div>
+        <button type="button" onclick="saveSyncConfig()" class="w-full py-3 rounded-2xl font-bold text-xs text-white bg-gradient-to-r from-[#D9468F] to-[#7579E7]">Simpan &amp; Sinkronkan</button>
 
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
+          <button type="button" onclick="exportJSON()" class="py-2.5 rounded-xl bg-[#E2D5F9] text-[#120f14] text-xs font-bold">Backup JSON</button>
+          <button type="button" onclick="exportCSV()" class="py-2.5 rounded-xl bg-[#C9F2DE] text-[#120f14] text-xs font-bold">Ekspor CSV</button>
+        </div>
+        <label class="block w-full text-center py-2.5 rounded-xl bg-white/10 text-xs font-semibold text-white cursor-pointer">
+          Pulihkan JSON
+          <input type="file" accept=".json" onchange="restoreJSON(event)" class="hidden" />
+        </label>
+        <button type="button" onclick="resetAllToZero()" class="w-full py-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-xs font-bold text-rose-300">Reset Semua Data ke Rp 0</button>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL SHARE WA CEPAT ==================== -->
+    <div id="modal-share" class="modal-bg" onclick="backdropClose(event, 'modal-share')">
+      <div class="bg-[#1c1720] border border-emerald-500/35 w-full max-w-[480px] rounded-t-[28px] sm:rounded-[28px] p-5 space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-base font-bold text-white">Kirim ke Grup WA Keluarga</h4>
+            <p class="text-[11px] text-emerald-300">✓ Teks otomatis tersalin ke clipboard</p>
+          </div>
+          <button type="button" onclick="closeModal('modal-share')" class="w-8 h-8 rounded-full bg-white/10 text-white">✕</button>
+        </div>
+        <pre id="share-text-box" class="bg-[#120f14] border border-white/10 rounded-2xl p-3 text-xs text-white/90 whitespace-pre-wrap font-sans max-h-44 overflow-y-auto"></pre>
+        <div class="grid grid-cols-2 gap-2.5">
+          <a id="share-wame-link" href="https://wa.me/?text=" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-share')" class="py-3 rounded-2xl bg-[#C9F2DE] text-[#120f14] text-xs font-extrabold flex items-center justify-center">Buka WhatsApp ↗</a>
+          <a id="share-group-link" href="https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" onclick="closeModal('modal-share')" class="py-3 rounded-2xl bg-white/10 text-white text-xs font-bold flex items-center justify-center">Grup Keluarga ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL KONFIRMASI ==================== -->
+    <div id="modal-confirm" class="modal-bg" onclick="backdropClose(event, 'modal-confirm')">
+      <div class="bg-[#241e29] border border-white/15 w-full max-w-[350px] rounded-3xl p-5 m-4 space-y-4">
+        <h4 id="confirm-title" class="text-base font-bold text-white">Konfirmasi</h4>
+        <p id="confirm-msg" class="text-xs text-white/75"></p>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button type="button" onclick="closeModal('modal-confirm')" class="py-2.5 rounded-xl bg-white/10 text-xs font-semibold text-white">Batal</button>
+          <button type="button" id="confirm-yes-btn" class="py-2.5 rounded-xl bg-rose-500 text-xs font-bold text-white">Ya</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-box" class="fixed top-16 left-1/2 -translate-x-1/2 z-[95] pointer-events-none w-full max-w-[420px] px-4 flex flex-col items-center gap-2"></div>
   </div>
 
-  <!-- ==================== LOGIKA APLIKASI LENGKAP ==================== -->
   <script>
-    const KONFIGURASI_UTAMA = {
+    const KONFIG = {
       FIREBASE_URL: "",
       FAMILY_CODE: "ILHAM-PUSPA-2026",
-      WA_GROUP_LINK: "https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2",
-      WA_AUTO_ENABLED: true,
-      WA_TRIGGER_MODE: "all"
+      WA_GROUP_LINK: "https://chat.whatsapp.com/BR92byer60XKgtLE3dDuNy?s=cl&p=a&iam=2"
     };
+    const STORAGE_KEY = "kas_bersama_ilham_puspa_v7";
 
-    const LOCAL_STORAGE_KEY = 'kas_harian_bersama_ilham_puspa_v6';
-    let rtdbPollTimer = null;
-
-    // 12 Kategori Pengeluaran Lengkap
-    const EXPENSE_CATEGORIES = [
-      { name: 'SPP Sekolah', icon: '🎓', color: '#60A5FA' },
-      { name: 'ART', icon: '🧹', color: '#F472B6' },
-      { name: 'Jemputan', icon: '🚐', color: '#34D399' },
-      { name: 'Kredit', icon: '💳', color: '#FB7185' },
-      { name: 'Utilitas', icon: '⚡', color: '#A78BFA' },
-      { name: 'BBM', icon: '⛽', color: '#38BDF8' },
-      { name: 'Jajan dan Kopi', icon: '☕', color: '#FBBF24' },
-      { name: 'Belanja Bulanan', icon: '🛒', color: '#EC4899' },
-      { name: 'Tarik Tunai', icon: '💵', color: '#2DD4BF' },
-      { name: 'Makan Di Restaurant', icon: '🍽️', color: '#FB923C' },
-      { name: 'Hiburan', icon: '🎬', color: '#C084FC' },
-      { name: 'Other', icon: '📦', color: '#94A3B8' }
+    const EXPENSE_CATS = [
+      "SPP Sekolah", "ART", "Jemputan", "Kredit", "Utilitas", "BBM",
+      "Jajan dan Kopi", "Belanja Bulanan", "Tarik Tunai", "Makan Di Restaurant",
+      "Hiburan", "Other"
     ];
+    const INCOME_CATS = ["Gaji", "Bonus", "Usaha", "Lainnya"];
 
-    // 4 Kategori Pemasukan
-    const INCOME_CATEGORIES = [
-// ... existing code ... -->
-    // 16 Akun: 15 Rekening & E-Wallet Likuid + 1 Kartu Kredit (Mandiri Credit Ilham)
-    function getInitialAccountsList() {
+    function getDefaultAccounts() {
       return [
-        // Puspa - Rekening (6)
-        { id: 'acc-puspa-blu', name: 'Blu (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-puspa-dbs', name: 'DBS (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-puspa-bsi', name: 'BSI (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-puspa-seabank', name: 'Seabank (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-puspa-saku', name: 'Saku (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-puspa-permata', name: 'Bank Permata (Puspa)', owner: 'Puspa', type: 'Rekening', initialBalance: 0 },
-        // Puspa - E-Wallet (4)
-        { id: 'acc-puspa-gopay', name: 'Gopay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
-        { id: 'acc-puspa-shopeepay', name: 'Shopeepay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
-        { id: 'acc-puspa-ovo', name: 'Ovo (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
-        { id: 'acc-puspa-astrapay', name: 'Astrapay (Puspa)', owner: 'Puspa', type: 'E-Wallet', initialBalance: 0 },
-        // Ilham - Rekening (2)
-        { id: 'acc-ilham-blu', name: 'Blu (Ilham)', owner: 'Ilham', type: 'Rekening', initialBalance: 0 },
-        { id: 'acc-ilham-mandiri-debit', name: 'Mandiri Debit (Ilham)', owner: 'Ilham', type: 'Rekening', initialBalance: 0 },
-        // Ilham - Kartu Kredit (1) -> Limit terpisah dari Total Saldo
-        { id: 'acc-ilham-mandiri-credit', name: 'Mandiri Credit (Ilham)', owner: 'Ilham', type: 'Kartu Kredit', initialBalance: 0 },
-        // Ilham - E-Wallet (3)
-        { id: 'acc-ilham-gopay', name: 'Gopay (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 },
-        { id: 'acc-ilham-shopeepay', name: 'Shopeepay (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 },
-        { id: 'acc-ilham-ovo', name: 'Ovo (Ilham)', owner: 'Ilham', type: 'E-Wallet', initialBalance: 0 }
+        // Rekening Puspa (6)
+        { id: "acc-p-blu", name: "Blu (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        { id: "acc-p-dbs", name: "DBS (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        { id: "acc-p-bsi", name: "BSI (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        { id: "acc-p-seabank", name: "Seabank (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        { id: "acc-p-saku", name: "Saku (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        { id: "acc-p-permata", name: "Bank Permata (Puspa)", owner: "Puspa", kind: "Rekening", initial: 0 },
+        // Rekening Ilham (2)
+        { id: "acc-i-blu", name: "Blu (Ilham)", owner: "Ilham", kind: "Rekening", initial: 0 },
+        { id: "acc-i-mdr-deb", name: "Mandiri Debit (Ilham)", owner: "Ilham", kind: "Rekening", initial: 0 },
+        // E-Wallet Puspa (4)
+        { id: "acc-p-gopay", name: "Gopay (Puspa)", owner: "Puspa", kind: "E-Wallet", initial: 0 },
+        { id: "acc-p-shopeepay", name: "Shopeepay (Puspa)", owner: "Puspa", kind: "E-Wallet", initial: 0 },
+        { id: "acc-p-ovo", name: "Ovo (Puspa)", owner: "Puspa", kind: "E-Wallet", initial: 0 },
+        { id: "acc-p-astrapay", name: "Astrapay (Puspa)", owner: "Puspa", kind: "E-Wallet", initial: 0 },
+        // E-Wallet Ilham (3)
+        { id: "acc-i-gopay", name: "Gopay (Ilham)", owner: "Ilham", kind: "E-Wallet", initial: 0 },
+        { id: "acc-i-shopeepay", name: "Shopeepay (Ilham)", owner: "Ilham", kind: "E-Wallet", initial: 0 },
+        { id: "acc-i-ovo", name: "Ovo (Ilham)", owner: "Ilham", kind: "E-Wallet", initial: 0 },
+        // Kartu Kredit Terpisah (1)
+        { id: "acc-i-mdr-cc", name: "Mandiri Credit (Ilham)", owner: "Ilham", kind: "CC", initial: 0 }
       ];
     }
 
-    function getCleanInitialState() {
-// ... existing code ... -->
-    function normalizeAccountsMetadata() {
-      state.accounts.forEach(acc => {
-        if (acc.id === 'acc-ilham-mandiri-credit' || /credit/i.test(acc.name || '')) {
-          acc.type = 'Kartu Kredit';
+    function getCleanState() {
+      return {
+        roomCode: KONFIG.FAMILY_CODE,
+        fbUrl: KONFIG.FIREBASE_URL,
+        activeUser: "Ilham",
+        viewScope: "all",
+        walletFilter: "all",
+        privacy: false,
+        tab: "beranda",
+        accounts: getDefaultAccounts(),
+        transactions: [],
+        bills: [],
+        budgets: EXPENSE_CATS.map(category => ({ category, limit: 0 })),
+        goals: [
+          { id: "g-1", title: "Dana Darurat Keluarga", target: 0, current: 0 },
+          { id: "g-2", title: "Liburan Keluarga", target: 0, current: 0 }
+        ],
+        wa: {
+          enabled: true,
+          groupLink: KONFIG.WA_GROUP_LINK,
+          apiUrl: "https://api.fonnte.com/send",
+          apiToken: "",
+          groupId: ""
         }
-      });
+      };
     }
 
-    // Migrasi aman: tambahkan Bank Permata (Puspa) & 4 kategori baru ke data lama tanpa mereset saldo/tagihan
-    function ensureMissingAccountsAndCategories() {
-      normalizeAccountsMetadata();
+    let state = getCleanState();
+    let pollTimer = null;
 
-      const defaultAccounts = getInitialAccountsList();
-      defaultAccounts.forEach(defAcc => {
-        const exists = state.accounts.some(
-          a => a.id === defAcc.id || (a.name || '').toLowerCase() === defAcc.name.toLowerCase()
-        );
-        if (!exists) {
-          // Sisipkan rekening Puspa baru tepat setelah Saku (Puspa) jika ada
-          const sakuIdx = state.accounts.findIndex(a => a.id === 'acc-puspa-saku');
-          if (defAcc.id === 'acc-puspa-permata' && sakuIdx !== -1) {
-            state.accounts.splice(sakuIdx + 1, 0, { ...defAcc });
-          } else {
-            state.accounts.push({ ...defAcc });
-          }
-        }
+    function migrateState() {
+      if (!Array.isArray(state.accounts) || !state.accounts.length) state.accounts = getDefaultAccounts();
+      getDefaultAccounts().forEach(def => {
+        const exist = state.accounts.find(a => a.id === def.id || a.name.toLowerCase() === def.name.toLowerCase());
+        if (!exist) state.accounts.push({ ...def });
+        else if (def.kind === "CC") exist.kind = "CC";
       });
-
       if (!Array.isArray(state.budgets)) state.budgets = [];
-      EXPENSE_CATEGORIES.forEach(cat => {
-        const exists = state.budgets.some(b => b.category === cat.name);
-        if (!exists) {
-          state.budgets.push({ category: cat.name, limit: 0 });
-        }
+      EXPENSE_CATS.forEach(cat => {
+        if (!state.budgets.some(b => b.category === cat)) state.budgets.push({ category: cat, limit: 0 });
       });
+      if (!Array.isArray(state.transactions)) state.transactions = [];
+      if (!Array.isArray(state.bills)) state.bills = [];
+      if (!Array.isArray(state.goals)) state.goals = [];
+      state.wa = { ...getCleanState().wa, ...(state.wa || {}) };
     }
 
-    // ---------------------------------------------------------
-    // PENYIMPANAN LOKAL & SINKRONISASI FIREBASE RTDB
-// ... existing code ... -->
-        if (Array.isArray(parsed.accounts) && parsed.accounts.length) {
-          state.accounts = parsed.accounts;
+    function saveLocal() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          state = { ...getCleanState(), ...JSON.parse(raw) };
         }
-        if (Array.isArray(parsed.budgets) && parsed.budgets.length) state.budgets = parsed.budgets;
-        if (Array.isArray(parsed.goals)) state.goals = parsed.goals;
-        if (Array.isArray(parsed.transactions)) state.transactions = parsed.transactions;
-        if (Array.isArray(parsed.bills)) state.bills = parsed.bills;
+      } catch (e) {}
+      migrateState();
+    }
 
-        ensureMissingAccountsAndCategories();
+    async function pushCloud() {
+      saveLocal();
+      const url = (state.fbUrl || KONFIG.FIREBASE_URL || "").trim().replace(/\/+$/, "");
+      if (!url) return;
+      try {
+        await fetch(`${url}/kas_bersama/${encodeURIComponent(state.roomCode)}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            updatedAt: Date.now(),
+            accounts: state.accounts,
+            transactions: state.transactions,
+            bills: state.bills,
+            budgets: state.budgets,
+            goals: state.goals
+          })
+        });
+      } catch (e) {}
+    }
 
-        if (parsed.waSettings) {
-// ... existing code ... -->
-        if (data && typeof data === 'object') {
-          if (Array.isArray(data.accounts)) {
-            state.accounts = data.accounts;
-          }
+    async function pullCloud() {
+      const url = (state.fbUrl || KONFIG.FIREBASE_URL || "").trim().replace(/\/+$/, "");
+      if (!url) return;
+      try {
+        const res = await fetch(`${url}/kas_bersama/${encodeURIComponent(state.roomCode)}.json`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === "object") {
+          if (Array.isArray(data.accounts)) state.accounts = data.accounts;
+          if (Array.isArray(data.transactions)) state.transactions = data.transactions;
+          if (Array.isArray(data.bills)) state.bills = data.bills;
           if (Array.isArray(data.budgets)) state.budgets = data.budgets;
           if (Array.isArray(data.goals)) state.goals = data.goals;
-          if (Array.isArray(data.bills)) state.bills = data.bills;
-          if (Array.isArray(data.transactions)) {
-            state.transactions = data.transactions.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || 0) - (a.createdAt || 0));
-          }
-          ensureMissingAccountsAndCategories();
-          saveStateToLocalStorage();
+          migrateState();
+          saveLocal();
           renderAll();
-          updateSyncStatusUI(true, 'Tersinkron Cloud', `Ruang: ${cleanRoom}`);
-        } else {
-// ... existing code ... -->
-      const syncWaSummary = document.getElementById('sync-wa-summary-text');
-      if (syncWaSummary) {
-        if (!state.waSettings.enabled) {
-          syncWaSummary.textContent = 'Nonaktif';
-        } else if (hasFonnteReady) {
-          syncWaSummary.textContent = `Auto-Send Fonnte Aktif (${state.waSettings.triggerScope === 'jajan' ? 'Kuliner & Jajan' : 'Semua Catatan'})`;
-        } else {
-          syncWaSummary.textContent = 'Mode Link WA (Token Fonnte belum diisi)';
         }
+      } catch (e) {}
+    }
+
+    function startSyncLoop() {
+      if (pollTimer) clearInterval(pollTimer);
+      const url = (state.fbUrl || KONFIG.FIREBASE_URL || "").trim();
+      document.getElementById("sync-dot").className = `absolute top-1 right-1 w-2 h-2 rounded-full ring-2 ring-[#120f14] ${url ? "bg-emerald-400" : "bg-amber-400"}`;
+      if (url) {
+        pullCloud();
+        pollTimer = setInterval(pullCloud, 6000);
       }
     }
-// ... existing code ... -->
+
+    // ---------- FORMAT & PERHITUNGAN ----------
+    function fmtRp(n, space = true) {
+      const num = Number(n || 0);
+      if (state.privacy) return `${num < 0 ? "-" : ""}Rp••••••`;
+      const str = Math.abs(Math.round(num)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return `${num < 0 ? "-" : ""}Rp${space ? " " : ""}${str}`;
+    }
+
+    function fmtHeroHTML(n) {
+      const num = Number(n || 0);
+      if (state.privacy) return `<span class="font-serif font-semibold text-[34px]">${num < 0 ? "-" : ""}Rp</span><span class="tracking-widest">••••••</span>`;
+      const str = Math.abs(Math.round(num)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return `<span class="font-serif font-semibold text-[34px]">${num < 0 ? "-" : ""}Rp</span><span>${str}</span>`;
+    }
+
+    function isCC(acc) { return acc && acc.kind === "CC"; }
+    function getLiquidAccounts() { return state.accounts.filter(a => !isCC(a)); }
+    function getCCAccount() { return state.accounts.find(a => isCC(a)); }
+
+    function getAccountBalance(accId) {
+      const acc = state.accounts.find(a => a.id === accId);
+      if (!acc) return 0;
+      let bal = Number(acc.initial || 0);
+      state.transactions.forEach(t => {
+        if (state.viewScope !== "all" && t.user !== state.viewScope) return;
+        const amt = Number(t.amount || 0);
+        if (t.type === "income" && t.accountId === accId) bal += amt;
+        else if (t.type === "expense" && t.accountId === accId) bal -= amt;
+        else if (t.type === "transfer") {
+          if (t.accountId === accId) bal -= amt;
+          if (t.toAccountId === accId) bal += amt;
+        }
+      });
+      return bal;
+    }
+
+    function getCCStats() {
+      const cc = getCCAccount();
+      const limit = Number(cc?.initial || 0);
+      const sisaLimit = getAccountBalance(cc?.id);
+      const terpakai = Math.max(0, limit - sisaLimit);
+      const pct = limit > 0 ? Math.min(100, Math.round((terpakai / limit) * 100)) : 0;
+      return { cc, limit, sisaLimit, terpakai, pct };
+    }
+
+    function getMonthKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function getMonthSummary() {
+      const ym = getMonthKey();
+      let inc = 0, exp = 0;
+      state.transactions.forEach(t => {
+        if (!t.date || !t.date.startsWith(ym)) return;
+        if (state.viewScope !== "all" && t.user !== state.viewScope) return;
+        if (t.type === "income") inc += Number(t.amount || 0);
+        if (t.type === "expense") exp += Number(t.amount || 0);
+      });
+      const sisa = inc - exp;
+      const pct = inc > 0 ? Math.min(100, Math.round((exp / inc) * 100)) : (exp > 0 ? 100 : 0);
+      return { inc, exp, sisa, pct };
+    }
+
+    function getBillDeadlineInfo(dueDay) {
+      const now = new Date();
+      const today = now.getDate();
+      const day = Math.min(31, Math.max(1, Number(dueDay || 1)));
+      const diff = day - today;
+      if (diff < 0) return { label: `Lewat ${Math.abs(diff)} hr (Tgl ${day})`, cls: "bg-rose-500/20 text-rose-300" };
+      if (diff === 0) return { label: `Jatuh tempo hari ini (Tgl ${day})`, cls: "bg-amber-500/25 text-amber-300" };
+      if (diff <= 3) return { label: `H-${diff} • Tgl ${day}`, cls: "bg-amber-500/20 text-amber-200" };
+      return { label: `Tgl ${day} (${diff} hr lagi)`, cls: "bg-white/10 text-white/70" };
+    }
+
+    // ---------- RENDERING ----------
+    function renderAll() {
+      const scopeText = state.viewScope === "all" ? "Gabungan" : state.viewScope;
+      document.getElementById("scope-label").textContent = scopeText;
+      document.getElementById("hero-scope-badge").textContent = scopeText;
+
+      const isIlham = state.activeUser === "Ilham";
+      document.getElementById("user-initials").textContent = isIlham ? "IL" : "PS";
+      document.getElementById("user-name-tag").textContent = state.activeUser;
+      document.getElementById("user-toggle-btn").className = isIlham
+        ? "h-8 px-2.5 rounded-full bg-[#D9468F] hover:brightness-110 active:scale-95 transition flex items-center gap-1 text-white shadow-md"
+        : "h-8 px-2.5 rounded-full bg-gradient-to-r from-[#7579E7] to-teal-500 hover:brightness-110 active:scale-95 transition flex items-center gap-1 text-white shadow-md";
+
+      document.getElementById("eye-icon").innerHTML = state.privacy
+        ? `<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
+        : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+
+      // Total saldo hanya dari 15 rekening & e-wallet likuid
+      let totalLiquid = 0;
+      getLiquidAccounts().forEach(a => { totalLiquid += getAccountBalance(a.id); });
+      const m = getMonthSummary();
+      document.getElementById("hero-total-saldo").innerHTML = fmtHeroHTML(totalLiquid);
+      document.getElementById("hero-pemasukan").textContent = fmtRp(m.inc);
+      document.getElementById("hero-pengeluaran").textContent = fmtRp(m.exp);
+      document.getElementById("hero-sisa-uang").textContent = fmtRp(m.sisa);
+      document.getElementById("hero-progress-bar").style.width = `${m.pct}%`;
+      document.getElementById("hero-progress-text").textContent = `${m.pct}% pemasukan bulan ini terpakai`;
+
+      renderCCPanels();
+      renderBills();
+      renderWallets();
+      renderRecentTx();
+      renderRiwayat();
+      renderRencana();
+      renderAnalisa();
+      populateAllSelects();
+    }
+
+    function renderCCPanels() {
+      const { cc, limit, sisaLimit, terpakai, pct } = getCCStats();
+      document.getElementById("cc-hero-panel").innerHTML = `
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <div class="text-xs font-bold text-amber-300">💳 ${cc?.name || "Mandiri Credit (Ilham)"}</div>
+            <div class="text-[11px] text-white/55">Terpisah dari Total Saldo likuid</div>
+          </div>
+          <button type="button" onclick="openSaldoAwalModal()" class="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-400/15 hover:bg-amber-400/25 text-amber-200 border border-amber-400/30">
+            Atur Limit
+          </button>
+        </div>
+        <div class="flex items-baseline justify-between">
+          <div>
+            <div class="text-[11px] text-white/60">Sisa Limit CC</div>
+            <div class="text-xl font-extrabold text-white">${fmtRp(sisaLimit)}</div>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/10 text-amber-200">Terpakai ${pct}%</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+          <div class="h-full bg-amber-400 rounded-full" style="width:${pct}%"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="bg-black/25 rounded-xl px-3 py-2 flex justify-between">
+            <span class="text-white/55">Limit Awal</span>
+            <span class="font-bold text-white">${fmtRp(limit, false)}</span>
+          </div>
+          <div class="bg-black/25 rounded-xl px-3 py-2 flex justify-between">
+            <span class="text-white/55">Terpakai</span>
+            <span class="font-bold text-amber-300">${fmtRp(terpakai, false)}</span>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("beranda-cc-bottom").innerHTML = `
+        <div class="text-xs font-bold uppercase tracking-wider text-white/60">Kartu Kredit</div>
+        <div class="cc-box rounded-2xl p-3.5 flex items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-bold text-white">${cc?.name || "Mandiri Credit (Ilham)"}</div>
+            <div class="text-[11px] text-white/60">Plafon ${fmtRp(limit, false)} • Terpakai ${fmtRp(terpakai, false)}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] text-amber-300">Sisa Limit</div>
+            <div class="text-sm font-extrabold text-white">${fmtRp(sisaLimit)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBills() {
+      const unpaid = state.bills.filter(b => !b.paid);
+      const totalUnpaid = unpaid.reduce((s, b) => s + Number(b.amount || 0), 0);
+      const paidCount = state.bills.filter(b => b.paid).length;
+
+      document.getElementById("beranda-bills-panel").innerHTML = `
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base font-bold text-white">Tagihan Bulan Ini</h2>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#F9D5E5]/20 text-[#F9D5E5]">${unpaid.length} belum bayar</span>
+            </div>
+            <div class="text-xs text-white/55 mt-0.5">Total harus dibayar: <span class="font-extrabold text-white">${fmtRp(totalUnpaid)}</span> (${paidCount} lunas)</div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="sendBillsRekapWA()" class="text-xs font-bold px-2.5 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">🔔 WA</button>
+            <button type="button" onclick="openBillModal()" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-[#E2D5F9] text-[#120f14]">+ Tagihan</button>
+          </div>
+        </div>
+        ${state.bills.length === 0
+          ? `<div class="text-xs text-white/45 bg-[#241e29] rounded-2xl p-3.5 text-center">Belum ada tagihan bulan ini. Tekan <b>+ Tagihan</b> untuk menambah.</div>`
+          : `<div class="space-y-2">${state.bills.map(b => {
+              const dl = getBillDeadlineInfo(b.dueDay);
+              const acc = state.accounts.find(a => a.id === b.accountId);
+              return `
+                <div class="bg-[#241e29] border border-white/[0.07] rounded-2xl p-3 flex items-center justify-between gap-2 ${b.paid ? "opacity-60" : ""}">
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="text-sm font-bold text-white truncate ${b.paid ? "line-through" : ""}">${b.name}</span>
+                      <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${b.paid ? "bg-emerald-500/20 text-emerald-300" : dl.cls}">${b.paid ? "LUNAS" : dl.label}</span>
+                    </div>
+                    <div class="text-[11px] text-white/55 mt-0.5">${fmtRp(b.amount)} • ${b.category} • ${acc?.name || "Akun"}</div>
+                  </div>
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    ${!b.paid ? `
+                      <button type="button" onclick="sendSingleBillWA('${b.id}')" title="Reminder WA" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-300 text-xs font-bold">🔔</button>
+                      <button type="button" onclick="payBillNow('${b.id}')" class="px-3 py-1.5 rounded-xl bg-[#C9F2DE] text-[#120f14] text-xs font-extrabold">✓ Bayar</button>
+                    ` : `
+                      <button type="button" onclick="unpayBill('${b.id}')" class="px-2.5 py-1.5 rounded-xl bg-white/10 text-white/75 text-[11px] font-semibold">Batal</button>
+                    `}
+                    <button type="button" onclick="deleteBill('${b.id}')" title="Hapus" class="w-7 h-7 rounded-lg bg-white/[0.06] text-white/60 text-xs">🗑</button>
+                  </div>
+                </div>
+              `;
+            }).join("")}</div>`
+        }
+      `;
+
+      document.getElementById("rencana-bills-panel").innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Tagihan Bulan Ini</h2>
+            <p class="text-xs text-white/55">Total sisa tagihan: <b class="text-white">${fmtRp(totalUnpaid)}</b></p>
+          </div>
+          <div class="flex gap-1.5">
+            <button type="button" onclick="sendBillsRekapWA()" class="text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">🔔 Reminder WA</button>
+            <button type="button" onclick="openBillModal()" class="text-xs font-bold px-3 py-1.5 rounded-full bg-[#E2D5F9] text-[#120f14]">+ Tagihan</button>
+          </div>
+        </div>
+        ${document.getElementById("beranda-bills-panel").querySelector(".space-y-2")?.outerHTML || `<div class="text-xs text-white/45 bg-[#1c1720] rounded-2xl p-4 text-center">Belum ada tagihan.</div>`}
+      `;
+    }
+
+    function renderWallets() {
+      document.querySelectorAll(".wf-pill").forEach(btn => {
+        const active = btn.dataset.wf === state.walletFilter;
+        btn.className = `wf-pill px-3 py-1 rounded-full text-xs shrink-0 ${active ? "font-bold bg-white text-[#120f14]" : "font-medium bg-white/[0.06] text-white/75"}`;
+      });
+
+      const list = getLiquidAccounts().filter(acc => {
+        if (state.walletFilter === "all") return true;
+        if (state.walletFilter === "Ilham" || state.walletFilter === "Puspa") return acc.owner === state.walletFilter;
+        return acc.kind === state.walletFilter;
+      });
+
+      document.getElementById("wallets-grid").innerHTML = list.map(acc => {
+        const bal = getAccountBalance(acc.id);
+        const ownerBadge = acc.owner === "Ilham" ? "bg-sky-500/20 text-sky-300" : "bg-[#D9468F]/20 text-[#F9D5E5]";
+        return `
+          <div onclick="openTxModal('expense', '${acc.id}')" class="bg-[#1c1720] hover:bg-[#241e29] border border-white/[0.08] rounded-2xl p-3.5 cursor-pointer transition">
+            <div class="flex items-center justify-between gap-1 mb-1.5">
+              <span class="text-xs font-bold text-white truncate">${acc.name}</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md ${ownerBadge} shrink-0">${acc.owner}</span>
+            </div>
+            <div class="text-sm font-extrabold ${bal < 0 ? "text-rose-400" : "text-white"} truncate">${fmtRp(bal)}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function txItemHTML(t, allowDelete = false) {
+      const fromAcc = state.accounts.find(a => a.id === t.accountId);
+      const toAcc = state.accounts.find(a => a.id === t.toAccountId);
+      const isInc = t.type === "income";
+      const isTrf = t.type === "transfer";
+      const sign = isInc ? "+" : isTrf ? "⇄" : "-";
+      const color = isInc ? "text-emerald-400" : isTrf ? "text-sky-300" : "text-rose-300";
+      const meta = isTrf
+        ? `${fromAcc?.name || "Akun"} → ${toAcc?.name || "Tujuan"}`
+        : `${t.category || "Umum"} • ${fromAcc?.name || "Akun"}`;
+
+      return `
+        <div class="bg-[#1c1720] border border-white/[0.07] rounded-2xl p-3 flex items-center justify-between gap-2">
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-white truncate">${t.note || t.category || "Transaksi"}</div>
+            <div class="text-[11px] text-white/55 truncate">${meta} • <span class="text-white/80 font-medium">${t.user}</span> • ${t.date}</div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-sm font-extrabold ${color}">${sign}${fmtRp(t.amount)}</span>
+            <button type="button" onclick="shareTxWA('${t.id}')" title="Kirim WA" class="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-300 text-xs">📲</button>
+            ${allowDelete ? `<button type="button" onclick="deleteTx('${t.id}')" title="Hapus" class="w-7 h-7 rounded-lg bg-rose-500/15 text-rose-300 text-xs">🗑</button>` : ""}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRecentTx() {
+      const filtered = state.transactions.filter(t => state.viewScope === "all" || t.user === state.viewScope).slice(0, 5);
+      document.getElementById("recent-tx-list").innerHTML = filtered.length
+        ? filtered.map(t => txItemHTML(t, false)).join("")
+        : `<div class="text-xs text-white/45 bg-[#1c1720] rounded-2xl p-4 text-center">Belum ada transaksi. Tekan tombol <b>+</b> di bawah untuk mencatat.</div>`;
+    }
+
+    function renderRiwayat() {
+      const q = (document.getElementById("riwayat-search")?.value || "").toLowerCase().trim();
+      const uF = document.getElementById("riwayat-user-filter")?.value || "all";
+      const tF = document.getElementById("riwayat-type-filter")?.value || "all";
+      const cF = document.getElementById("riwayat-cat-filter")?.value || "all";
+
+      const list = state.transactions.filter(t => {
+        if (state.viewScope !== "all" && t.user !== state.viewScope) return false;
+        if (uF !== "all" && t.user !== uF) return false;
+        if (tF !== "all" && t.type !== tF) return false;
+        if (cF !== "all" && t.category !== cF) return false;
+        if (q) {
+          const acc = state.accounts.find(a => a.id === t.accountId)?.name || "";
+          const hay = `${t.note || ""} ${t.category || ""} ${t.user || ""} ${acc}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("full-tx-list").innerHTML = list.length
+        ? list.map(t => txItemHTML(t, true)).join("")
+        : `<div class="text-xs text-white/45 bg-[#1c1720] rounded-2xl p-4 text-center">Tidak ada transaksi yang cocok.</div>`;
+    }
+
+    function renderRencana() {
+      const ym = getMonthKey();
+      const spentByCat = {};
+      EXPENSE_CATS.forEach(c => { spentByCat[c] = 0; });
+      state.transactions.forEach(t => {
+        if (t.type === "expense" && t.date && t.date.startsWith(ym) && spentByCat[t.category] !== undefined) {
+          spentByCat[t.category] += Number(t.amount || 0);
+        }
+      });
+
+      document.getElementById("rencana-budgets-panel").innerHTML = `
+        <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Anggaran Bulanan (12 Kategori)</h2>
+        <div class="space-y-2">
+          ${state.budgets.map(b => {
+            const spent = spentByCat[b.category] || 0;
+            const pct = b.limit > 0 ? Math.min(100, Math.round((spent / b.limit) * 100)) : 0;
+            return `
+              <div onclick="editBudgetPrompt('${b.category}', ${b.limit})" class="bg-[#1c1720] border border-white/[0.08] rounded-2xl p-3 cursor-pointer">
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                  <span class="text-white">${b.category}</span>
+                  <span class="text-white/70">${fmtRp(spent, false)} / ${fmtRp(b.limit, false)}</span>
+                </div>
+                <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <div class="h-full ${pct >= 100 ? "bg-rose-400" : "bg-[#F9D5E5]"} rounded-full" style="width:${pct}%"></div>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+
+      document.getElementById("rencana-goals-panel").innerHTML = `
+        <h2 class="text-sm font-bold uppercase tracking-wider text-white/75">Target Tabungan Bersama</h2>
+        <div class="space-y-2">
+          ${state.goals.map(g => {
+            const pct = g.target > 0 ? Math.min(100, Math.round((Number(g.current || 0) / Number(g.target)) * 100)) : 0;
+            return `
+              <div onclick="editGoalPrompt('${g.id}')" class="bg-[#1c1720] border border-white/[0.08] rounded-2xl p-3.5 cursor-pointer space-y-1.5">
+                <div class="flex justify-between text-xs font-bold text-white">
+                  <span>${g.title}</span>
+                  <span class="text-[#C9F2DE]">${pct}%</span>
+                </div>
+                <div class="text-[11px] text-white/60">${fmtRp(g.current)} / ${fmtRp(g.target)}</div>
+                <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div class="h-full bg-[#C9F2DE] rounded-full" style="width:${pct}%"></div>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function renderAnalisa() {
+      const ym = getMonthKey();
+      let ilhamExp = 0, puspaExp = 0;
+      const catTotals = {};
+      EXPENSE_CATS.forEach(c => { catTotals[c] = 0; });
+
+      state.transactions.forEach(t => {
+        if (t.type === "expense" && t.date && t.date.startsWith(ym)) {
+          const amt = Number(t.amount || 0);
+          if (t.user === "Ilham") ilhamExp += amt;
+          if (t.user === "Puspa") puspaExp += amt;
+          if (catTotals[t.category] !== undefined) catTotals[t.category] += amt;
+        }
+      });
+
+      const m = getMonthSummary();
+      const pairSum = ilhamExp + puspaExp;
+      const ilPct = pairSum > 0 ? Math.round((ilhamExp / pairSum) * 100) : 50;
+      const psPct = pairSum > 0 ? 100 - ilPct : 50;
+
+      document.getElementById("analisa-content").innerHTML = `
+        <div class="bg-[#1c1720] border border-white/[0.08] rounded-2xl p-4 space-y-2.5">
+          <div class="text-xs font-bold text-white">Porsi Pengeluaran Bulan Ini: Ilham vs Puspa</div>
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div class="bg-[#241e29] rounded-xl p-3">
+              <div class="text-sky-300 font-semibold">Ilham (${ilPct}%)</div>
+              <div class="text-sm font-extrabold text-white mt-0.5">${fmtRp(ilhamExp)}</div>
+            </div>
+            <div class="bg-[#241e29] rounded-xl p-3">
+              <div class="text-[#F9D5E5] font-semibold">Puspa (${psPct}%)</div>
+              <div class="text-sm font-extrabold text-white mt-0.5">${fmtRp(puspaExp)}</div>
+            </div>
+          </div>
+          <div class="flex justify-between text-xs text-white/70 pt-1">
+            <span>Masuk: <b class="text-emerald-400">${fmtRp(m.inc, false)}</b></span>
+            <span>Keluar: <b class="text-rose-400">${fmtRp(m.exp, false)}</b></span>
+          </div>
+        </div>
+
+        <div class="bg-[#1c1720] border border-white/[0.08] rounded-2xl p-4 space-y-2">
+          <div class="text-xs font-bold text-white mb-1">Pengeluaran per Kategori</div>
+          ${EXPENSE_CATS.map(c => `
+            <div class="flex items-center justify-between text-xs py-1 border-b border-white/[0.05] last:border-0">
+              <span class="text-white/80">${c}</span>
+              <span class="font-bold text-white">${fmtRp(catTotals[c] || 0, false)}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function populateAllSelects() {
+      const liquid = getLiquidAccounts();
+      const cc = getCCAccount();
+      const allAccs = cc ? [...liquid, cc] : liquid;
+
+      const accOptionsHTML = allAccs.map(a => `<option value="${a.id}">${a.name} (${fmtRp(getAccountBalance(a.id), false)})</option>`).join("");
+      const fromSel = document.getElementById("tx-from");
+      const toSel = document.getElementById("tx-to");
+      const billAccSel = document.getElementById("bill-acc");
+      const strukAccSel = document.getElementById("struk-acc");
+      const mutasiAccSel = document.getElementById("mutasi-acc");
+
+      const prevFrom = fromSel.value;
+      [fromSel, toSel, billAccSel, strukAccSel, mutasiAccSel].forEach(sel => {
+        if (sel) sel.innerHTML = accOptionsHTML;
+      });
+      if (prevFrom && [...fromSel.options].some(o => o.value === prevFrom)) fromSel.value = prevFrom;
+
+      const mode = document.getElementById("tx-mode").value;
+      const cats = mode === "income" ? INCOME_CATS : EXPENSE_CATS;
+      document.getElementById("tx-cat").innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join("");
+      document.getElementById("bill-cat").innerHTML = EXPENSE_CATS.map(c => `<option value="${c}">${c}</option>`).join("");
+      document.getElementById("struk-cat").innerHTML = EXPENSE_CATS.map(c => `<option value="${c}">${c}</option>`).join("");
+
+      const rCat = document.getElementById("riwayat-cat-filter");
+      if (rCat) {
+        const curC = rCat.value;
+        rCat.innerHTML = `<option value="all">Semua Kategori</option>` + EXPENSE_CATS.concat(INCOME_CATS).map(c => `<option value="${c}">${c}</option>`).join("");
+        rCat.value = curC;
+      }
+      refreshTxCcNote();
+    }
+
+    // ---------- AKSI & INTERAKSI ----------
+    window.switchTab = function(tab) {
+      state.tab = tab;
+      ["beranda", "riwayat", "rencana", "analisa"].forEach(t => {
+        document.getElementById(`view-${t}`).classList.toggle("hidden", t !== tab);
+      });
+      document.querySelectorAll(".nav-btn").forEach(b => {
+        b.className = `nav-btn flex flex-col items-center gap-1 py-1 px-3 ${b.dataset.tab === tab ? "text-[#F9D5E5] font-semibold" : "text-white/50 font-medium"}`;
+      });
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.toggleScopeMenu = () => document.getElementById("scope-menu").classList.toggle("hidden");
+    window.setViewScope = function(scope) {
+      state.viewScope = scope;
+      document.getElementById("scope-menu").classList.add("hidden");
+      saveLocal();
+      renderAll();
+    };
+    window.toggleActiveUser = function() {
+      state.activeUser = state.activeUser === "Ilham" ? "Puspa" : "Ilham";
+      saveLocal();
+      renderAll();
+      toast(`Pengguna aktif: ${state.activeUser}`);
+    };
+    window.togglePrivacy = function() {
+      state.privacy = !state.privacy;
+      saveLocal();
+      renderAll();
+    };
+    window.setWalletFilter = function(wf) {
+      state.walletFilter = wf;
+      renderWallets();
+    };
+
+    window.openTxModal = function(mode = "expense", preAccId = "") {
+      populateAllSelects();
+      setTxMode(mode);
+      document.getElementById("tx-amount").value = "";
+      document.getElementById("tx-note").value = "";
+      document.getElementById("tx-user").value = state.activeUser;
+      document.getElementById("tx-date").value = new Date().toISOString().slice(0, 10);
+      if (preAccId) document.getElementById("tx-from").value = preAccId;
+      refreshTxCcNote();
+      openModal("modal-tx");
+    };
+
+    window.setTxMode = function(mode) {
+      document.getElementById("tx-mode").value = mode;
+      const titles = { expense: "Catat Pengeluaran", income: "Catat Pemasukan", transfer: "Transfer / Bayar Tagihan CC" };
+      document.getElementById("tx-title").textContent = titles[mode] || "Catat Transaksi";
+
+      document.getElementById("m-tab-expense").className = `py-2 rounded-xl text-xs font-bold ${mode === "expense" ? "bg-[#FDE2C4] text-[#120f14]" : "text-white/60"}`;
+      document.getElementById("m-tab-income").className = `py-2 rounded-xl text-xs font-bold ${mode === "income" ? "bg-[#C9F2DE] text-[#120f14]" : "text-white/60"}`;
+      document.getElementById("m-tab-transfer").className = `py-2 rounded-xl text-xs font-bold ${mode === "transfer" ? "bg-[#E2D5F9] text-[#120f14]" : "text-white/60"}`;
+
+      document.getElementById("tx-cat-wrap").classList.toggle("hidden", mode === "transfer");
+      document.getElementById("tx-to-wrap").classList.toggle("hidden", mode !== "transfer");
+
+      const cats = mode === "income" ? INCOME_CATS : EXPENSE_CATS;
+      document.getElementById("tx-cat").innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join("");
+      refreshTxCcNote();
+    };
+
+    window.refreshTxCcNote = function() {
+      const mode = document.getElementById("tx-mode").value;
+      const fromAcc = state.accounts.find(a => a.id === document.getElementById("tx-from").value);
+      const toAcc = state.accounts.find(a => a.id === document.getElementById("tx-to").value);
+      document.getElementById("tx-cc-hint").classList.toggle("hidden", !(mode === "expense" && isCC(fromAcc)));
+      document.getElementById("tx-paycc-hint").classList.toggle("hidden", !(mode === "transfer" && isCC(toAcc)));
+    };
+
+    window.saveTransaction = async function(e) {
+      e.preventDefault();
+      const mode = document.getElementById("tx-mode").value;
+      const amount = Number(document.getElementById("tx-amount").value || 0);
+      const accountId = document.getElementById("tx-from").value;
+      const toAccountId = mode === "transfer" ? document.getElementById("tx-to").value : "";
+      const category = mode === "transfer" ? "Transfer" : document.getElementById("tx-cat").value;
+      const user = document.getElementById("tx-user").value;
+      const date = document.getElementById("tx-date").value;
+      const note = document.getElementById("tx-note").value.trim() || category;
+
+      if (amount <= 0) return toast("Masukkan nominal lebih dari 0");
+      if (mode === "transfer" && accountId === toAccountId) return toast("Pilih akun tujuan yang berbeda");
+
+      const tx = {
+        id: "tx-" + Date.now() + "-" + Math.random().toString(36).slice(2, 5),
+        type: mode, amount, category, accountId, toAccountId, user, date, note
+      };
+      state.transactions.unshift(tx);
+      state.transactions.sort((a, b) => b.date.localeCompare(a.date));
+      closeModal("modal-tx");
+      renderAll();
+      await pushCloud();
+      toast("Transaksi tersimpan!");
+      await notifyWA(formatTxMessage(tx));
+    };
+
+    window.deleteTx = function(id) {
+      confirmBox("Hapus Transaksi?", "Saldo rekening atau limit CC terkait akan disesuaikan otomatis.", async () => {
+        state.transactions = state.transactions.filter(t => t.id !== id);
+        renderAll();
+        await pushCloud();
+        toast("Transaksi dihapus");
+      });
+    };
+
+    // ---------- TAGIHAN BULANAN ----------
+    window.openBillModal = function() {
+      populateAllSelects();
+      document.getElementById("bill-id").value = "";
+      document.getElementById("bill-name").value = "";
+      document.getElementById("bill-amount").value = "";
+      document.getElementById("bill-due").value = "20";
+      openModal("modal-bill");
+    };
+
+    window.saveBill = async function(e) {
+      e.preventDefault();
+      const name = document.getElementById("bill-name").value.trim();
+      const amount = Number(document.getElementById("bill-amount").value || 0);
+      const dueDay = Math.min(31, Math.max(1, Number(document.getElementById("bill-due").value || 1)));
+      const category = document.getElementById("bill-cat").value;
+      const accountId = document.getElementById("bill-acc").value;
+      if (!name || amount <= 0) return;
+
+      state.bills.push({
+        id: "bill-" + Date.now(),
+        name, amount, dueDay, category, accountId, paid: false
+      });
+      closeModal("modal-bill");
+      renderAll();
+      await pushCloud();
+      toast("Tagihan bulanan ditambahkan");
+    };
+
+    // Bayar tagihan: jika kategori Kredit/CC -> transfer dari rekening pembayar ke Mandiri Credit (memulihkan limit CC & tidak memotong saldo 2x)
+    window.payBillNow = async function(billId) {
       const bill = state.bills.find(b => b.id === billId);
-      if (!bill) return;
+      if (!bill || bill.paid) return;
 
-      const ccAcc = state.accounts.find(a => isCreditCardAccount(a));
-      const isCreditCardBill = Boolean(
-        ccAcc &&
-        accountId !== ccAcc.id &&
-        (bill.category === 'Kredit' || /\b(cc|credit|kartu kredit)\b/i.test(bill.name || ''))
-      );
+      const cc = getCCAccount();
+      const payAccId = bill.accountId || "acc-i-mdr-deb";
+      const isCreditPay = Boolean(cc && payAccId !== cc.id && (bill.category === "Kredit" || /\b(cc|credit|kartu kredit)\b/i.test(bill.name)));
 
-      const txId = `tx-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-      const txObj = {
-        id: txId,
-        type: isCreditCardBill ? 'transfer' : 'expense',
-        amount: Number(bill.amount),
-        category: bill.category,
-        accountId,
-        toAccountId: isCreditCardBill ? ccAcc.id : '',
-        user,
-        date,
-        note: `Bayar Tagihan: ${bill.name}`,
-        createdAt: Date.now()
+      const tx = {
+        id: "tx-" + Date.now(),
+        type: isCreditPay ? "transfer" : "expense",
+        amount: Number(bill.amount || 0),
+        category: isCreditPay ? "Transfer" : bill.category,
+        accountId: payAccId,
+        toAccountId: isCreditPay ? cc.id : "",
+        user: state.activeUser,
+        date: new Date().toISOString().slice(0, 10),
+        note: `Bayar Tagihan: ${bill.name}`
       };
 
-      state.transactions.unshift(txObj);
-      state.transactions.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || 0) - (a.createdAt || 0));
-// ... existing code ... -->
-    // ---------------------------------------------------------
-    // WHATSAPP FAMILY GROUP NOTIFICATION (FONNTE FORMDATA + DIRECT LINK)
-    // ---------------------------------------------------------
-    function shouldTriggerWaNotification(tx) {
-      if (!state.waSettings.enabled) return false;
-      if (state.waSettings.triggerScope === 'jajan') {
-        return tx.category === 'Jajan dan Kopi' || tx.category === 'Makan Di Restaurant';
-      }
-      return true;
-    }
+      bill.paid = true;
+      state.transactions.unshift(tx);
+      renderAll();
+      await pushCloud();
+      toast(`Tagihan "${bill.name}" lunas!`);
+      await notifyWA(`✅ *Tagihan Lunas*\n• *Tagihan:* ${bill.name}\n• *Nominal:* ${fmtRp(bill.amount, false)}\n• *Oleh:* ${state.activeUser}`);
+    };
 
-    function formatWhatsAppReportText(tx) {
-// ... existing code ... -->
-          const dateMatch = line.match(/\d{4}-\d{2}-\d{2}/);
-          if (amount > 0) {
-            let guessedCat = isCr ? 'Gaji' : 'Other';
-            if (!isCr) {
-              if (/kopi|cafe|starbucks|kenangan|janji/i.test(line)) guessedCat = 'Jajan dan Kopi';
-              else if (/resto|restaurant|makan|warung|sate|ayam|bakso/i.test(line)) guessedCat = 'Makan Di Restaurant';
-              else if (/superindo|indomaret|alfamart|hypermart|belanja|mart/i.test(line)) guessedCat = 'Belanja Bulanan';
-              else if (/atm|tarik|withdrawal/i.test(line)) guessedCat = 'Tarik Tunai';
-              else if (/bioskop|xxi|cgv|netflix|spotify|hiburan/i.test(line)) guessedCat = 'Hiburan';
-            }
-            parsedMutasiItems.push({
-              idx,
-              selected: true,
-              date: dateMatch ? dateMatch[0] : new Date().toISOString().slice(0, 10),
-              note: parts[1] || 'Mutasi Rekening',
-              type: isCr ? 'income' : 'expense',
-              amount,
-              category: guessedCat
+    window.unpayBill = async function(billId) {
+      const bill = state.bills.find(b => b.id === billId);
+      if (!bill) return;
+      bill.paid = false;
+      renderAll();
+      await pushCloud();
+    };
+
+    window.deleteBill = function(billId) {
+      confirmBox("Hapus Tagihan?", "Tagihan ini akan dihapus dari daftar bulan ini.", async () => {
+        state.bills = state.bills.filter(b => b.id !== billId);
+        renderAll();
+        await pushCloud();
+      });
+    };
+
+    // ---------- SALDO AWAL & LIMIT CC ----------
+    window.openSaldoAwalModal = function() {
+      const cc = getCCAccount();
+      const liquid = getLiquidAccounts();
+      document.getElementById("saldo-form-body").innerHTML = `
+        <div class="cc-box rounded-2xl p-3.5 space-y-1.5">
+          <label class="block text-xs font-bold text-amber-300">Limit Plafon Kartu Kredit — ${cc?.name || "Mandiri Credit (Ilham)"}</label>
+          <input id="init-cc-limit" type="number" inputmode="numeric" value="${Number(cc?.initial || 0)}" class="w-full bg-[#120f14] border border-amber-400/30 rounded-xl px-3 py-2 text-sm font-bold text-white" />
+          <p class="text-[10px] text-white/55">Terpisah dari Total Saldo. Untuk mencocokkan Sisa Limit, catat pemakaian CC lewat (+) → Pengeluaran → Mandiri Credit.</p>
+        </div>
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-white/75">Saldo Awal 15 Rekening &amp; E-Wallet</div>
+          ${liquid.map(a => `
+            <div class="flex items-center justify-between gap-2 bg-[#241e29] rounded-xl px-3 py-2">
+              <span class="text-xs font-medium text-white truncate">${a.name}</span>
+              <input data-acc-init="${a.id}" type="number" inputmode="numeric" value="${Number(a.initial || 0)}" class="w-36 bg-[#120f14] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs font-bold text-right text-white" />
+            </div>
+          `).join("")}
+        </div>
+      `;
+      openModal("modal-saldo");
+    };
+
+    window.saveSaldoAwal = async function() {
+      const cc = getCCAccount();
+      const ccInp = document.getElementById("init-cc-limit");
+      if (cc && ccInp) cc.initial = Number(ccInp.value || 0);
+
+      document.querySelectorAll("[data-acc-init]").forEach(inp => {
+        const acc = state.accounts.find(a => a.id === inp.dataset.accInit);
+        if (acc) acc.initial = Number(inp.value || 0);
+      });
+
+      closeModal("modal-saldo");
+      renderAll();
+      await pushCloud();
+      toast("Saldo awal & Limit CC disimpan");
+    };
+
+    // ---------- STRUK & MUTASI ----------
+    window.previewReceipt = function(e) {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        const img = document.getElementById("struk-img");
+        img.src = ev.target.result;
+        img.classList.remove("hidden");
+      };
+      r.readAsDataURL(f);
+    };
+
+    window.saveReceiptTx = async function() {
+      const amount = Number(document.getElementById("struk-amount").value || 0);
+      const note = document.getElementById("struk-note").value.trim() || "Belanja Struk";
+      const category = document.getElementById("struk-cat").value;
+      const accountId = document.getElementById("struk-acc").value;
+      if (amount <= 0) return toast("Isi nominal struk");
+
+      const tx = {
+        id: "tx-" + Date.now(), type: "expense", amount, category, accountId,
+        user: state.activeUser, date: new Date().toISOString().slice(0, 10), note
+      };
+      state.transactions.unshift(tx);
+      closeModal("modal-struk");
+      renderAll();
+      await pushCloud();
+      toast("Struk disimpan!");
+      await notifyWA(formatTxMessage(tx));
+    };
+
+    window.importMutasiLines = async function() {
+      const accountId = document.getElementById("mutasi-acc").value;
+      const lines = (document.getElementById("mutasi-lines").value || "").split("\n").map(s => s.trim()).filter(Boolean);
+      let count = 0;
+      lines.forEach(line => {
+        const p = line.split("|").map(x => x.trim());
+        if (p.length >= 4) {
+          const amt = Number(p[3].replace(/[^0-9.-]/g, ""));
+          const type = /cr|kredit|masuk/i.test(p[2]) ? "income" : "expense";
+          if (amt > 0) {
+            state.transactions.unshift({
+              id: "tx-" + Date.now() + "-" + count,
+              type, amount: amt,
+              category: type === "income" ? "Lainnya" : "Other",
+              accountId, user: state.activeUser,
+              date: /^\d{4}-\d{2}-\d{2}$/.test(p[0]) ? p[0] : new Date().toISOString().slice(0, 10),
+              note: p[1] || "Mutasi"
             });
+            count++;
           }
         }
       });
-// ... existing code ... -->
-          if (Array.isArray(parsed.transactions)) state.transactions = parsed.transactions;
-          if (Array.isArray(parsed.accounts) && parsed.accounts.length) {
-            state.accounts = parsed.accounts;
+      closeModal("modal-mutasi");
+      renderAll();
+      await pushCloud();
+      toast(`${count} mutasi diimpor`);
+    };
+
+    // ---------- ANGGARAN & TABUNGAN ----------
+    window.editBudgetPrompt = async function(cat, cur) {
+      const val = prompt(`Batas anggaran bulanan untuk "${cat}" (Rp):`, cur);
+      if (val === null) return;
+      const b = state.budgets.find(x => x.category === cat);
+      if (b) { b.limit = Math.max(0, Number(val || 0)); renderRencana(); await pushCloud(); }
+    };
+
+    window.editGoalPrompt = async function(id) {
+      const g = state.goals.find(x => x.id === id);
+      if (!g) return;
+      const cur = prompt(`Dana terkumpul untuk "${g.title}" (Rp):`, g.current);
+      if (cur === null) return;
+      const tgt = prompt(`Target dana "${g.title}" (Rp):`, g.target);
+      if (tgt === null) return;
+      g.current = Math.max(0, Number(cur || 0));
+      g.target = Math.max(0, Number(tgt || 0));
+      renderRencana();
+      await pushCloud();
+    };
+
+    // ---------- WHATSAPP & REMINDER ----------
+    function formatTxMessage(t) {
+      const acc = state.accounts.find(a => a.id === t.accountId)?.name || "Akun";
+      const toAcc = state.accounts.find(a => a.id === t.toAccountId)?.name || "";
+      const m = getMonthSummary();
+      return [
+        `📒 *Kas Harian Bersama — Ilham & Puspa*`,
+        `• *Oleh:* ${t.user}`,
+        `• *Jenis:* ${t.type === "income" ? "Pemasukan" : t.type === "transfer" ? "Transfer / CC" : "Pengeluaran"}`,
+        `• *Kategori:* ${t.category}`,
+        `• *Catatan:* ${t.note}`,
+        `• *Nominal:* ${fmtRp(t.amount, false)} (${t.type === "transfer" ? `${acc} → ${toAcc}` : acc})`,
+        `• *Sisa Uang Bulan Ini:* ${fmtRp(m.sisa, false)}`
+      ].join("\n");
+    }
+
+    function copyClipboard(text) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch (e) {}
+    }
+
+    async function notifyWA(text) {
+      if (!state.wa.enabled) return;
+      copyClipboard(text);
+      const url = (state.wa.apiUrl || "https://api.fonnte.com/send").trim();
+      const token = (state.wa.apiToken || "").trim();
+      const groupId = (state.wa.groupId || "").trim();
+
+      if (token && groupId) {
+        try {
+          const fd = new FormData();
+          fd.append("target", groupId);
+          fd.append("message", text);
+          const res = await fetch(url, { method: "POST", headers: { Authorization: token }, body: fd });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.status !== false) {
+            toast("Notifikasi WA terkirim otomatis!");
+            return;
           }
-          if (Array.isArray(parsed.budgets) && parsed.budgets.length) state.budgets = parsed.budgets;
-          if (Array.isArray(parsed.goals)) state.goals = parsed.goals;
-          if (Array.isArray(parsed.bills)) state.bills = parsed.bills;
-          ensureMissingAccountsAndCategories();
-          closeModal('modal-export');
-          renderAll();
-          showToast('Backup JSON dipulihkan!');
-          await syncToCloudIfConfigured();
+        } catch (e) {}
+      }
+
+      document.getElementById("share-text-box").textContent = text;
+      document.getElementById("share-wame-link").href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      document.getElementById("share-group-link").href = state.wa.groupLink || KONFIG.WA_GROUP_LINK;
+      openModal("modal-share");
+    }
+
+    window.shareTxWA = function(id) {
+      const t = state.transactions.find(x => x.id === id);
+      if (t) notifyWA(formatTxMessage(t));
+    };
+
+    window.sendSingleBillWA = function(id) {
+      const b = state.bills.find(x => x.id === id);
+      if (!b) return;
+      const dl = getBillDeadlineInfo(b.dueDay);
+      notifyWA(`🔔 *Reminder Tagihan Bulanan*\n• *Tagihan:* ${b.name}\n• *Nominal:* ${fmtRp(b.amount, false)}\n• *Deadline:* ${dl.label}\n• *Kategori:* ${b.category}`);
+    };
+
+    window.sendBillsRekapWA = function() {
+      const unpaid = state.bills.filter(b => !b.paid);
+      const total = unpaid.reduce((s, b) => s + Number(b.amount || 0), 0);
+      const lines = unpaid.map(b => `- ${b.name}: ${fmtRp(b.amount, false)} (${getBillDeadlineInfo(b.dueDay).label})`);
+      notifyWA(`🔔 *Rekap Tagihan Belum Lunas*\nTotal: *${fmtRp(total, false)}*\n${lines.length ? lines.join("\n") : "Semua tagihan sudah lunas!"}`);
+    };
+
+    window.openWaModal = function() {
+      document.getElementById("wa-enabled").checked = !!state.wa.enabled;
+      document.getElementById("wa-link").value = state.wa.groupLink || KONFIG.WA_GROUP_LINK;
+      document.getElementById("wa-api-url").value = state.wa.apiUrl || "https://api.fonnte.com/send";
+      document.getElementById("wa-api-token").value = state.wa.apiToken || "";
+      document.getElementById("wa-group-id").value = state.wa.groupId || "";
+      openModal("modal-wa");
+    };
+
+    window.saveWaConfig = function() {
+      state.wa.enabled = document.getElementById("wa-enabled").checked;
+      state.wa.groupLink = document.getElementById("wa-link").value.trim() || KONFIG.WA_GROUP_LINK;
+      state.wa.apiUrl = document.getElementById("wa-api-url").value.trim() || "https://api.fonnte.com/send";
+      state.wa.apiToken = document.getElementById("wa-api-token").value.trim();
+      state.wa.groupId = document.getElementById("wa-group-id").value.trim();
+      saveLocal();
+      closeModal("modal-wa");
+      toast("Pengaturan WA disimpan");
+    };
+
+    window.sendTestWa = async function() {
+      saveWaConfig();
+      const box = document.getElementById("wa-status-box");
+      const text = `✅ *Tes Notifikasi Kas Harian Bersama*\nRuang: ${state.roomCode}\nStatus: Terhubung`;
+      copyClipboard(text);
+      if (state.wa.apiToken && state.wa.groupId) {
+        try {
+          const fd = new FormData();
+          fd.append("target", state.wa.groupId);
+          fd.append("message", text);
+          const res = await fetch(state.wa.apiUrl, { method: "POST", headers: { Authorization: state.wa.apiToken }, body: fd });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.status !== false) {
+            box.textContent = "✅ Berhasil terkirim otomatis ke Grup WA via Fonnte!";
+            return;
+          }
+          box.textContent = `❌ Gagal kirim API: ${data.reason || "Periksa Token & Group ID (@g.us)"}`;
+          return;
         } catch (err) {
-// ... existing code ... -->
+          box.textContent = `❌ Error jaringan/CORS: ${err.message}`;
+          return;
+        }
+      }
+      box.textContent = "ℹ️ Token/@g.us kosong — teks tersalin ke clipboard, gunakan link WA.";
+    };
+
+    // ---------- FIREBASE SYNC, BACKUP & RESET ----------
+    window.openSyncModal = function() {
+      document.getElementById("sync-room-code").value = state.roomCode;
+      document.getElementById("sync-fb-url").value = state.fbUrl || "";
+      openModal("modal-sync");
+    };
+
+    window.saveSyncConfig = async function() {
+      state.roomCode = (document.getElementById("sync-room-code").value || KONFIG.FAMILY_CODE).trim().toUpperCase();
+      state.fbUrl = (document.getElementById("sync-fb-url").value || "").trim();
+      saveLocal();
+      startSyncLoop();
+      await pushCloud();
+      closeModal("modal-sync");
+      toast(`Ruang ${state.roomCode} aktif`);
+    };
+
+    window.exportJSON = function() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `kas-bersama-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+    };
+
+    window.exportCSV = function() {
+      const rows = [["Tanggal", "Jenis", "Kategori", "Nominal", "Pencatat", "Catatan"]].concat(
+        state.transactions.map(t => [t.date, t.type, `"${t.category}"`, t.amount, t.user, `"${(t.note || "").replace(/"/g, '""')}"`])
+      );
+      const blob = new Blob([rows.map(r => r.join(",")).join("\n")], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `laporan-kas-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+    };
+
+    window.restoreJSON = function(e) {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = async ev => {
+        try {
+          state = { ...getCleanState(), ...JSON.parse(ev.target.result) };
+          migrateState();
+          saveLocal();
+          renderAll();
+          await pushCloud();
+          closeModal("modal-sync");
+          toast("Backup berhasil dipulihkan");
+        } catch (err) { toast("File JSON tidak valid"); }
+      };
+      r.readAsText(f);
+    };
+
+    window.resetAllToZero = function() {
+      confirmBox("Reset ke Rp 0?", "Seluruh transaksi, tagihan, dan saldo awal/limit CC akan direset ke 0.", async () => {
+        const keepRoom = state.roomCode, keepFb = state.fbUrl, keepWa = state.wa;
+        state = getCleanState();
+        state.roomCode = keepRoom; state.fbUrl = keepFb; state.wa = keepWa;
+        saveLocal();
+        renderAll();
+        await pushCloud();
+        closeModal("modal-sync");
+        toast("Semua data direset ke Rp 0");
+      });
+    };
+
+    // ---------- MODAL & TOAST ----------
+    window.openModal = id => document.getElementById(id)?.classList.add("active");
+    window.closeModal = id => document.getElementById(id)?.classList.remove("active");
+    window.backdropClose = (e, id) => { if (e.target.id === id) closeModal(id); };
+
+    function confirmBox(title, msg, onYes) {
+      document.getElementById("confirm-title").textContent = title;
+      document.getElementById("confirm-msg").textContent = msg;
+      document.getElementById("confirm-yes-btn").onclick = () => { closeModal("modal-confirm"); onYes(); };
+      openModal("modal-confirm");
+    }
+
+    function toast(msg) {
+      const box = document.getElementById("toast-box");
+      const el = document.createElement("div");
+      el.className = "bg-[#241e29] border border-white/15 text-white text-xs font-medium px-4 py-2 rounded-full shadow-xl";
+      el.textContent = msg;
+      box.appendChild(el);
+      setTimeout(() => el.remove(), 2400);
+    }
+
+    document.addEventListener("click", e => {
+      const btn = document.getElementById("scope-btn");
+      const menu = document.getElementById("scope-menu");
+      if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) menu.classList.add("hidden");
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadLocal();
+      renderAll();
+      startSyncLoop();
+    });
+  </script>
+</body>
+</html>
